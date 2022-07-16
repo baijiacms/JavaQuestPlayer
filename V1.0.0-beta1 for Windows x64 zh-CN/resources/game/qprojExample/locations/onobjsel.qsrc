@@ -1,0 +1,73 @@
+# onobjsel
+!the dynamics can all be found in obj_din and Cheatmenu_din
+
+if $selobj = '<center>Refresh</center>':gs '$menu_obnovit'
+if $selobj = '<center>Console</center>':dynamic $cheatmenu['dynamic']
+if $selobj = '<center>Toggle Debug Variables</center>': 
+	if objectWindowDebug = 0:
+		objectWindowDebug = 1
+	else
+		objectWindowDebug = 0
+	end
+	gs 'stat'
+end
+
+if $selobj = '<center>Add Debug Variable</center>':
+	$tmpVar = INPUT('Enter the variable name')
+	if $tmpVar <> '':
+		gs 'obj_din', 'AddDebugVar', $tmpVar
+		gs 'stat'
+	end
+	killvar '$tmpVar'
+end
+
+if $selobj = '<center>Delete Debug Variable</center>':
+	$tmpVar = INPUT('Enter the variable name to delete')
+	if $tmpVar <> '':
+		gs 'obj_din', 'DeleteDebugVar', $tmpVar
+		gs 'stat'
+	end
+	killvar '$tmpVar'
+end
+
+if $selobj = '<center>Switch HTML</center>':
+	usehtml = iif(usehtml,0,1)
+end
+
+
+
+if INSTR($selobj,':') > 0:
+	tmpPos = INSTR($selobj,':') - 1
+	$tmpVar = MID($selobj, 1, tmpPos)
+	$tmpVal = INPUT('Enter a value for <<$tmpVar>>')
+	if $tmpVal <> '':
+		if instr($tmpVar,'$') = 1:
+			dyneval('<<$tmpVar>> = ''<<$tmpVal>>''')
+		else
+			dyneval('<<$tmpVar>> = <<VAL($tmpVal)>>')
+		end 
+	end
+	gs 'stat'
+	killvar '$tmpVar'
+	killvar 'tmpPos'
+	killvar '$tmpVal'
+end
+
+if $selobj = '<center>-1 Hour</center>':gs 'obj_din', '-1 Hour'
+if $selobj = '<center>+1 Hour</center>':gs 'obj_din', '+1 Hour'
+if $selobj = '<center><font color = red>Emergency</font></center>':gs 'obj_din', 'emergency'
+if $selobj = '<center>Remove debug info</center>': debug_warning_closed = 1 & gs 'stat'
+
+!The old menu: end
+
+if $selobj = 'Player':
+	clr
+	pl'Your name is Mikhail Kuznetsov. You <<age>> years. <<$vneshPRE>>'
+	pl'You have short black hair with flashes of gray starting, little brown eyes and willed jaw covered by blue bristle shave.'
+	pl'Growth <<pcs_hgt>> see, weight 100 kg.'
+end
+
+unselect
+
+--- onobjsel ---------------------------------
+

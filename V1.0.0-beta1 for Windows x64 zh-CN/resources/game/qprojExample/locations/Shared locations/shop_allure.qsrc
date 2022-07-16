@@ -1,0 +1,150 @@
+# shop_allure
+
+if $ARGS[0] = 'start':
+	killvar 'clothingfilter'
+	$loc = 'shop_allure'
+	$loc_arg = 'start'
+    $location_type = 'public_indoors'
+	cls
+	CLOSE ALL
+	menu_off = 0
+	gs 'stat'
+	gs 'themes', 'indoors'
+	'<center><b><font color="maroon">shop_allure</font></b></center>'
+	if allure_pos = 1:
+		'<center><img src="images/locations/pavlovsk/commercial/allure/shop.jpg"></center>'
+	else
+		'<center><img src="images/locations/city/residential/lake/allure/shop.jpg"></center>'
+	end
+	*nl
+	'This shop has the feel of a summer at the beach, which you''d expect seeing as it sells swimwear.'
+	*nl
+	
+	act 'Leave':
+		cla
+		minut += 3
+		if allure_pos = 1:
+			minut += 3
+			gt 'pav_commercial'
+		else
+			gt 'city_lake', 'start'
+		end
+	end
+
+	act 'View swimsuits':
+		cla
+		minut += 5
+		gt 'shop_allure', 'swim'
+	end
+
+	act 'View bikinis':
+		cla
+		minut += 5
+		gt 'shop_allure', 'bikinis'
+	end
+end
+
+if $ARGS[0] = 'swim':
+	$loc_arg = 'swim'
+	$loc = 'shop_allure'
+	cls
+	gs'stat'
+	'<center><b><font color="maroon">Swimsuits - one size fits all</font></b></center>'
+	*nl
+
+	gs 'clothing_QV', 'shop_filter_header'
+
+	act 'Return':
+		cla
+		minut += 1
+		gt 'shop_allure', 'start'
+	end
+
+	!!To filter just this set
+	clo_i = 0
+	:loopallure_swimsuit_filter
+
+		if Clothingstock > 15:
+			i = 1
+		elseif Clothingstock > 7:
+			i = 3
+		else
+			i = 2
+		end
+
+		:loopallure_swimsuit
+			if allure_swimsuit[i] = 0:
+				gs 'clothing_attributes', 'allure_swimsuit', i
+				gs 'clothing_QV', 'shop_filter'
+
+				!!sort by filter
+				if (clothingfilter['quality'] = 0 and CloQuality = clo_i) or (clothingfilter['inhibition'] = 0 and CloInhibit = clo_i) or clothingfilter['number'] = 0:
+					if clothingfilter['inc'] = 1 and clothingfilter['only'] = 1: *p '<a href="exec: i = <<i>> & gt ''shop_allure'', ''swim1''"><img src="images/pc/items/allure/one/<<i>>.jpg" 	height="250" /></a>'
+				end
+			end
+			i += 3
+		if i <= 100:jump 'loopallure_swimsuit'
+
+	clo_i += 1
+	if clothingfilter['quality'] = 0 and clo_i <= 7:
+		jump 'loopallure_swimsuit_filter'
+	elseif clothingfilter['inhibition'] = 0 and clo_i <= 40:
+		jump 'loopallure_swimsuit_filter'
+	end
+end
+
+if $ARGS[0] = 'swim1': gt 'clothing', 'view_clothing_item', 'allure_swimsuit',i, 1750, 'shop'
+
+if $ARGS[0] = 'bikinis':
+	$loc_arg = 'bikinis'
+	$loc = 'shop_allure'
+	cls
+	gs'stat'
+	'<center><b><font color="maroon">Bikinis - one size fits all</font></b></center>'
+	*nl
+
+	gs 'clothing_QV', 'shop_filter_header'
+
+	act 'Return':
+		cla
+		minut += 1
+		gt 'shop_allure', 'start'
+	end
+
+	!!To filter just this set
+	clo_i = 0
+	:loopallure_bikinis_filter
+
+		if Clothingstock > 15:
+			i = 1
+		elseif Clothingstock > 7:
+			i = 3
+		else
+			i = 2
+		end
+
+		:loopallure_bikinis
+			if allure_bikinis[i] = 0:
+				gs 'clothing_attributes', 'allure_bikinis', i
+				gs 'clothing_QV', 'shop_filter'
+
+				!!sort by filter
+				if (clothingfilter['quality'] = 0 and CloQuality = clo_i) or (clothingfilter['inhibition'] = 0 and CloInhibit = clo_i) or clothingfilter['number'] = 0:
+					if clothingfilter['inc'] = 1 and clothingfilter['only'] = 1: *p '<a href="exec: i = <<i>> & gt ''shop_allure'', ''bikini1''"><img src="images/pc/items/allure/two/<<i>>.jpg" 	height="250" /></a>'
+				end
+			end
+			i += 3
+		if i <= 140:jump 'loopallure_bikinis'
+
+	clo_i += 1
+	if clothingfilter['quality'] = 0 and clo_i <= 7:
+		jump 'loopallure_bikinis_filter'
+	elseif clothingfilter['inhibition'] = 0 and clo_i <= 40:
+		jump 'loopallure_bikinis_filter'
+	end
+end
+
+if $ARGS[0] = 'bikini1': gt 'clothing', 'view_clothing_item', 'allure_bikinis',i, 1750, 'shop'
+
+--- shop_allure ---------------------------------
+

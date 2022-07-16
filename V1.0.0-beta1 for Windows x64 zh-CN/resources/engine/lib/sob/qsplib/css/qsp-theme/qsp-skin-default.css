@@ -1,0 +1,148 @@
+/*
+ * Настройки скина QSP по умолчанию
+ */
+
+/* Запрещаем выделять текст */
+div,p,span {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+ 
+ 
+#qsp-back-image { position:absolute; left:0px; top:0px; width:100%; height:100%; overflow:hidden; }
+#qsp-wrapper-main { position:absolute; left:0px; top:0px; width:70%; height:80%; overflow:hidden; }
+#qsp-wrapper-acts { position:absolute; left:0px; top:80%; width:70%; height:20%; overflow:hidden; }
+#qsp-wrapper-vars { position:absolute; left:70%; top:50%; width:30%; height:50%; overflow:hidden; }
+#qsp-wrapper-objs { position:absolute; left:70%; top:0px; width:30%; height:50%; overflow:hidden; }
+#qsp-wrapper-msg { position:absolute; overflow:hidden; }
+#qsp-system-menu-button { position:absolute; left:0px; top:0px; }
+#qsp-system-menu-button img { float:left; }
+
+a { -webkit-tap-highlight-color: rgba(0,0,0,0); cursor:pointer; }
+
+
+.qsp-skin-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #5c5c5c; opacity: .80;filter:Alpha(Opacity=80); -webkit-tap-highlight-color: rgba(0,0,0,0); }
+
+.qsp-skin-dialog { position: absolute; }
+
+.qsp-skin-button, .qsp-action, .qsp-save-slot-enabled { cursor: pointer; }
+
+
+/* MSG */
+#qsp-dialog-msg-content { text-align:justify; padding-right:12px; }
+#qsp-dialog-msg-background, #qsp-button-msg-ok { position: absolute; }
+
+/* ERROR */
+#qsp-dialog-error-content { position: absolute; overflow: visible; }
+#qsp-dialog-error-background, #qsp-button-error-ok { position: absolute; }
+
+/* SYSTEM MENU */
+/* For 2x - 960x640 */
+/*
+#qsp-dialog-system-menu-background, #qsp-dialog-system-menu-container { position: absolute; left:292px; top:151px; width:356px; height:338px; }
+#qsp-dialog-system-menu-container { padding-top: 23px; padding-left: 30px; }
+#qsp-dialog-system-menu-container .qsp-skin-button { margin: 10px; padding: 0px; float:left; }
+#qsp-dialog-system-menu-container .qsp-skin-button img { float:left; }
+*/
+/* For 1x - 480x320 */
+#qsp-dialog-system-menu-background, #qsp-dialog-system-menu-container { position: absolute; left:136px; top:56px; width:186px; height:208px; }
+#qsp-dialog-system-menu-container { padding-top: 10px; padding-left:10px; }
+#qsp-dialog-system-menu-container .qsp-skin-button { width:50%; height:50%; float:left; }
+#qsp-dialog-system-menu-container .qsp-skin-button a { text-decoration:none; color:#fff; }
+
+/* VIEW */
+#qsp-dialog-view-image-container { position: absolute; overflow:hidden; }
+
+/* SAVE SLOTS */
+/* For 2x - 960x640 */
+/*
+#qsp-dialog-save-slots-container { position: absolute; left:292px; top:151px; width:356px; height:338px; padding-top:15px; }
+.qsp-save-slot-enabled, .qsp-save-slot-disabled { float:left; clear:both; margin-top:20px; font-size:35px; width:100%;}
+.qsp-save-slot-enabled span, .qsp-save-slot-disabled span { margin-left:40px; }
+.qsp-save-slot-disabled { color:#999999; }
+*/
+/* For 1x - 480x320 */
+#qsp-dialog-save-slots-container { position: absolute; left:146px; top:75px; width:178px; height:169px; padding-top:7px; }
+.qsp-save-slot-enabled, .qsp-save-slot-disabled { float:left; clear:both; margin-top:10px; font-size:17px; width:100%; }
+.qsp-save-slot-enabled div, .qsp-save-slot-disabled div { padding-left:20px; }
+
+.qsp-save-slot-disabled { color:#999999; }
+
+/* INPUT DIALOG */
+#qsp-dialog-input-content { position: absolute; overflow: hidden; }
+#qsp-dialog-input-background, #qsp-dialog-input-text, #qsp-button-input-ok { position: absolute; }
+
+
+/* TWEAK FOR MAIN DESC */
+/* For 2x - 960x640 */
+/*
+#qsp-main { padding-left:10px; padding-right:10px; }
+*/
+/* For 1x - 480x320 */
+#qsp-main { padding-right:12px; text-align:justify; }
+/* TWEAK FOR ACTS */
+/* For 2x - 960x640 */
+/*
+#qsp-acts { padding-left:10px; padding-right:10px; }
+*/
+/* For 1x - 480x320 */
+#qsp-acts1 { padding-left:5px; padding-right:5px; }
+/* TWEAK FOR LINKS */
+/*a { text-shadow: 0 0 0.2em #8F7 }*/
+/* TWEAK FOR DEFAULT TEXT COLOR */
+body { color:#FFF; background-color:#000; font-size:30px;}
+
+
+/*
+#qsp-dialog-save-slots-container { background-color:#006600; }
+#qsp-dialog-save-slots-container .qsp-save-slot{ background-color:#002288; }
+*/
+
+/* SCROLL */
+/*
+.myScrollbarV {
+	position:absolute;
+	z-index:100;
+	width:8px;bottom:7px;top:2px;right:1px
+}
+
+.myScrollbarV > div {
+	position:absolute;
+	z-index:100;
+	width:100%;
+*/
+	
+	/* The following is probably what you want to customize */
+	/*
+	background:-webkit-gradient(linear, 0 0, 100% 0, from(#600), to(#100));
+	background-image:-moz-linear-gradient(top, #600, #100);
+	background-image:-o-linear-gradient(top, #600, #100);
+
+	border:1px solid #100;
+
+	-webkit-background-clip:padding-box;
+	-moz-background-clip:padding-box;
+	-o-background-clip:padding-box;
+	background-clip:padding-box;
+	
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box;
+	
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	-o-border-radius:4px;
+	border-radius:4px;
+	
+	-webkit-box-shadow:inset 1px 1px 0 rgba(255,255,255,0.5);
+	-moz-box-shadow:inset 1px 1px 0 rgba(255,255,255,0.5);
+	-o-box-shadow:inset 1px 1px 0 rgba(255,255,255,0.5);
+	box-shadow:inset 1px 1px 0 rgba(255,255,255,0.5);
+}
+*/
