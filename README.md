@@ -55,8 +55,8 @@ If you are interested in this application, join me.
 
 Thank you for your support
 
-![image text](https://github.com/baijiacms/Java-Quest-Soft-player/blob/master/1.png)
-![image text](https://github.com/baijiacms/Java-Quest-Soft-player/blob/master/2.png)
-![image text](https://github.com/baijiacms/Java-Quest-Soft-player/blob/master/3.png)
-![image text](https://github.com/baijiacms/Java-Quest-Soft-player/blob/master/4.png)
-![image text](https://github.com/baijiacms/Java-Quest-Soft-player/blob/master/5.png)
+![image text](https://github.com/baijiacms/Java-Quest-Soft-player/raw/main/1.png)
+![image text](https://github.com/baijiacms/Java-Quest-Soft-player/raw/main/2.png)
+![image text](https://github.com/baijiacms/Java-Quest-Soft-player/raw/main/3.png)
+![image text](https://github.com/baijiacms/Java-Quest-Soft-player/raw/main/4.png)
+![image text](https://github.com/baijiacms/Java-Quest-Soft-player/raw/main/5.png)
