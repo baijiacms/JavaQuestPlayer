@@ -47,8 +47,6 @@ jre\bin\java.exe -jar -Dfile.encoding=utf-8 QspJavaFxPlayer.jar 19870
 19870 Change to the port you need
 
 
-There are no plans to open it, and i will consider whether it is open source according to the popularity and usage.
-
 This application is mainly used for my self-developed games. 
 
 If you are interested in this application, join me.
