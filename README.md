@@ -1,4 +1,6 @@
-Quest Soft player for javase
+the official site:  [the official site](https://baijiacms.github.io/)
+
+Quest Soft player for JavaSE.
 I am Chinese.My English is poor,sorry.
 It is developed in Java language, of which 20% is implemented in c++.
 
