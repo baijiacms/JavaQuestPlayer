@@ -1,0 +1,175 @@
+<html>
+<head>
+	<title>${gameTitle}${gameVersion}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link type="text/css" href="/engine/lib/sob/skins/sob/css/reset.css" rel="stylesheet">
+    <link type="text/css" href="/engine/lib/sob/skins/sob/css/style.css" rel="stylesheet">
+    <script type="text/javascript" src="/engine/lib/sob/qsplib/js/core.js"></script>
+    <script type="text/javascript" src="/engine/lib/sob/qsplib/js/coreAwesomium.js"></script>
+    <script type="text/javascript" src="/engine/lib/sob/qsplib/js/QspLibAwesomium.js"></script>
+    <script type="text/javascript" src="/engine/lib/sob/qsplib/js/api.js"></script>
+    <script type="text/javascript" src="/engine/lib/sob/skins/sob/js/game.js"></script>
+    <script type="text/javascript" src="/engine/lib/sob/skins/sob/js/adaptive-script.js"></script>
+    <script type="text/javascript" src="/engine/lib/sob/skins/sob/js/main-script.js"></script>
+
+    <script src="/engine/lib/jquery.min.js"></script>
+    <script type="text/javascript">
+$(document).ready(function(){
+	initApi();
+    });
+</script>
+
+    <script>
+
+
+function isNeedRefresh()
+{
+try{
+   $.getJSON("/engine/isNeedRefresh",function(data,status){
+    var isFresh=false;
+    if(data.varsdescchanged)
+    {
+   // isFresh=true;
+    }
+    if(data.maindescchanged)
+    {
+          isFresh=true;
+    }
+    if(data.actionschanged)
+    {
+       //    isFresh=true;
+    }
+  if(data.objectschanged)
+    {
+        //  isFresh=true;
+    }
+    if( isFresh==true)
+    {
+    loadHtml();
+    }
+
+    });
+    }catch{
+    }
+}
+setInterval(isNeedRefresh,500);
+
+function loadHtml()
+{
+   $.get("/engine/html",function(data){
+ document.getElementById('qsp-main').innerHTML=data;
+isClickExec=false;
+});
+isClickExec=false;
+}
+
+var isClickExec=false;
+function htmlExecTo(script)
+{
+if(isClickExec==true)
+{
+return;
+}
+isClickExec=true;
+$.get("/engine/htmlCall?actionScript="+encodeURIComponent(script),function(result){
+
+});
+}
+
+</script>
+</head>
+<body onload="loadHtml();">
+<div id="skin-ui-wrapper" >    <!-- Описание основное и дополнительное, действия, инвентарь -->
+    <div id="dialog-overlay">
+        <div id="skin-page">
+            <div id="qsp-main">
+                <!--Загрузка игры...	 <div id="left-column">	 <div id ="inv-show"></div>	 </div>	 <div id="right-column"> <div id ="main-show"></div>	 <div id="nav-buttons"></div>	 <div id ="text-show"></div>	 <div id="acts-buttons"></div>	 </div>	-->     </div>
+        </div>
+    </div>    <!-- Диалоги -->    <!-- Отрисовываются поверх всего, поэтому идут последними -->
+    <div id="qsp-dialog-msg" class="skin-dialog">
+        <div class="skin-dialog-centering">
+            <div id="skin-dialog-msg-container">
+                <div class="skin-dialog-background"></div>
+                <div id="skin-dialog-msg-top-block">
+                    <div id="skin-dialog-msg-top-container">
+                        <div id="qsp-wrapper-msg">
+                            <div id="qsp-scroller-msg">
+                                <div id="qsp-dialog-msg-content"> Lorem ipsum dolor sit amet, consectetur adipisicing
+                                    elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                    commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="skin-dialog-msg-bottom-block">
+                    <div id="skin-dialog-msg-bottom-wrapper">
+                        <div class="qsp-button skin-button-ok" onclick="javascript:qspCloseMsg();">OK</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="qsp-overlay"></div>
+    </div>
+    <div id="qsp-dialog-input" class="skin-dialog">
+        <div class="skin-dialog-centering">
+            <div id="skin-dialog-input-container">
+                <div class="skin-dialog-background"></div>
+                <div id="skin-dialog-input-top-row">
+                    <div id="skin-dialog-input-top-wrapper">
+                        <div id="qsp-dialog-input-content"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+                    </div>
+                </div>
+                <div id="skin-dialog-input-middle-row">
+                    <div id="skin-dialog-input-middle-wrapper"><input type="text" name="qsp-dialog-input-text"
+                                                                      id="qsp-dialog-input-text"></div>
+                </div>
+                <div id="skin-dialog-input-bottom-row">
+                    <div id="skin-dialog-input-bottom-wrapper">
+                        <div id="skin-dialog-input-button-ok" class="qsp-button skin-button-ok"
+                             onclick="javascript:qspCloseInput(true);">OK
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="qsp-overlay"></div>
+    </div>
+    <div id="qsp-dialog-error" class="skin-dialog">
+        <div class="skin-dialog-centering">
+            <div id="skin-dialog-error-container">
+                <div class="skin-dialog-background"></div>
+                <div id="skin-dialog-error-top-row">
+                    <div id="qsp-dialog-error-content"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                        do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
+                </div>
+                <div id="skin-dialog-error-bottom-row">
+                    <div id="skin-dialog-error-bottom-wrapper">
+                        <div class="qsp-button skin-button-ok" onclick="javascript:qspCloseError();">OK</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="qsp-overlay"></div>
+    </div>
+    <div id="qsp-dialog-save-slots" class="skin-dialog">
+        <div class="skin-dialog-centering">
+            <div id="skin-save-slots-wrapper">
+                <div class="skin-dialog-background"></div>
+                <div id="qsp-dialog-save-slots-container"></div>
+                <div id="autosave-holder">
+                    <!--<a class="qsp-save-slot-enabled qsp-button" href="exec: OPENGAME 'autosave.sav'">AUTOSAVE</a>-->
+                    <a class="qsp-save-slot-enabled qsp-button" onclick="javascript:qspCloseSaveSlots(6);">自动保存</a>
+                </div>
+            </div>
+        </div>
+        <div class="qsp-overlay"></div>
+    </div>
+</div>
+</body>
+</html>

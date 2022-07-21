@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>${gameTitle}${gameVersion}</title>
+        <meta charset="utf-8">
+        <link type="text/css" href="/engine/lib/jquery-ui.css" rel="stylesheet" />
+        <script type="text/javascript" src="/engine/lib/jquery.min.js"></script>
+		<script type="text/javascript" src="/engine/lib/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="/engine/lib/jquery.sizes.js"></script>
+		<script type="text/javascript" src="/engine/lib/jlayout.border.js"></script>
+		<script type="text/javascript" src="/engine/lib/jlayout.grid.js"></script>
+		<script type="text/javascript" src="/engine/lib/jlayout.flexgrid.js"></script>
+		<script type="text/javascript" src="/engine/lib/jlayout.flow.js"></script>
+		<script type="text/javascript" src="/engine/lib/jquery.jlayout.js"></script>
+		<script type="text/javascript" src="/engine/lib/index/js/jlayout.js"></script>
+        <link type="text/css" href="/engine/lib/index/css/index.css?v=20220613" rel="stylesheet" />
+		<script>
+var csGame=false;
+function quickSaveGame()
+{
+    if(clGame==false)
+    {
+       csGame=true;
+       $.get("/engine/QuickSave",function(data,status){
+              csGame=false;
+           if("1"==data||1==data)
+           {
+           alert("Quick Save Success");
+           }else
+           {
+           alert("Quick Save Error");
+           }
+       });
+   }
+}
+var clGame=false;
+function quickLoadGame()
+{
+    if(clGame==false)
+    {
+       clGame=true;
+       $.get("/engine/loadQuickSave",function(data,status){
+          clGame=false;
+       if("1"==data||1==data)
+              {
+         alert("Load QuickSave Success");
+          }else
+            {
+                  alert("Load QuickSave Error");
+          }
+       });
+   }
+}
+
+
+function showSaveWindow()
+{
+  $.get("/engine/openSaveWindow",function(data,status){
+       if("1"==data)
+              {
+
+          }
+       });
+}
+		</script>
+	</head>
+	<body data-layout='{"type": "border", "resize": false, "hgap": 6}'>
+	<div class="north">
+		   <div class="nav">
+                <div class="log">
+                   ${gameTitle}</span>
+                </div>
+                           <ul class="nav-item">
+                                                   <li><a href="/" style="color:#fff;text-decoration: none;">Return home page</a></li>
+                                                                              </ul>
+                                                                               <ul class="info">
+                                                                                          <li><a href="javascript:;" onClick="showSaveWindow()" style="color:#fff;text-decoration: none;">SaveScreen</a></li>
+                                                                                           <li><a href="javascript:;" onClick="quickSaveGame()" style="color:#fff;text-decoration: none;">QuickSave</a></li>
+                                                                                          <li><a href="javascript:;"  onClick="quickLoadGame()"  style="color:#fff;text-decoration: none;">QuickLoad</a></li>
+                                                                                      </ul>
+            </div>
+
+		</div>
+		<div class="center" >
+<iframe id="html" style="border: medium none;"  src="/engineHtmlPage" width="100%" height="100%"></iframe>
+		</div>
+		<div data-layout='{"type": "grid", "columns": 1, "resize": false}' class="west"  >
+    <iframe name="user" id="user" src="/engineUserPage" width="100%" height="100%"  style="border: medium none;" ></iframe>
+		</div>
+		<div class="east"  >
+			<div class="panel" style="height:50%">
+				<!--<div class="ui-state-default" style="padding:4px;">&nbsp;</div>-->
+    <iframe id="console" src="/engineConsolePage" width="100%" height="100%"  style="border: medium none;" ></iframe>
+
+			</div>
+			<div class="panel" style="height:50%">
+				<div class="ui-state-default" style="padding:4px;"></div>
+		<iframe id="action"  src="/engineActionPage" width="100%" height="100%"  style="border: medium none;" ></iframe>
+			</div>
+	</div>
+		<div class="south">AVA QUEST SOFT PLAYER V${engineVersion} Powered By baijiacms</div>
+	</body>
+</html>

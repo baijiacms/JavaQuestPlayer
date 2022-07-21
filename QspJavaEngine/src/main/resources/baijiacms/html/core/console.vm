@@ -1,0 +1,129 @@
+<html>
+<head>
+<base href="">
+<meta charset="utf-8" />
+<title>action</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="/engine/lib/jquery.min.js"></script>
+<script>
+      window.global = window;
+    </script>
+<style type="text/css">
+.css-ic6cb5:hover {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+.css-1e9tg5g {
+    text-align: center;
+    width: 100%;
+}
+.css-ic6cb5 {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 12pt;
+    padding: 4px 8px;
+    width: 100%;
+    text-align: left;
+    border-radius: 0px;
+    border: 0px;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    user-select: none;
+}
+.css-wb941c {
+    width: 100vw;
+    height: 100vh;
+    background: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    font-size: 12pt;
+    font-family: 微软雅黑;
+}
+.css-rto02f {
+    width: 100%;
+    height: 100%;
+    border: 1px solid grey;
+    white-space: pre-wrap;
+}
+.css-12mkfdx {
+    outline: none;
+}
+.css-rto02f {
+    width: 100%;
+    height: 100%;
+    border: 1px solid grey;
+    white-space: pre-wrap;
+}
+.css-wb941c {
+    width: 100vw;
+    height: 100vh;
+    background: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    font-size: 12pt;
+    font-family: 微软雅黑;
+}
+.css-wb941c {
+    width: 100vw;
+    height: 100vh;
+    background: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    font-size: 12pt;
+    font-family: 微软雅黑;
+}</style>
+<script>
+
+function isNeedRefresh()
+{
+try{
+   $.get("/engine/isNeedRefreshConsole",function(data,status){
+    if(data==1||data=='1')
+    {
+
+         loadHtml();
+    }
+    });
+    }catch{
+    }
+}
+function pageInit()
+{
+loadHtml();
+    setInterval(isNeedRefresh,1000);
+}
+
+
+function loadHtml()
+{
+   $.get("/engine/console",function(data){
+document.getElementById('menu').innerHTML=data;
+});
+}
+
+function consoleTo(script)
+{
+
+$.get("/engine/consoleCall?actionScript="+encodeURIComponent(script) ,function(result){
+
+});
+
+}
+</script>
+</head>
+<body onload="pageInit()">
+
+   <div class="rcs-inner-container" style="height: 100%;">
+                <div style="height: 100%; overflow-y: visible; margin-right: 0px;">
+                  <nav role="menu" id="menu" class="css-12mkfdx engwhto0">
+                  #foreach($action in $actions)
+
+                    <button role="menuitem" tabindex="0" class="css-ic6cb5 egqqxmy0">
+                    <div class="css-1e9tg5g eoej6yh0" onclick="actionTo('$action.index')"><b>$action.text</b></div>
+                    </button>
+                  #end
+                  </nav>
+                </div>
+              </div>
+</body>
+
+</html>

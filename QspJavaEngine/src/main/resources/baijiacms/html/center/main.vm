@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java-Quest-Soft-player</title>
+    <link rel="stylesheet" href="/engine/lib/center/css/index.css">
+</head>
+<script>
+var isClickAction=false;
+function actionTo(gameId)
+{
+if(isClickAction==true)
+{
+return;
+}
+isClickAction=true;
+$.get("/engine/loadGame?actionScript="+encodeURIComponent(gameId) ,function(result){
+isClickAction=false;
+if(result=="1"||result==1)
+{
+location.href="/engine/loadingPage";
+}
+
+});
+
+}
+
+
+var isClickAction2=false;
+function exportTxt(gameId)
+{
+if(isClickAction2==true)
+{
+return;
+}
+isClickAction2=true;
+$.get("/engine/exportGameToText?actionScript="+encodeURIComponent(gameId) ,function(result){
+isClickAction2=false;
+if(result=="1"||result==1)
+{
+alert("export success,Find it in the exporttext folder of the game directory");
+}else
+{
+alert("export error");
+}
+});
+
+}
+
+var isClickAction3=false;
+function expotQsp(gameId)
+{
+if(isClickAction3==true)
+{
+return;
+}
+isClickAction3=true;
+$.get("/engine/exportGameToQsp?actionScript="+encodeURIComponent(gameId) ,function(result){
+isClickAction3=false;
+if(result=="1"||result==1)
+{
+alert("export success,Find it in the exportQsp folder of the game directory");
+}else
+{
+alert("export error");
+}
+
+});
+
+}
+</script>
+<body>
+    <div class="nav">
+        <div class="log">
+            JAVA QUEST SOFT PLAYER V${engineVersion}
+        </div>
+    </div>
+    <section class="content">
+
+        <div class="right">
+            <ul>
+            #foreach($game in $gameList)
+                <li>
+                    <div class="hd img-box">
+                        <img src="$game.gameId/logo.png" alt="" onerror="this.src='/engine/lib/defaultLogo.jpg'">
+                    </div>
+                    <div class="td">
+                        <div>
+                            <h3>$game.gameName</h3>
+                             <div style="max-height: 20px;overflow: hidden;">$game.gameDesc</div>
+                        </div>
+                        <div>
+                            <span style="font-size:10px;color: #959191;">$game.gameVersion #if($game.isDevProject==1)(Development)#end</span>
+                            <div>
+                               #if($game.isDev==1)  #if($game.isDevProject==0)  <button class="gray-btn" onclick="exportTxt('$game.gameId')">exportTXT</button> #end #end
+                                  #if($game.isDevProject==1)  <button class="gray-btn" onclick="expotQsp('$game.gameId')">exportQsp</button> #end
+                                <button class="white-btn" onclick="actionTo('$game.gameId')">Start</button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                #end
+            </ul>
+        </div>
+    </section>
+    <script src="/engine/lib/jquery.min.js"></script>
+    <script src="/engine/lib/center/js/index.js"></script>
+    <script>
+        $(function () {
+            // PicScroll
+            new PicScroll('.img-box', { speedUp: 800, speedDown: 500 })
+        });
+    </script>
+</body>
+
+</html>
