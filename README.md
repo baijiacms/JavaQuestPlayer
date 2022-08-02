@@ -4,13 +4,13 @@ the official site:  [the official site](https://baijiacms.github.io/)
 
 Module introduction:
 
-QspJavaEngine: Kernel for running QSP games.
+1.QspJavaEngine: Kernel for running QSP games.
 
-QspJavaFxPlayer: Use JavaFX operation mode (imperfect).
+2.QspJavaFxPlayer: Use JavaFX operation mode (imperfect).
 
-QspJavaWebPlayer: The running mode of local browser does not support the lower version of IE. Chrome is the best.
+3.QspJavaWebPlayer: The running mode of local browser does not support the lower version of IE. Chrome is the best.
 
-QspJavaBrowserPlayer: Use the built-in Java browser (perfect).
+4.QspJavaBrowserPlayer: Use the built-in Java browser (perfect).
 
 
 
