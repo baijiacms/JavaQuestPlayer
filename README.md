@@ -13,6 +13,7 @@ QspJavaWebPlayer: The running mode of local browser does not support the lower v
 QspJavaBrowserPlayer: Use the built-in Java browser (perfect).
 
 
+
 Quest Soft player for JavaSE.
 
 It is developed in Java language, of which 20% is implemented in c++.
