@@ -1,6 +1,6 @@
 package com.qsp.webengine.template;
 
-import com.qsp.player.core.QspConstants;
+import com.qsp.player.common.QspConstants;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;

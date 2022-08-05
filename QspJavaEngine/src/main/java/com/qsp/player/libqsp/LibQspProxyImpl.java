@@ -1,28 +1,25 @@
 package com.qsp.player.libqsp;
 
 import com.qsp.webengine.vo.GameVo;
-import com.qsp.player.core.QspConstants;
-import com.qsp.player.core.game.DevUtils;
-import com.qsp.player.core.util.Uri;
+import com.qsp.player.common.QspConstants;
+import com.qsp.player.libqsp.util.DevUtils;
+import com.qsp.player.util.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 
-import com.qsp.player.core.QspGameStatus;
-import com.qsp.player.core.game.service.AudioPlayer;
-import com.qsp.player.core.game.service.GameContentResolver;
-import com.qsp.player.core.game.service.HtmlProcessor;
+import com.qsp.player.libqsp.service.AudioPlayer;
+import com.qsp.player.libqsp.service.GameContentResolver;
+import com.qsp.player.libqsp.service.HtmlProcessor;
 import com.qsp.player.libqsp.dto.ActionData;
 import com.qsp.player.libqsp.dto.ErrorData;
-import com.qsp.player.libqsp.dto.GetVarValuesResponse;
 import com.qsp.player.libqsp.dto.ObjectData;
-import com.qsp.player.core.model.GameState;
-import com.qsp.player.core.model.InterfaceConfiguration;
-import com.qsp.player.core.model.QspListItem;
-import com.qsp.player.core.model.QspMenuItem;
-import com.qsp.player.core.model.RefreshInterfaceRequest;
-import com.qsp.player.core.model.WindowType;
-import com.qsp.player.core.util.StreamUtil;
+import com.qsp.player.libqsp.dto.GameState;
+import com.qsp.player.libqsp.dto.QspListItem;
+import com.qsp.player.libqsp.dto.QspMenuItem;
+import com.qsp.player.libqsp.dto.RefreshInterfaceRequest;
+import com.qsp.player.common.WindowType;
+import com.qsp.player.util.StreamUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -33,12 +30,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static com.qsp.player.core.util.FileUtil.findFileOrDirectory;
-import static com.qsp.player.core.util.FileUtil.getFileContents;
-import static com.qsp.player.core.util.FileUtil.getOrCreateDirectory;
-import static com.qsp.player.core.util.StringUtil.getStringOrEmpty;
-import static com.qsp.player.core.util.StringUtil.isNotEmpty;
-import static com.qsp.player.core.util.ThreadUtil.throwIfNotMainThread;
+import static com.qsp.player.util.FileUtil.findFileOrDirectory;
+import static com.qsp.player.util.FileUtil.getFileContents;
+import static com.qsp.player.util.FileUtil.getOrCreateDirectory;
+import static com.qsp.player.util.StringUtil.getStringOrEmpty;
+import static com.qsp.player.util.StringUtil.isNotEmpty;
+import static com.qsp.player.util.ThreadUtil.throwIfNotMainThread;
 
 public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     private static final Logger logger = LoggerFactory.getLogger(LibQspProxyImpl.class);
@@ -147,37 +144,9 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
      * @return <code>true</code> если конфигурация изменилась, иначе <code>false</code>
      */
     private boolean loadInterfaceConfiguration() {
-        InterfaceConfiguration config = gameState.interfaceConfig;
+
         boolean changed = false;
 
-        GetVarValuesResponse htmlResult = (GetVarValuesResponse) nativeMethods.QSPGetVarValues("USEHTML", 0);
-        if (htmlResult.success) {
-            boolean useHtml = htmlResult.intValue != 0;
-            if (config.useHtml != useHtml) {
-                config.useHtml = useHtml;
-                changed = true;
-            }
-        }
-        GetVarValuesResponse fSizeResult = (GetVarValuesResponse) nativeMethods.QSPGetVarValues("FSIZE", 0);
-        if (fSizeResult.success && config.fontSize != fSizeResult.intValue) {
-            config.fontSize = fSizeResult.intValue;
-            changed = true;
-        }
-        GetVarValuesResponse bColorResult = (GetVarValuesResponse) nativeMethods.QSPGetVarValues("BCOLOR", 0);
-        if (bColorResult.success && config.backColor != bColorResult.intValue) {
-            config.backColor = bColorResult.intValue;
-            changed = true;
-        }
-        GetVarValuesResponse fColorResult = (GetVarValuesResponse) nativeMethods.QSPGetVarValues("FCOLOR", 0);
-        if (fColorResult.success && config.fontColor != fColorResult.intValue) {
-            config.fontColor = fColorResult.intValue;
-            changed = true;
-        }
-        GetVarValuesResponse lColorResult = (GetVarValuesResponse) nativeMethods.QSPGetVarValues("LCOLOR", 0);
-        if (lColorResult.success && config.linkColor != lColorResult.intValue) {
-            config.linkColor = lColorResult.intValue;
-            changed = true;
-        }
 
         return changed;
     }
@@ -189,7 +158,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
             ActionData actionData = (ActionData) nativeMethods.QSPGetActionData(i);
             QspListItem action = new QspListItem();
             action.index=i;
-            action.text = gameState.interfaceConfig.useHtml ? htmlProcessor.removeHtmlTags(actionData.name) : actionData.name;
+            action.text = true ? htmlProcessor.removeHtmlTags(actionData.name) : actionData.name;
             actions.add(action);
         }
         return actions;
@@ -202,7 +171,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
             ObjectData objectResult = (ObjectData) nativeMethods.QSPGetObjectData(i);
             QspListItem object = new QspListItem();
             object.index=i;
-            object.text = gameState.interfaceConfig.useHtml ? htmlProcessor.removeHtmlTags(objectResult.name) : objectResult.name;
+            object.text = true ? htmlProcessor.removeHtmlTags(objectResult.name) : objectResult.name;
             objects.add(object);
         }
         return objects;

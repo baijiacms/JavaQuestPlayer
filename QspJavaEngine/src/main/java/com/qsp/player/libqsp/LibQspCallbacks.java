@@ -2,6 +2,7 @@ package com.qsp.player.libqsp;
 
 /**
  * DLL回调类，不改变
+ * Методы данного интерфейса вызываются из нативного кода. См. <code>android_callbacks.c</code>.
  */
 public interface LibQspCallbacks {
     void RefreshInt();

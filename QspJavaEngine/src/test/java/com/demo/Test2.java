@@ -1,6 +1,6 @@
 package com.demo;
 
-import com.qsp.player.core.util.JarUtil;
+import com.qsp.player.util.JarUtil;
 
 import java.io.File;
 

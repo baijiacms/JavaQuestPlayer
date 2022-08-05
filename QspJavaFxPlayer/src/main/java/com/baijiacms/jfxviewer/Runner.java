@@ -1,10 +1,8 @@
 package com.baijiacms.jfxviewer;
 
-import com.qsp.javafx.CommonViewImpl;
-import com.qsp.javafx.JavaFxMediaPlayer;
-import com.qsp.javafx.JavaFxUtils;
+import com.qsp.player.javafx.JavaFxUtils;
 import com.qsp.webengine.HtmlEngine;
-import com.qsp.player.core.QspConstants;
+import com.qsp.player.common.QspConstants;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -67,7 +65,7 @@ public class Runner extends Application {
 //
 //        }
 
-        new HtmlEngine(new CommonViewImpl(), new JavaFxMediaPlayer()).startProxy();
+        new HtmlEngine().startProxy();
         //继承了Application，launch是Application类的方法。英文意思是发射/发动的意思。
         launch(args);
     }

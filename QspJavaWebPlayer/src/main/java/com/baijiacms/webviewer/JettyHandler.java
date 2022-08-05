@@ -1,7 +1,5 @@
 package com.baijiacms.webviewer;
 
-import com.qsp.javafx.CommonViewImpl;
-import com.qsp.javafx.JavaFxMediaPlayer;
 import com.qsp.webengine.HtmlEngine;
 import com.qsp.webengine.vo.ResponseVo;
 import org.apache.commons.lang3.StringUtils;
@@ -26,7 +24,7 @@ public class JettyHandler extends MyFileHandler {
         ve.setProperty(Velocity.RESOURCE_LOADER,Velocity.RESOURCE_LOADER_CLASS);
         ve.setProperty("class.resource.loader.class","org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         ve.init();
-        htmlEngine=new HtmlEngine(new CommonViewImpl(), new JavaFxMediaPlayer());
+        htmlEngine=new HtmlEngine();
         htmlEngine.start();
 
     }

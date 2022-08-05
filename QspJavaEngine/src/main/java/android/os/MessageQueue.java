@@ -1,7 +1,7 @@
 package android.os;
 
 import android.os.internal.DelayQueue;
-import com.qsp.player.core.game.GameShower;
+import com.qsp.player.GameShower;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

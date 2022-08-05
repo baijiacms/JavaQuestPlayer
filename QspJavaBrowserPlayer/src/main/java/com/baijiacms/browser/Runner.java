@@ -1,6 +1,6 @@
 package com.baijiacms.browser;
 
-import com.qsp.player.core.QspConstants;
+import com.qsp.player.common.QspConstants;
 import org.eclipse.jetty.server.Server;
 
 import com.teamdev.jxbrowser.chromium.*;

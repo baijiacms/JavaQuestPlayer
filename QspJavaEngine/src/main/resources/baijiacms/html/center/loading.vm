@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<title>Loading</title>
+<title>载入中</title>
 <link href="/engine/lib/message/weui.min.css" rel="stylesheet">
 <link href="/engine/lib/message/weui.plus.css?v=2" rel="stylesheet">
 <script src="/engine/lib/jquery.min.js"></script>
@@ -20,14 +20,14 @@
 
            <div class="weui-msg__text-area">
 
-				 <h2 class="weui-msg__title">Loading Now，please Wait！</h2>
+				 <h2 class="weui-msg__title">正在载入请稍后，预计等待不到5秒！</h2>
 			 </div>
 
         <div class="weui-msg__opr-area">
             <p class="weui-btn-area">
 
 
-  <a id="href" href="javascript:;" class="weui-btn weui-btn_primary">Wait Time： <b id="wait">0</b></a>
+  <a id="href" href="javascript:;" class="weui-btn weui-btn_primary">等待时间： <b id="wait">0</b></a>
 <script type="text/javascript">
 (function(){
 var href = document.getElementById('href').href;
@@ -55,7 +55,7 @@ var interval = setInterval(function(){
         <div class="weui-msg__extra-area">
             <div class="weui-footer">
 
-                <p class="weui-footer__text">JAVA QUEST SOFT PLAYER V${engineVersion} by baijiacms</p>
+                <p class="weui-footer__text">JQEngine V${engineVersion} by Jason</p>
             </div>
         </div>
     </div>

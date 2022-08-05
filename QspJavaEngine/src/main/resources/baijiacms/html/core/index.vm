@@ -25,10 +25,10 @@ function quickSaveGame()
               csGame=false;
            if("1"==data||1==data)
            {
-           alert("Quick Save Success");
+           alert("快速保存成功");
            }else
            {
-           alert("Quick Save Error");
+           alert("快速保存失败");
            }
        });
    }
@@ -43,10 +43,10 @@ function quickLoadGame()
           clGame=false;
        if("1"==data||1==data)
               {
-         alert("Load QuickSave Success");
+         alert("快速读取成功");
           }else
             {
-                  alert("Load QuickSave Error");
+                  alert("快速读取失败");
           }
        });
    }
@@ -71,12 +71,12 @@ function showSaveWindow()
                    ${gameTitle}</span>
                 </div>
                            <ul class="nav-item">
-                                                   <li><a href="/" style="color:#fff;text-decoration: none;">Return home page</a></li>
+                                                   <li><a href="/" style="color:#fff;text-decoration: none;">返回主页</a></li>
                                                                               </ul>
                                                                                <ul class="info">
-                                                                                          <li><a href="javascript:;" onClick="showSaveWindow()" style="color:#fff;text-decoration: none;">SaveScreen</a></li>
-                                                                                           <li><a href="javascript:;" onClick="quickSaveGame()" style="color:#fff;text-decoration: none;">QuickSave</a></li>
-                                                                                          <li><a href="javascript:;"  onClick="quickLoadGame()"  style="color:#fff;text-decoration: none;">QuickLoad</a></li>
+                                                                                          <li><a href="javascript:;" onClick="showSaveWindow()" style="color:#fff;text-decoration: none;">存读</a></li>
+                                                                                           <li><a href="javascript:;" onClick="quickSaveGame()" style="color:#fff;text-decoration: none;">快存</a></li>
+                                                                                          <li><a href="javascript:;"  onClick="quickLoadGame()"  style="color:#fff;text-decoration: none;">快取</a></li>
                                                                                       </ul>
             </div>
 
@@ -98,6 +98,6 @@ function showSaveWindow()
 		<iframe id="action"  src="/engineActionPage" width="100%" height="100%"  style="border: medium none;" ></iframe>
 			</div>
 	</div>
-		<div class="south">AVA QUEST SOFT PLAYER V${engineVersion} Powered By baijiacms</div>
+		<div class="south">JQEngine V${engineVersion} Powered By Jason Chen</div>
 	</body>
 </html>

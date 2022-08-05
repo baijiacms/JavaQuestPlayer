@@ -2,8 +2,8 @@ package com.qsp.webengine.template;
 
 import com.qsp.webengine.HtmlEngine;
 import com.qsp.webengine.util.Utils;
-import com.qsp.player.core.QspGameStatus;
-import com.qsp.player.core.game.GameShower;
+import com.qsp.player.libqsp.QspGameStatus;
+import com.qsp.player.GameShower;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;

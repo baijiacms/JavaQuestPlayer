@@ -41,10 +41,10 @@ $.get("/engine/exportGameToText?actionScript="+encodeURIComponent(gameId) ,funct
 isClickAction2=false;
 if(result=="1"||result==1)
 {
-alert("export success,Find it in the exporttext folder of the game directory");
+alert("导出成功，在游戏目录的exportText文件夹里找到");
 }else
 {
-alert("export error");
+alert("导出失败");
 }
 });
 
@@ -62,10 +62,10 @@ $.get("/engine/exportGameToQsp?actionScript="+encodeURIComponent(gameId) ,functi
 isClickAction3=false;
 if(result=="1"||result==1)
 {
-alert("export success,Find it in the exportQsp folder of the game directory");
+alert("导出成功，在游戏目录的exportQsp文件夹里找到");
 }else
 {
-alert("export error");
+alert("导出失败");
 }
 
 });
@@ -75,7 +75,7 @@ alert("export error");
 <body>
     <div class="nav">
         <div class="log">
-            JAVA QUEST SOFT PLAYER V${engineVersion}
+            JQEngine V${engineVersion}
         </div>
     </div>
     <section class="content">
@@ -93,11 +93,11 @@ alert("export error");
                              <div style="max-height: 20px;overflow: hidden;">$game.gameDesc</div>
                         </div>
                         <div>
-                            <span style="font-size:10px;color: #959191;">$game.gameVersion #if($game.isDevProject==1)(Development)#end</span>
+                            <span style="font-size:10px;color: #959191;">$game.gameVersion #if($game.isDevProject==1)(开发模式)#end</span>
                             <div>
-                               #if($game.isDev==1)  #if($game.isDevProject==0)  <button class="gray-btn" onclick="exportTxt('$game.gameId')">exportTXT</button> #end #end
-                                  #if($game.isDevProject==1)  <button class="gray-btn" onclick="expotQsp('$game.gameId')">exportQsp</button> #end
-                                <button class="white-btn" onclick="actionTo('$game.gameId')">Start</button>
+                               #if($game.isDev==1)  #if($game.isDevProject==0)  <button class="gray-btn" onclick="exportTxt('$game.gameId')">导出TXT</button> #end #end
+                                  #if($game.isDevProject==1)  <button class="gray-btn" onclick="expotQsp('$game.gameId')">导出QSP</button> #end
+                                <button class="white-btn" onclick="actionTo('$game.gameId')">启用游戏</button>
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 package com.qsp.webengine.util;
 
-import com.qsp.player.core.QspConstants;
+import com.qsp.player.common.QspConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

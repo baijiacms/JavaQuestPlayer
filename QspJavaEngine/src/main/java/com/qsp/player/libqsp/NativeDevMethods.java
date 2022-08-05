@@ -1,6 +1,6 @@
 package com.qsp.player.libqsp;
 
-import com.qsp.player.core.QspConstants;
+import com.qsp.player.common.QspConstants;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -80,7 +80,7 @@ public class NativeDevMethods {
             //3.获取根节点
             Element rootElement = document.getRootElement();
             // rootElement.elements()获取根节点下所有的节点，
-            List<Element> elements = rootElement.elements();
+            List<Element> elements = rootElement.element("Structure").elements();
             for (Element element : elements) {
                 if("Location".equals(element.getName()))
                 {

@@ -1,15 +1,17 @@
 package com.qsp.webengine;
 
+import com.qsp.player.javafx.JavaFxMediaPlayer;
+import com.qsp.player.javafx.JavaFxViewImpl;
 import com.qsp.webengine.handler.MyQspHandler;
 import com.qsp.webengine.template.*;
 import com.qsp.webengine.util.MyUrlRequest;
 import com.qsp.webengine.util.SteamUtils;
 import com.qsp.webengine.util.Utils;
-import com.qsp.player.core.QspAudioMediaPlayer;
-import com.qsp.player.core.QspConstants;
-import com.qsp.player.core.QspGameStatus;
-import com.qsp.player.core.QspViewInterface;
-import com.qsp.player.core.game.GameShower;
+import com.qsp.player.vi.AudioInterface;
+import com.qsp.player.common.QspConstants;
+import com.qsp.player.libqsp.QspGameStatus;
+import com.qsp.player.vi.ViewInterface;
+import com.qsp.player.GameShower;
 import com.qsp.webengine.util.mime.MyMediaTypeFactory;
 import com.qsp.webengine.vo.ResponseVo;
 import org.apache.commons.lang3.StringUtils;
@@ -18,11 +20,9 @@ import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.activation.MimetypesFileTypeMap;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
-import java.util.Map;
 
 /**
  * @author cxy
@@ -38,13 +38,16 @@ public class HtmlEngine {
     private GameSelectTemplate gameSelectTemplate;
     private LoadingTemplate loadingTemplate;
     private GameSaveTemplate gameSaveTemplate;
-    private QspViewInterface qspViewImpl = null;
+    private ViewInterface qspViewImpl = null;
     public static boolean isOpenSaveWindow = false;
-    private QspAudioMediaPlayer qspAudioMediaPlayerImp;
+    private AudioInterface audioInterfaceImp;
     private final String HTML_CONTENT_TYPE = "text/html;charset=utf-8";
     private final String JSON_CONTENT_TYPE = "application/json;charset=utf-8";
-
-    public HtmlEngine(QspViewInterface qspViewImpl, QspAudioMediaPlayer qspAudioMediaPlayerImp) {
+    public HtmlEngine()
+    {
+        this(new JavaFxViewImpl(), new JavaFxMediaPlayer());
+    }
+    public HtmlEngine(ViewInterface qspViewImpl, AudioInterface audioInterfaceImp) {
         VelocityEngine ve = new VelocityEngine();
         ve.setProperty(Velocity.RESOURCE_LOADER, Velocity.RESOURCE_LOADER_CLASS);
         ve.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
@@ -58,12 +61,12 @@ public class HtmlEngine {
         this.loadingTemplate = new LoadingTemplate(ve);
         this.gameSaveTemplate = new GameSaveTemplate(ve);
         this.qspViewImpl = qspViewImpl;
-        this.qspAudioMediaPlayerImp = qspAudioMediaPlayerImp;
+        this.audioInterfaceImp = audioInterfaceImp;
 
     }
 
     public void start() {
-        this.mGameShower = new GameShower(this.getClass(), qspViewImpl, qspAudioMediaPlayerImp);
+        this.mGameShower = new GameShower(this.getClass(), qspViewImpl, audioInterfaceImp);
 
     }
 

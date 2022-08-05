@@ -139,7 +139,7 @@ $.get("/engine/htmlCall?actionScript="+encodeURIComponent(script),function(resul
 				<div id="qsp-input-line">
 					<div id="skin-input-line-wrapper-outer">
 						<div id="skin-input-line-wrapper-inner">
-							<input type="text">
+							<input type="text" style="display:none">
 						</div>
 					</div>
 				</div>

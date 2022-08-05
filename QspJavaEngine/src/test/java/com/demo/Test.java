@@ -1,6 +1,6 @@
 package com.demo;
 
-import com.qsp.player.core.game.DevUtils;
+import com.qsp.player.libqsp.util.DevUtils;
 
 public class Test {
     public static void main(String[] args) {

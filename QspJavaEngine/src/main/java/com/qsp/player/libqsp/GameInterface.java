@@ -1,7 +1,7 @@
 package com.qsp.player.libqsp;
 
-import com.qsp.player.core.model.RefreshInterfaceRequest;
-import com.qsp.player.core.model.WindowType;
+import com.qsp.player.libqsp.dto.RefreshInterfaceRequest;
+import com.qsp.player.common.WindowType;
 
 public interface GameInterface {
 
@@ -17,9 +17,15 @@ public interface GameInterface {
      void deleteSaveGame(String filename);
     void showWindow(WindowType type, boolean show);
 
+    // region Локация-счётчик
 
+    /**
+     * Установить интервал обработки локации-счётчика в <code>millis</code> миллисекунд.
+     */
     void setCounterInterval(int millis);
 
-
+    /**
+     * Выполнить <code>runnable</code> без обработки локации-счётчика.
+     */
     void doWithCounterDisabled(Runnable runnable);
 }

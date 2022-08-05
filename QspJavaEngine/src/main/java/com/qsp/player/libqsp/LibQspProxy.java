@@ -1,16 +1,20 @@
 package com.qsp.player.libqsp;
 
 import com.qsp.webengine.vo.GameVo;
-import com.qsp.player.core.util.Uri;
+import com.qsp.player.util.Uri;
 
-import com.qsp.player.core.model.GameState;
+import com.qsp.player.libqsp.dto.GameState;
 
 import java.io.File;
 
 public interface LibQspProxy {
-
+    /**
+     * Запускает поток библиотеки.
+     */
     void start();
-
+    /**
+     * Останавливает поток библиотеки.
+     */
     void stop();
 
     void runGame(String id, String title, File dir, File file);
@@ -23,10 +27,14 @@ public interface LibQspProxy {
     void onObjectSelected(int index);
     void onInputAreaClicked();
 
-
+    /**
+     * Запускает выполнение указанной строки кода в библиотеке.
+     */
     void execute(String code);
 
-
+    /**
+     * Запускает обработку локации-счётчика в библиотеке.
+     */
     void executeCounter();
 
     GameState getGameState();
