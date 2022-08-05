@@ -1,6 +1,9 @@
 package com.baijiacms.webviewer;
 
+import com.qsp.javafx.JavaFxUtils;
 import org.eclipse.jetty.server.Server;
+
+import javax.swing.*;
 
 public class Runner {
 
@@ -22,9 +25,8 @@ public class Runner {
 //        jettyHandler.setResourceBase(QspConstants.WEB_RESOURCE_PATH);
         server.setHandler(jettyHandler );
         server.start();
-        String cmd = "rundll32 url.dll,FileProtocolHandler "+baseHttpPath;//打开浏览器
-        Runtime.getRuntime().exec(cmd);
-        System.out.println("访问地址："+baseHttpPath);
+        System.out.println("Use browser to(使用浏览器访问地址):"+baseHttpPath);
+        JOptionPane.showMessageDialog(null, "Use browser to(使用浏览器访问地址):"+baseHttpPath, "提示", JOptionPane.DEFAULT_OPTION);
         server.join(); //这个是阻断器
 
     }
