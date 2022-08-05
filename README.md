@@ -1,7 +1,21 @@
+I am Chinese.My English is poor,sorry.
+
 the official site:  [the official site](https://baijiacms.github.io/)
 
+Module introduction:
+
+1.QspJavaEngine: Kernel for running QSP games.
+
+2.QspJavaFxPlayer: Use JavaFX operation mode (imperfect).
+
+3.QspJavaWebPlayer: The running mode of local browser does not support the lower version of IE. Chrome is the best.
+
+4.QspJavaBrowserPlayer: Use the built-in Java browser (perfect).
+
+
+
 Quest Soft player for JavaSE.
-I am Chinese.My English is poor,sorry.
+
 It is developed in Java language, of which 20% is implemented in c++.
 
 Several technologies are used: JavaFX, velocity, jetty
