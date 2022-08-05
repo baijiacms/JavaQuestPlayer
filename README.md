@@ -8,9 +8,9 @@ Module introduction:
 
 2.QspJavaFxPlayer: Use JavaFX operation mode (imperfect).
 
-3.QspJavaWebPlayer: The running mode of local browser does not support the lower version of IE. Chrome is the best.
+3.QspJavaWebPlayer: The running mode of local browser does not support the lower version of IE. Chrome is the best(perfect).
 
-4.QspJavaBrowserPlayer: Use the built-in Java browser (perfect).
+4.QspJavaBrowserPlayer: Use the built-in Java browser (imperfect).
 
 
 
