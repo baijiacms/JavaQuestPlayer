@@ -1,4 +1,3 @@
-
 Quest Soft player for JavaSE.
 
 It is developed in Java language, of which 20% is implemented in c++.
@@ -28,7 +27,8 @@ Features:
 
 5. Export qsrc source code file list to QSP file.
 
-6. Game list .
+6. Game list.
+7. 
 more
 
 
