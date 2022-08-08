@@ -1,4 +1,8 @@
-I am Chinese.My English is poor,sorry.
+Quest Soft player for JavaSE.
+
+It is developed in Java language, of which 20% is implemented in c++.
+
+The application is still in the beta stage. At present,can run on the windows x64 version.. 
 
 the official site:  [the official site](https://baijiacms.github.io/)
 
@@ -12,36 +16,22 @@ Module introduction:
 
 4.QspJavaBrowserPlayer: Use the built-in Java browser (imperfect).
 
+Features:
+1. Run QSP games.
 
+2. Development tool: it supports compiling qsrc source code in memory and playing games. Compiling and testing QSP games is faster.
 
-Quest Soft player for JavaSE.
+3. Assistance from the browser: the built-in browser running mode can directly use the translation function of chrome and other browsers.
 
-It is developed in Java language, of which 20% is implemented in c++.
+4. Export QSP to TXT file. The encrypted QSP file needs to know the password to export.
 
-Several technologies are used: JavaFX, velocity, jetty
+5. Game list function.
+more
 
-The application is still in the beta stage. At present,can run on the windows x64 version.. 
 
 StartQsp(JavaFX).bat  is JavaFX mode,Similar applications run.
 
-
 StartQsp(Web browser).bat is web browser mode, this will automatically open the default browser of the operating system after running If it is not opened, you can access the browser by yourself http://127.0.0.1:19870 Address can also start the game.
-
-Application functions:
-
-1. Run QSP games
-
-2. Export QSP games as txt files and package qproj projects as QSP files (it is also the compilation and decoding for QSP Development)
-
-2. Compile qproj project in memory, and the compilation test of QSP game is simpler.
-
-3. It includes the function of game list, and you can select games.
-
-4. There are two application startup modes: JavaFX mode and web browser mode (jetty)
-
-5. Support the game archiving function. At present, the archiving interface is ugly. I don't have time to modify this interface at present.
-
-As for more functions, you will know after testing.
 
 
 Special note:
@@ -50,9 +40,10 @@ Special note:
 
 2. JavaFX mode does not support playing WebM videos, because JavaFX does not support it. The web browser mode depends on whether the browser supports it. Chrome generally has no problem.
 
-3. The web browser mode uses jetty technology. By default, an HTTP port 19870 will be opened locally for browsers to access. If you want to modify the port, just change "StartQsp(JavaFX).bat" file
+3. The web browser mode uses jetty technology. By default, an HTTP port 19870 will be opened locally for browsers to access. 
 
-from
+If you want to modify the port, just change "StartQsp(JavaFX).bat" file
+source
 
 jre\bin\java.exe -jar -Dfile.encoding=utf-8 QspJavaFxPlayer.jar
 
