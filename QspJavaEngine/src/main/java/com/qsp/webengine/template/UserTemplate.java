@@ -1,9 +1,7 @@
 package com.qsp.webengine.template;
 
-import com.qsp.webengine.HtmlEngine;
 import com.qsp.webengine.util.Utils;
-import com.qsp.player.libqsp.QspGameStatus;
-import com.qsp.player.GameShower;
+import com.qsp.player.PlayerEngine;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -40,22 +38,22 @@ public class UserTemplate {
         return writer.toString();
     }
 
-    public InputStream getUser(GameShower mGameShower) {
-        QspGameStatus.varsdescchanged = false;
-        if (HtmlEngine.isOpenSaveWindow) {
+    public InputStream getUser(PlayerEngine mPlayerEngine) {
+        mPlayerEngine.getGameStatus().setVarsdescchanged(false);
+        if (mPlayerEngine.getGameStatus().isOpenSaveWindow) {
             return Utils.BlankInputStream();
         }
-        String html = mGameShower.refreshVarsDesc();
+        String html = mPlayerEngine.refreshVarsDesc();
         return Utils.StringToInputStream(html);
     }
 
-    public InputStream execUser(GameShower mGameShower, String command) {
+    public InputStream execUser(PlayerEngine mPlayerEngine, String command) {
         // actionScript=new String( Base64.decode(actionScript.getBytes()),"utf-8");
 
-        mGameShower.shouldOverrideUrlLoading(command);
+        mPlayerEngine.shouldOverrideUrlLoading(command);
 
 
-        QspGameStatus.varsdescchanged = true;
+        mPlayerEngine.getGameStatus().setVarsdescchanged(true);
         return Utils.BlankInputStream();
     }
 }

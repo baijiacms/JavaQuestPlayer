@@ -16,6 +16,8 @@ Module introduction:
 
 4.QspJavaBrowserPlayer: Use the built-in Java browser (imperfect).
 
+5.QspGames: QSP Game file folder
+
 Features:
 1. Run QSP games.
 

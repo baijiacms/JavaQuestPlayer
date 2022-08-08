@@ -6,7 +6,7 @@ import com.qsp.player.libqsp.dto.QspMenuItem;
 import java.io.File;
 import java.util.ArrayList;
 
-public class GameState {
+public class GameObject {
 
     public boolean gameRunning;
     public String gameId;

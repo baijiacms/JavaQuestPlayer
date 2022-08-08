@@ -18,7 +18,7 @@ import java.util.Map;
  * 开发工具DLL
  */
 public class NativeDevMethods {
-    private static void dirFolder(File folder,String folderName, Map<String,String> qsrcMap) {
+    private  void dirFolder(File folder,String folderName, Map<String,String> qsrcMap) {
         File[] files = folder.listFiles();
         for (File f : files) {
             if (f.isDirectory()) {
@@ -80,7 +80,14 @@ public class NativeDevMethods {
             //3.获取根节点
             Element rootElement = document.getRootElement();
             // rootElement.elements()获取根节点下所有的节点，
-            List<Element> elements = rootElement.element("Structure").elements();
+            List<Element> elements =null;
+            Element  structure= rootElement.element("Structure");
+            if(structure!=null) {
+                elements = structure.elements();
+            }else
+            {
+                elements=rootElement.elements();
+            }
             for (Element element : elements) {
                 if("Location".equals(element.getName()))
                 {

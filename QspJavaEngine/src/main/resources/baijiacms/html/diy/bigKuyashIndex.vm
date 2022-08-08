@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>${gameTitle}${gameVersion}</title>
+<title>${engineTitle} V${engineVersion} Powered By ${enginePowerBy}</title>
 <meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
@@ -20,48 +20,48 @@
 
     <script src="/engine/lib/jquery.min.js"></script>
     <script>
+$.ajaxSetup({
 
+    async : false
 
+});
+window.global = window;
+var index=0;
 function isNeedRefresh()
 {
 try{
-   $.getJSON("/engine/isNeedRefresh",function(data,status){
-    var isFresh=false;
-    if(data.varsdescchanged)
-    {
-   // isFresh=true;
-    }
-    if(data.maindescchanged)
-    {
-          isFresh=true;
-    }
-    if(data.actionschanged)
-    {
-       //    isFresh=true;
-    }
-  if(data.objectschanged)
-    {
-        //  isFresh=true;
-    }
-    if( isFresh==true)
-    {
-    loadHtml();
-    }
 
+   $.get("/engine/isNeedRefreshHtml",function(data,status){
+    if(data==1||data=='1')
+    {
+        if(index==0)
+        {
+         index=1;
+         loadHtml();
+         }
+    }else
+    {
+    index=0;
+    }
     });
     }catch{
     }
 }
-setInterval(isNeedRefresh,500);
+function pageInit()
+{
+    loadHtml();
+    setInterval(isNeedRefresh,300);
+}
 
 function loadHtml()
 {
    $.get("/engine/html",function(data){
- document.getElementById('qsp-main').innerHTML=data;
+document.body.innerHTML=data;
 isClickExec=false;
 });
 isClickExec=false;
 }
+
 
 var isClickExec=false;
 function htmlExecTo(script)
@@ -72,13 +72,90 @@ return;
 }
 isClickExec=true;
 $.get("/engine/htmlCall?actionScript="+encodeURIComponent(script),function(result){
-
+    index=0;
 });
+
+}
+
+
+
+
+function Trim(str) { return str.replace(/(^\s*)|(\s*$)/g,""); }
+var csGame=false;
+function saveGame()
+{
+    if(clGame==false)
+    {
+       csGame=true;
+     var saveFileName= document.getElementById("saveFileName").value;
+     saveFileName=Trim(saveFileName);
+     if(saveFileName=="")
+     {
+          csGame=false;
+           alert("请输入文件名");
+     return;
+     }
+$.get("/engine/GameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+             index=0;
+              csGame=false;
+           if("1"==data||1==data)
+           {
+           alert("保存成功");
+           }else
+           {
+           alert("保存失败");
+           }
+       });
+   }
+}
+var clGame=false;
+function loadGame(saveFileName)
+{
+    if(clGame==false)
+    {
+       clGame=true;
+$.get("/engine/LoadGameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+        index=0;    clGame=false;
+       if("1"==data||1==data)
+              {
+         alert("读取成功");
+         closeSaveWindow();
+          }else
+            {
+                  alert("读取失败");
+          }
+       });
+   }
+}
+
+var dlGame=false;
+function delGame(saveFileName)
+{
+    if(dlGame==false)
+    {
+       dlGame=true;
+$.get("/engine/deleteGameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+          index=0;  dlGame=false;
+       if("1"==data||1==data)
+              {
+         alert("删除成功");
+          }else
+            {
+                  alert("删除失败");
+          }
+       });
+   }
+}
+function closeSaveWindow()
+{
+  $.get("/engine/closeSaveWindow",function(data,status){
+  index=0;
+       });
 }
 
 </script>
 </head>
-<body onload="loadHtml();">
+<body onload="pageInit();">
 <!-- Сплэшскрин. Свойства прописываем здесь, т.к. к моменту загрузки CSS будет уже поздно.
 <div id="skin-splashscreen-foreground" style="z-index:1; position:fixed; left:0px; top:0px; width:100%; height:100%; background-color:#FFFFFF;"></div>-->
 <!-- Обёртка всего интерфейса целиком, со всей разметкой, окнами, диалогами. Пока содержимое полностью не загрузится, интерфейс должен быть скрыт. -->

@@ -1,13 +1,13 @@
 package com.qsp.player;
 
 import com.qsp.player.common.QspConstants;
-import com.qsp.player.libqsp.QspGameStatus;
 import com.qsp.player.common.WindowType;
+import com.qsp.player.libqsp.service.AudioPlayer;
+import com.qsp.player.libqsp.service.GameContentResolver;
 import com.qsp.player.util.Base64Util;
 import com.qsp.player.util.JarUtil;
 import com.qsp.player.util.Uri;
-import android.os.Handler;
-import com.qsp.player.libqsp.service.AudioPlayer;
+//import android.os.Handler;
 import com.qsp.player.libqsp.service.HtmlProcessor;
 import com.qsp.player.vi.AudioInterface;
 import com.qsp.player.vi.ViewInterface;
@@ -24,72 +24,49 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.ArrayList;
 
-public class GameShower implements GameInterface {
-    private static final Logger logger = LoggerFactory.getLogger(GameShower.class);
-    private QuestPlayerEngine mEngine;
-    private ViewInterface viewInterface;
-    public  GameShower(Class runnerClass, ViewInterface viewInterface, AudioInterface audioInterface)
-    {
-        this.viewInterface = viewInterface;
-        QspConstants.setBaseFoler(JarUtil.getJarPath(runnerClass));
-        this.mEngine =new QuestPlayerEngine(audioInterface);
-        onCreate();
-        //applyGameState();
-    }
-    private boolean showActions = true;
-    private HtmlProcessor htmlProcessor;
+public class PlayerEngine implements GameInterface {
+    private static final Logger logger = LoggerFactory.getLogger(PlayerEngine.class);
+    private  GameContentResolver gameContentResolver ;
+    private  HtmlProcessor htmlProcessor ;
     private LibQspProxy libQspProxy;
-    private AudioPlayer audioPlayer;
-    private final Handler counterHandler = new Handler();
-    private int counterInterval = 500;
-    private final Runnable counterTask = new Runnable() {
-        @Override
-        public void run() {
-            libQspProxy.executeCounter();
-            counterHandler.postDelayed(this, counterInterval);
-        }
-    };
-
-    private void onCreate() {
-
-        initServices();
-        //initGame();
-
-        logger.info("GameShower created");
-    }
-    public QuestPlayerEngine getEngine()
+    private ViewInterface viewInterface;
+    private  AudioPlayer audioPlayer ;
+    private GameStatus gameStatus;
+    private String userId;
+    public PlayerEngine(String userId,Class runnerClass, ViewInterface viewInterface, AudioInterface audioInterface)
     {
-        return mEngine;
-    }
-    private void initServices() {
+        this.userId=userId;
+        this.viewInterface = viewInterface;
+        gameStatus=new GameStatus();
+        gameContentResolver = new GameContentResolver();
+        htmlProcessor = new HtmlProcessor(gameContentResolver);
 
-        QuestPlayerEngine engine = getEngine();
+        audioPlayer = new AudioPlayer(audioInterface);
+        QspConstants.setBaseFoler(JarUtil.getJarPath(runnerClass));
+        libQspProxy = new LibQspProxyImpl(userId,gameStatus,gameContentResolver,  htmlProcessor, audioPlayer);
 
-        htmlProcessor = engine.getHtmlProcessor();
-
-        audioPlayer = engine.getAudioPlayer();
-        audioPlayer.start();
-
-        libQspProxy = engine.getLibQspProxy();
         libQspProxy.setGameInterface(this);
         libQspProxy.start();
+        logger.info("qsp engine created");
     }
+
+
     private void initGame() {
 
-        String gameId = QspConstants.GAME_ID;
-        String gameTitle = QspConstants.GAME_TITLE;
+        String gameId = gameStatus.GAME_ID;
+        String gameTitle = gameStatus.GAME_TITLE;
 
-        String gameDirUri = QspConstants.GAME_RESOURCE_PATH;
+        String gameDirUri = gameStatus.GAME_RESOURCE_PATH;
         File gameDir = new File(gameDirUri);
 
-        String gameFileUri = QspConstants.GAME_FILE;
+        String gameFileUri = gameStatus.GAME_FILE;
         File gameFile = new File(gameFileUri);
 
-        libQspProxy.getGameState().reset();
-        libQspProxy.getGameState().gameId = gameId;
-        libQspProxy.getGameState().gameTitle = gameTitle;
-        libQspProxy.getGameState().gameDir = gameDir;
-        libQspProxy.getGameState().gameFile = gameFile;
+        libQspProxy.getGameObject().reset();
+        libQspProxy.getGameObject().gameId = gameId;
+        libQspProxy.getGameObject().gameTitle = gameTitle;
+        libQspProxy.getGameObject().gameDir = gameDir;
+        libQspProxy.getGameObject().gameFile = gameFile;
         //libQspProxy.runGame(gameId, gameTitle, gameDir, gameFile);
     }
     public void onItemClick(int position)
@@ -107,22 +84,22 @@ public class GameShower implements GameInterface {
     @Override
     public void refresh(RefreshInterfaceRequest request) {
 
-            if (request.interfaceConfigChanged || request.mainDescChanged) {
+            if ( request.mainDescChanged) {
 
                 refreshMainDesc();
-                QspGameStatus.maindescchanged=true;
+                gameStatus.isMaindescchanged(true);
             }
             if (request.actionsChanged) {
                 refreshActions();
-                QspGameStatus.actionschanged=true;
+                gameStatus.setActionschanged(true);
             }
             if (request.objectsChanged) {
                 refreshObjects();
-                QspGameStatus.objectschanged=true;
+                gameStatus.setObjectschanged(true);
             }
-            if (request.interfaceConfigChanged || request.varsDescChanged) {
+            if ( request.varsDescChanged) {
                 refreshVarsDesc();
-                QspGameStatus.varsdescchanged=true;
+                gameStatus.setVarsdescchanged(true);
             }
 
     }
@@ -141,12 +118,12 @@ public class GameShower implements GameInterface {
         if (newStr.endsWith("webm") ||newStr.endsWith("mp4") || newStr.endsWith("mp3") )
         {
             if(newStr.startsWith("file://")==false) {
-                path = path.replace(QspConstants.URL_REPLACE_URL, "");
+                path = path.replace(gameStatus.URL_REPLACE_URL, "");
                 if(path.startsWith("/")==false)
                 {
                     path="/"+path;
                 }
-                path= QspConstants.URL_BASE_URL +path;
+                path= gameStatus.URL_BASE_URL +path;
             }
         }
         this.viewInterface.showPicture( path);
@@ -168,14 +145,14 @@ public class GameShower implements GameInterface {
             message = "";
         }
         logger.info("showInputBox:"+message);
-        return viewInterface.getInputStr(message);
+        return  viewInterface.getInputStr(message);
     }
 
     @Override
     public int showMenu() {
         final ArrayList<String> items = new ArrayList<>();
 
-        for (QspMenuItem item : libQspProxy.getGameState().menuItems) {
+        for (QspMenuItem item : libQspProxy.getGameObject().menuItems) {
             items.add(item.name);
         }
 //        logger.info("showMenu");
@@ -187,14 +164,18 @@ public class GameShower implements GameInterface {
         {
             filename= LibQspProxyImpl.quickSaveName;
         }
-        String saveFolder=QspConstants.getSaveFolder();
-        File saveFile=   new File(saveFolder+filename+".sav");
+        if(filename.endsWith(".sav")==false)
+        {
+            filename=filename+".sav";
+        }
+        String saveFolder=gameStatus.getSaveFolder();
+        File saveFile=   new File(saveFolder+filename);
         if(saveFile.exists()==false)
         {
             return "0";
         }
         libQspProxy.loadGameState(Uri.fromFile(saveFile));
-        QspGameStatus.refreshAll();
+        gameStatus.refreshAll();
         return "1";
     }
     @Override
@@ -203,10 +184,15 @@ public class GameShower implements GameInterface {
         {
             return;
         }
-        String saveFolder=QspConstants.getSaveFolder();
-        logger.info(saveFolder+filename+".sav");
-        new File(saveFolder+filename+".sav").delete();
-        QspGameStatus.refreshAll();
+
+        if(filename.endsWith(".sav")==false)
+        {
+            filename=filename+".sav";
+        }
+        String saveFolder=gameStatus.getSaveFolder();
+        logger.info(saveFolder+filename);
+        new File(saveFolder+filename).delete();
+        gameStatus.refreshAll();
     }
     @Override
     public void saveGame(String filename) {
@@ -214,56 +200,43 @@ public class GameShower implements GameInterface {
         {
             filename= LibQspProxyImpl.quickSaveName;
         }
-        String saveFolder=QspConstants.getSaveFolder();
-        libQspProxy.saveGameState(Uri.fromFile(new File(saveFolder+filename+".sav")));
-        QspGameStatus.refreshAll();
+
+        if(filename.endsWith(".sav")==false)
+        {
+            filename=filename+".sav";
+        }
+        String saveFolder=gameStatus.getSaveFolder();
+        libQspProxy.saveGameState(Uri.fromFile(new File(saveFolder+filename)));
+        gameStatus.refreshAll();
     }
 
     @Override
     public void showWindow(WindowType type, boolean show) {
         if (type == WindowType.ACTIONS) {
-            showActions = show;
-
         }
-//        else {
-//            logger.warn("Unsupported window type: " + type);
-//        }
     }
 
     @Override
     public void setCounterInterval(int millis) {
-        counterInterval = millis;
+
     }
 
     public void onDestroy() {
-        audioPlayer.stop();
         libQspProxy.stop();
         libQspProxy.setGameInterface(null);
-        counterHandler.removeCallbacks(counterTask);
         logger.info(" destroyed");
     }
     public void onPause() {
-        audioPlayer.pause();
-        counterHandler.removeCallbacks(counterTask);
     }
 
     public void onResume() {
 
 
-        if (libQspProxy.getGameState().gameRunning) {
+        if (libQspProxy.getGameObject().gameRunning) {
             applyGameState();
 
-            audioPlayer.setSoundEnabled(true);
-            audioPlayer.resume();
 
-            counterHandler.postDelayed(counterTask, counterInterval);
         }
-    }
-    @Override
-    public void doWithCounterDisabled(Runnable runnable) {
-        counterHandler.removeCallbacks(counterTask);
-        runnable.run();
-        counterHandler.postDelayed(counterTask, counterInterval);
     }
 
 
@@ -277,7 +250,7 @@ public class GameShower implements GameInterface {
 
 
     public String refreshMainDesc() {
-        String mainDesc = getHtml(libQspProxy.getGameState().mainDesc,true);
+        String mainDesc = getHtml(libQspProxy.getGameObject().mainDesc,true);
 
         return mainDesc;
     }
@@ -285,32 +258,35 @@ public class GameShower implements GameInterface {
     private String getHtml(String str,boolean isMainDesc) {
 
         return true ?
-                htmlProcessor.convertQspHtmlToWebViewHtml(str,isMainDesc) :
+                htmlProcessor.convertQspHtmlToWebViewHtml(this,str,isMainDesc) :
                 htmlProcessor.convertQspStringToWebViewHtml(str);
     }
 
-    public void  restartGame() {
-        //libQspProxy.stop();
-        //libQspProxy.start();
+    public void  restartGame(String gameId) {
+
+        gameStatus.isStart = true;
+        gameStatus.IS_SOB_GAME=false;
+        gameStatus.IS_BIG_KUYASH=false;
+        gameStatus.setGamePathById(gameId);
         initGame();
         libQspProxy.restartGame();
         applyGameState();
     }
 
     public String  refreshVarsDesc() {
-        String varsDesc = getHtml(libQspProxy.getGameState().varsDesc,false);
+        String varsDesc = getHtml(libQspProxy.getGameObject().varsDesc,false);
 //        logger.info("varsDesc:"+varsDesc);
         return varsDesc;
     }
 
     public ArrayList<QspListItem>  refreshActions() {
-        ArrayList<QspListItem> actions = libQspProxy.getGameState().actions;
+        ArrayList<QspListItem> actions = libQspProxy.getGameObject().actions;
         //logger.info("refreshActions:"+actions.size());
         return actions;
     }
 
     public ArrayList<QspListItem>  refreshObjects() {
-        ArrayList<QspListItem> objects = libQspProxy.getGameState().objects;
+        ArrayList<QspListItem> objects = libQspProxy.getGameObject().objects;
         // logger.info("refreshObjects:"+objects.size());
         return objects;
     }
@@ -328,6 +304,7 @@ public class GameShower implements GameInterface {
       }
 
 
-
-
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
 }

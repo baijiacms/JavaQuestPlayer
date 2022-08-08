@@ -1,5 +1,6 @@
 package com.baijiacms.browser;
 
+import com.qsp.QspEngineServer;
 import com.qsp.player.common.QspConstants;
 import org.eclipse.jetty.server.Server;
 
@@ -13,25 +14,35 @@ import java.awt.event.WindowListener;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigInteger;
+
+/**
+ * 弹出菜单被遮住
+ * 解决：JPopupMenu.setDefaultLightWeightPopupEnabled(false);//弹出菜单重量级
+ *
+ * 设置当前的焦点控件
+ * 应用皮肤beautyeye后有问题
+ * 因为应用了 BeautyEyeLNFHelper.FrameBorderStyle.translucencySmallShadow
+ * 改成：BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated; 就可以了
+ *
+ * 默认不出现右键
+ * 需要注册browser.setDialogHandler(new DefaultDialogHandler(view));
+ */
 public class Runner {
     public static void main(String[] args) throws Exception {
-        int port=19870;
+        int port=QspConstants.HTTP_PORT;
         if(args!=null&&args.length>1)
         {
             try {
                 port = Integer.parseInt(args[0]);
+                QspConstants.HTTP_PORT=port;
+                QspConstants.HTTP_LOCAL_URL ="http://127.0.0.1:"+ port;
             }catch (Exception ex)
             {
                 ex.printStackTrace();
             }
         }
-         Server server=new Server(port);
-        String baseHttpPath="http://127.0.0.1:"+port;
-        JettyHandler jettyHandler=new JettyHandler(baseHttpPath);
-//        jettyHandler.setResourceBase(Gengine.class.getResource("/html/resource").toExternalForm());
-//        jettyHandler.setResourceBase(QspConstants.WEB_RESOURCE_PATH);
-        server.setHandler(jettyHandler );
-        server.start();
+        QspEngineServer qspEngineServer=new QspEngineServer(port);
+        qspEngineServer.start();
 
 
         final Browser browser = new Browser();
@@ -39,16 +50,20 @@ public class Runner {
         browser.getCacheStorage().clearCache();
         browser.getLocalWebStorage().clear();
         browser.getSessionWebStorage().clear();
-
         JPanel addressPane = new JPanel(new BorderLayout());
 
-        JFrame frame = new JFrame("Java-Quest-Soft-player "+ QspConstants.ENGINE_VERSION+" Powered By https://github.com/baijiacms/");
+        JFrame frame = new JFrame(QspConstants.ENGINE_TITLE+" "+ QspConstants.ENGINE_VERSION+" Powered By "+QspConstants.ENGINE_POWER_BY);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.add(addressPane, BorderLayout.NORTH);
         frame.add(view, BorderLayout.CENTER);
-        frame.setSize(1280, 960);
+        frame.setSize(QspConstants.minWidth, QspConstants.minHeight);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Rectangle bounds = new Rectangle(screenSize);
+        frame.setBounds(bounds);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setResizable(true);
         frame.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent windowEvent) {
@@ -87,11 +102,10 @@ public class Runner {
 
             }
         });
-        browser.loadURL(baseHttpPath+"");
+        browser.loadURL(qspEngineServer.getHttpUrl()+"");
 //        String cmd = "rundll32 url.dll,FileProtocolHandler "+baseHttpPath;//打开浏览器
 //        Runtime.getRuntime().exec(cmd);
-        System.out.println("访问地址："+baseHttpPath);
-        server.join(); //这个是阻断器
+        qspEngineServer.join(); //这个是阻断器
 
     }
 

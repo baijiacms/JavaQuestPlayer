@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Java-Quest-Soft-player</title>
+    <title>${engineTitle} V${engineVersion}</title>
     <link rel="stylesheet" href="/engine/lib/center/css/index.css">
 </head>
 <script>
@@ -75,7 +75,7 @@ alert("导出失败");
 <body>
     <div class="nav">
         <div class="log">
-            JQEngine V${engineVersion}
+            ${engineTitle}
         </div>
     </div>
     <section class="content">

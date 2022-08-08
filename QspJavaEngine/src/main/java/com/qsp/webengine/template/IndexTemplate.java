@@ -1,5 +1,6 @@
 package com.qsp.webengine.template;
 
+import com.qsp.player.PlayerEngine;
 import com.qsp.player.common.QspConstants;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -16,9 +17,9 @@ public class IndexTemplate {
     private Template indexTemplate;
     private Template indexSobTemplate;
     private Template indexBigKuyashTemplate;
-
-    public IndexTemplate(VelocityEngine ve) {
-
+    private PlayerEngine mPlayerEngine;
+    public IndexTemplate(PlayerEngine mPlayerEngine, VelocityEngine ve) {
+        this.mPlayerEngine = mPlayerEngine;
         indexTemplate = ve.getTemplate("baijiacms/html/core/index.vm", "utf-8");
         indexSobTemplate = ve.getTemplate("baijiacms/html/diy/sobIndex.vm", "utf-8");
         indexBigKuyashTemplate = ve.getTemplate("baijiacms/html/diy/bigKuyashIndex.vm", "utf-8");
@@ -35,17 +36,19 @@ public class IndexTemplate {
 //        context.put("action_height", action_height);
 //        context.put("root_width", root_width);
 //        context.put("root_height", root_height);
-        context.put("gameTitle", QspConstants.GAME_TITLE);
-        context.put("gameVersion", QspConstants.GAME_VERSION);
+        context.put("gameTitle", mPlayerEngine.getGameStatus().GAME_TITLE);
+        context.put("gameVersion", mPlayerEngine.getGameStatus().GAME_VERSION);
+        context.put("enginePowerBy", QspConstants.ENGINE_POWER_BY);
+        context.put("engineTitle", QspConstants.ENGINE_TITLE);
         context.put("engineVersion", QspConstants.ENGINE_VERSION);
 
 
         StringWriter writer = new StringWriter();
-        if(QspConstants.IS_SOB_GAME) {
+        if(mPlayerEngine.getGameStatus().IS_SOB_GAME) {
             indexSobTemplate.merge(context, writer);
         }else
         {
-            if(QspConstants.IS_BIG_KUYASH) {
+            if(mPlayerEngine.getGameStatus().IS_BIG_KUYASH) {
                 indexBigKuyashTemplate.merge(context, writer);
             }else
             {

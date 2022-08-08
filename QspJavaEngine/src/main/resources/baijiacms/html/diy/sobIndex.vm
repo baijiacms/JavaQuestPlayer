@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>${gameTitle}${gameVersion}</title>
+	<title>${engineTitle} V${engineVersion} Powered By ${enginePowerBy}</title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link type="text/css" href="/engine/lib/sob/skins/sob/css/reset.css" rel="stylesheet">

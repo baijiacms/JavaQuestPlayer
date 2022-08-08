@@ -1,10 +1,5 @@
-package com.baijiacms.webviewer;
+package com.qsp.jetty;
 
-
-import java.io.IOException;
-import java.nio.file.InvalidPathException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.jetty.http.CompressedContentFormat;
 import org.eclipse.jetty.http.HttpContent;
@@ -13,6 +8,11 @@ import org.eclipse.jetty.http.MimeTypes;
 import org.eclipse.jetty.http.ResourceHttpContent;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceFactory;
+
+import java.io.IOException;
+import java.nio.file.InvalidPathException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyResourceContentFactory implements ContentFactory
 {

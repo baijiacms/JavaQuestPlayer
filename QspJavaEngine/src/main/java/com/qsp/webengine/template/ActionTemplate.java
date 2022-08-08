@@ -1,9 +1,7 @@
 package com.qsp.webengine.template;
 
-import com.qsp.webengine.HtmlEngine;
 import com.qsp.webengine.util.Utils;
-import com.qsp.player.libqsp.QspGameStatus;
-import com.qsp.player.GameShower;
+import com.qsp.player.PlayerEngine;
 import com.qsp.player.libqsp.dto.QspListItem;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -42,13 +40,13 @@ public class ActionTemplate {
         return writer.toString();
     }
 
-    public InputStream getAction(GameShower mGameShower) {
+    public InputStream getAction(PlayerEngine mPlayerEngine) {
         StringBuffer response = new StringBuffer();
-        QspGameStatus.actionschanged = false;
-        if (HtmlEngine.isOpenSaveWindow) {
+        mPlayerEngine.getGameStatus().setActionschanged(false);
+        if (mPlayerEngine.getGameStatus().isOpenSaveWindow) {
             return Utils.BlankInputStream();
         }
-        ArrayList<QspListItem> list = mGameShower.refreshActions();
+        ArrayList<QspListItem> list = mPlayerEngine.refreshActions();
         response.append(getActionListHtml(list));
         return Utils.StringToInputStream(response.toString());
     }
@@ -71,14 +69,14 @@ public class ActionTemplate {
 
     /**
      * 执行动作按钮
-     * @param mGameShower
+     * @param mPlayerEngine
      * @param command
      * @return
      */
-    public InputStream execAction(GameShower mGameShower, String command) {
+    public InputStream execAction(PlayerEngine mPlayerEngine, String command) {
         // Looper.prepare();
-        mGameShower.onItemClick(Integer.parseInt(command));
-        QspGameStatus.actionschanged = true;
+        mPlayerEngine.onItemClick(Integer.parseInt(command));
+        mPlayerEngine.getGameStatus().setActionschanged(true);
         // Looper.loop();
         return Utils.BlankInputStream();
     }

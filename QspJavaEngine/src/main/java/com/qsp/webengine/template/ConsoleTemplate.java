@@ -1,9 +1,7 @@
 package com.qsp.webengine.template;
 
-import com.qsp.webengine.HtmlEngine;
 import com.qsp.webengine.util.Utils;
-import com.qsp.player.libqsp.QspGameStatus;
-import com.qsp.player.GameShower;
+import com.qsp.player.PlayerEngine;
 import com.qsp.player.libqsp.dto.QspListItem;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -42,13 +40,13 @@ public class ConsoleTemplate {
         return writer.toString();
     }
 
-    public InputStream getConsole(GameShower mGameShower) {
+    public InputStream getConsole(PlayerEngine mPlayerEngine) {
         StringBuffer response = new StringBuffer();
-        QspGameStatus.objectschanged = false;
-        if (HtmlEngine.isOpenSaveWindow) {
+        mPlayerEngine.getGameStatus().setObjectschanged(false);
+        if (mPlayerEngine.getGameStatus().isOpenSaveWindow) {
             return Utils.BlankInputStream();
         }
-        ArrayList<QspListItem> list = mGameShower.refreshObjects();
+        ArrayList<QspListItem> list = mPlayerEngine.refreshObjects();
         response.append(getConsoleActionHtml(list));
         return Utils.StringToInputStream(response.toString());
     }
@@ -64,12 +62,12 @@ public class ConsoleTemplate {
         return sb.toString();
     }
 
-    public InputStream execConsole(GameShower mGameShower, String command) {
+    public InputStream execConsole(PlayerEngine mPlayerEngine, String command) {
         // Looper.prepare();
-        mGameShower.onObjectSelected(Integer.parseInt(command));
+        mPlayerEngine.onObjectSelected(Integer.parseInt(command));
         // Looper.loop();
 
-        QspGameStatus.objectschanged = true;
+        mPlayerEngine.getGameStatus().setObjectschanged(true);
         return Utils.BlankInputStream();
     }
 }

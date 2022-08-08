@@ -1,10 +1,8 @@
 package com.qsp.webengine.template;
 
-import com.qsp.webengine.HtmlEngine;
 import com.qsp.webengine.util.Utils;
 import com.qsp.webengine.vo.SaveGameVo;
-import com.qsp.player.common.QspConstants;
-import com.qsp.player.GameShower;
+import com.qsp.player.PlayerEngine;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -22,15 +20,19 @@ import java.util.*;
  */
 public class GameSaveTemplate {
     private Template htmlTemplate;
+    private Template htmlTemplateKuyash;
 
-    public GameSaveTemplate(VelocityEngine ve) {
+    private PlayerEngine mPlayerEngine;
+    public GameSaveTemplate(PlayerEngine mPlayerEngine, VelocityEngine ve) {
+        this.mPlayerEngine = mPlayerEngine;
 
         htmlTemplate = ve.getTemplate("baijiacms/html/center/gamesave.vm", "utf-8");
+        htmlTemplateKuyash = ve.getTemplate("baijiacms/html/center/gamesaveKuyash.vm", "utf-8");
     }
 
     public String getHtml() {
         List<SaveGameVo> gsaveList = new ArrayList<>();
-        dirFolder(gsaveList, new File(QspConstants.getSaveFolder()));
+        dirFolder(gsaveList, new File(mPlayerEngine.getGameStatus().getSaveFolder()));
         Collections.sort(gsaveList);
         VelocityContext context = new VelocityContext();
 
@@ -38,7 +40,13 @@ public class GameSaveTemplate {
         String randomId = (UUID.randomUUID().toString()).toUpperCase();
         context.put("randomId", randomId);
         StringWriter writer = new StringWriter();
-        htmlTemplate.merge(context, writer);
+
+        if(mPlayerEngine.getGameStatus().IS_BIG_KUYASH) {
+            htmlTemplateKuyash.merge(context, writer);
+
+        }else {
+            htmlTemplate.merge(context, writer);
+        }
         writer.flush();
         try {
             writer.close();
@@ -65,27 +73,27 @@ public class GameSaveTemplate {
         }
     }
 
-    public InputStream deleteGameSave(GameShower mGameShower, String fileName) {
-        mGameShower.deleteSaveGame(fileName);
+    public InputStream deleteGameSave(PlayerEngine mPlayerEngine, String fileName) {
+        mPlayerEngine.deleteSaveGame(fileName);
 
         return Utils.StringToInputStream("1");
     }
 
-    public InputStream saveGame(GameShower mGameShower, String fileName) {
-        if (QspConstants.isStart == false) {
+    public InputStream saveGame(PlayerEngine mPlayerEngine, String fileName) {
+        if (mPlayerEngine.getGameStatus().isStart == false) {
             return Utils.BlankInputStream();
         }
-        mGameShower.saveGame(fileName);
+        mPlayerEngine.saveGame(fileName);
 
         return Utils.StringToInputStream("1");
     }
 
-    public InputStream loadSaveGame(GameShower mGameShower, String fileName) {
-        if (QspConstants.isStart == false) {
+    public InputStream loadSaveGame(PlayerEngine mPlayerEngine, String fileName) {
+        if (mPlayerEngine.getGameStatus().isStart == false) {
             return Utils.BlankInputStream();
         }
-        String resp = mGameShower.loadSaveGame(fileName);
-        HtmlEngine.isOpenSaveWindow = false;
+        String resp = mPlayerEngine.loadSaveGame(fileName);
+        mPlayerEngine.getGameStatus().isOpenSaveWindow = false;
         return Utils.StringToInputStream(resp);
     }
 }

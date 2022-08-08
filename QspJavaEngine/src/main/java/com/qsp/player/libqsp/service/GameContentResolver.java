@@ -8,6 +8,7 @@ public class GameContentResolver {
     private File gameDir;
 
     public File getFile(String relPath) {
+        System.out.println(relPath);
         if (gameDir == null) {
             throw new IllegalStateException("gameDir must not be null");
         }

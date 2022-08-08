@@ -1,9 +1,7 @@
 package com.qsp.webengine.template;
 
-import com.qsp.webengine.HtmlEngine;
 import com.qsp.webengine.util.Utils;
-import com.qsp.player.libqsp.QspGameStatus;
-import com.qsp.player.GameShower;
+import com.qsp.player.PlayerEngine;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -38,24 +36,21 @@ public class HtmlTemplate {
         return writer.toString();
     }
 
-    public InputStream getHtml(GameShower mGameShower, GameSaveTemplate gameSaveTemplate) {
-        QspGameStatus.maindescchanged = false;
+    public InputStream getHtml(PlayerEngine mPlayerEngine, GameSaveTemplate gameSaveTemplate) {
         String html = null;
-        if (HtmlEngine.isOpenSaveWindow == false) {
+        if (mPlayerEngine.getGameStatus().isOpenSaveWindow == false) {
 
-            html = mGameShower.refreshMainDesc();
+            html = mPlayerEngine.refreshMainDesc();
         } else {
             html = gameSaveTemplate.getHtml();
         }
         return Utils.StringToInputStream(html);
     }
 
-    public InputStream execHtml(GameShower mGameShower, String command) {
+    public InputStream execHtml(PlayerEngine mPlayerEngine, String command) {
 
-        mGameShower.shouldOverrideUrlLoading(command);
-        QspGameStatus.varsdescchanged = true;
-        QspGameStatus.actionschanged = true;
-        QspGameStatus.maindescchanged = true;
+        mPlayerEngine.shouldOverrideUrlLoading(command);
+        mPlayerEngine.getGameStatus().refreshAll();
 
         return Utils.BlankInputStream();
     }

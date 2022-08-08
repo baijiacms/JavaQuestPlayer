@@ -24,6 +24,7 @@ public class LoadingTemplate {
     public String getHtml() {
         VelocityContext context = new VelocityContext();
 
+        context.put("engineTitle", QspConstants.ENGINE_TITLE);
         context.put("engineVersion", QspConstants.ENGINE_VERSION);
 
 

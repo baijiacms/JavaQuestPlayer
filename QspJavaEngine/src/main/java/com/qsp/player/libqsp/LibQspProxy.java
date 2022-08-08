@@ -3,7 +3,7 @@ package com.qsp.player.libqsp;
 import com.qsp.webengine.vo.GameVo;
 import com.qsp.player.util.Uri;
 
-import com.qsp.player.libqsp.dto.GameState;
+import com.qsp.player.libqsp.dto.GameObject;
 
 import java.io.File;
 
@@ -37,7 +37,7 @@ public interface LibQspProxy {
      */
     void executeCounter();
 
-    GameState getGameState();
+    GameObject getGameObject();
 
     void setGameInterface(GameInterface view);
 

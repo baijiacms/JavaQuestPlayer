@@ -1,12 +1,29 @@
 package com.qsp.player.util;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 public final class StreamUtil {
     private static final int BUFFER_SIZE = 8192;
 
+    public static InputStream openInputStream(Uri uri)
+    {
+        try {
+            return new FileInputStream(uri.getmFile());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException("null");
+        }
+    }
+    public static OutputStream openOutputStream(Uri uri,String action)
+    {
+
+        try {
+            return new FileOutputStream(uri.getmFile());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException("null");
+        }
+    }
     /**
      * Копирует данные из потока <code>from</code> в поток <code>to</code>.
      */

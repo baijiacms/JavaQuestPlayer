@@ -1,7 +1,7 @@
 package com.baijiacms.jfxviewer;
 
+import com.qsp.QspEngineServer;
 import com.qsp.player.javafx.JavaFxUtils;
-import com.qsp.webengine.HtmlEngine;
 import com.qsp.player.common.QspConstants;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -12,6 +12,9 @@ import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.eclipse.jetty.server.Server;
+
+import javax.swing.*;
 
 
 /**
@@ -31,8 +34,8 @@ public class Runner extends Application {
             browser.setEventDispatcher(new MyEventDispatcher(browser.getEventDispatcher()));
         }
         BorderPane root = new BorderPane(browser);
-        stage.setScene(new Scene(root, 1024, 768));
-        stage.setTitle("Java-Quest-Soft-player "+QspConstants.ENGINE_VERSION+" Powered By https://github.com/baijiacms/");
+        stage.setScene(new Scene(root, QspConstants.minWidth, QspConstants.minHeight));
+        stage.setTitle(QspConstants.ENGINE_TITLE+" "+ QspConstants.ENGINE_VERSION+" Powered By "+QspConstants.ENGINE_POWER_BY);
         webEngine.setJavaScriptEnabled(true);
         //alert提示
         webEngine.setOnAlert(new EventHandler<WebEvent<String>>() {
@@ -41,7 +44,7 @@ public class Runner extends Application {
                 JavaFxUtils.showAlertDialog(event.getData());
             }
         });
-        webEngine.load(QspConstants.LOCAL_URL);
+        webEngine.load(QspConstants.HTTP_LOCAL_URL);
         stage.setMaximized(true);
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -54,18 +57,22 @@ public class Runner extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
-//        Logger rootLogger = LogManager.getLogManager().getLogger("");
-//
-//        rootLogger.setLevel(Level.ALL);
-//
-//        for (Handler h : rootLogger.getHandlers()) {
-//
-//            h.setLevel(Level.ALL);
-//
-//        }
+    public static void main(String[] args)  throws Exception {
+        int port= QspConstants.HTTP_PORT;
+        if(args!=null&&args.length>1)
+        {
+            try {
+                port = Integer.parseInt(args[0]);
+                QspConstants.HTTP_PORT=port;
+                QspConstants.HTTP_LOCAL_URL ="http://127.0.0.1:"+ port;
+            }catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+        }
+        QspEngineServer qspEngineServer=new QspEngineServer(port);
+        qspEngineServer.start();
 
-        new HtmlEngine().startProxy();
         //继承了Application，launch是Application类的方法。英文意思是发射/发动的意思。
         launch(args);
     }

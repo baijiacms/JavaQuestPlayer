@@ -9,9 +9,8 @@ import com.qsp.webengine.util.SteamUtils;
 import com.qsp.webengine.util.Utils;
 import com.qsp.player.vi.AudioInterface;
 import com.qsp.player.common.QspConstants;
-import com.qsp.player.libqsp.QspGameStatus;
 import com.qsp.player.vi.ViewInterface;
-import com.qsp.player.GameShower;
+import com.qsp.player.PlayerEngine;
 import com.qsp.webengine.util.mime.MyMediaTypeFactory;
 import com.qsp.webengine.vo.ResponseVo;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +28,7 @@ import java.net.*;
  */
 public class HtmlEngine {
     private static final Logger logger = LoggerFactory.getLogger(HtmlEngine.class);
-    private GameShower mGameShower;
+    private PlayerEngine mPlayerEngine;
     private UserTemplate userTemplate;
     private ConsoleTemplate consoleTemplate;
     private ActionTemplate actionTemplate;
@@ -39,40 +38,36 @@ public class HtmlEngine {
     private LoadingTemplate loadingTemplate;
     private GameSaveTemplate gameSaveTemplate;
     private ViewInterface qspViewImpl = null;
-    public static boolean isOpenSaveWindow = false;
     private AudioInterface audioInterfaceImp;
     private final String HTML_CONTENT_TYPE = "text/html;charset=utf-8";
     private final String JSON_CONTENT_TYPE = "application/json;charset=utf-8";
-    public HtmlEngine()
+    public HtmlEngine(String userId)
     {
-        this(new JavaFxViewImpl(), new JavaFxMediaPlayer());
+        this(userId,new JavaFxViewImpl(), new JavaFxMediaPlayer());
     }
-    public HtmlEngine(ViewInterface qspViewImpl, AudioInterface audioInterfaceImp) {
+    public HtmlEngine(String userId,ViewInterface qspViewImpl, AudioInterface audioInterfaceImp) {
         VelocityEngine ve = new VelocityEngine();
         ve.setProperty(Velocity.RESOURCE_LOADER, Velocity.RESOURCE_LOADER_CLASS);
         ve.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         ve.init();
+        this.qspViewImpl = qspViewImpl;
+        this.audioInterfaceImp = audioInterfaceImp;
+        this.mPlayerEngine = new PlayerEngine(userId,this.getClass(), qspViewImpl, audioInterfaceImp);
         this.userTemplate = new UserTemplate(ve);
         this.actionTemplate = new ActionTemplate(ve);
         this.consoleTemplate = new ConsoleTemplate(ve);
         this.htmlTemplate = new HtmlTemplate(ve);
-        this.indexTemplate = new IndexTemplate(ve);
+        this.indexTemplate = new IndexTemplate(mPlayerEngine,ve);
         this.gameSelectTemplate = new GameSelectTemplate(ve);
         this.loadingTemplate = new LoadingTemplate(ve);
-        this.gameSaveTemplate = new GameSaveTemplate(ve);
-        this.qspViewImpl = qspViewImpl;
-        this.audioInterfaceImp = audioInterfaceImp;
+        this.gameSaveTemplate = new GameSaveTemplate(mPlayerEngine,ve);
 
     }
 
-    public void start() {
-        this.mGameShower = new GameShower(this.getClass(), qspViewImpl, audioInterfaceImp);
-
-    }
-
+    @Deprecated
     public void startProxy() {
-        start();
-        QspConstants.isProxy=true;
+
+        mPlayerEngine.getGameStatus().isProxy=true;
         URL.setURLStreamHandlerFactory(protocol -> {
             return new MyQspHandler(this);
         });
@@ -80,8 +75,10 @@ public class HtmlEngine {
 
     public ResponseVo getInputStream(URL url, String target) throws IOException {
         ResponseVo responseVo = new ResponseVo();
-        target = target.replace(QspConstants.LOCAL_URL, "");
-        target = target.replace(QspConstants.GAME_RESOURCE_PATH, "");
+        target = target.replace(QspConstants.HTTP_LOCAL_URL, "");
+        if(this.mPlayerEngine.getGameStatus().isStart) {
+            target = target.replace(mPlayerEngine.getGameStatus().GAME_RESOURCE_PATH, "");
+        }
         target = target.replace(QspConstants.ENGINE_RESOURCE_PATH, "");
         if (target.startsWith("/") == false) {
             target = "/" + target;
@@ -95,28 +92,28 @@ public class HtmlEngine {
         InputStream responseStream = null;
         switch (target) {
             case "/engine/isNeedRefresh":
-                htmlCode = "{\"actionschanged\":" + (QspGameStatus.actionschanged ? "true" : "false") + ",\"objectschanged\":" + (QspGameStatus.objectschanged ? "true" : "false") + ",\"varsdescchanged\":" + (QspGameStatus.varsdescchanged ? "true" : "false") + ",\"maindescchanged\":" + (QspGameStatus.maindescchanged ? "true" : "false") + "}";
+                htmlCode = "{\"actionschanged\":" + (mPlayerEngine.getGameStatus().isActionschanged() ? "true" : "false") + ",\"objectschanged\":" + (mPlayerEngine.getGameStatus().isObjectschanged() ? "true" : "false") + ",\"varsdescchanged\":" + (mPlayerEngine.getGameStatus().isVarsdescchanged() ? "true" : "false") + ",\"maindescchanged\":" + (mPlayerEngine.getGameStatus().isMaindescchanged(false) ? "true" : "false") + "}";
                 responseStream = Utils.StringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/engine/isNeedRefreshHtml":
-                responseStream = Utils.StringToInputStream(QspGameStatus.maindescchanged ? "1" : "0");
+                responseStream = Utils.StringToInputStream(mPlayerEngine.getGameStatus().isMaindescchanged(false) ? "1" : "0");
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/engine/isNeedRefreshAction":
-                responseStream = Utils.StringToInputStream(QspGameStatus.actionschanged ? "1" : "0");
+                responseStream = Utils.StringToInputStream(mPlayerEngine.getGameStatus().isActionschanged() ? "1" : "0");
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/engine/isNeedRefreshUser":
-                responseStream = Utils.StringToInputStream(QspGameStatus.varsdescchanged ? "1" : "0");
+                responseStream = Utils.StringToInputStream(mPlayerEngine.getGameStatus().isVarsdescchanged() ? "1" : "0");
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/engine/isNeedRefreshConsole":
-                responseStream = Utils.StringToInputStream(QspGameStatus.objectschanged ? "1" : "0");
+                responseStream = Utils.StringToInputStream(mPlayerEngine.getGameStatus().isObjectschanged() ? "1" : "0");
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
@@ -151,62 +148,62 @@ public class HtmlEngine {
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/html":
-                responseStream = this.htmlTemplate.getHtml(mGameShower, gameSaveTemplate);
+                responseStream = this.htmlTemplate.getHtml(mPlayerEngine, gameSaveTemplate);
 
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/user":
-                responseStream = this.userTemplate.getUser(mGameShower);
+                responseStream = this.userTemplate.getUser(mPlayerEngine);
 
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/console":
-                responseStream = this.consoleTemplate.getConsole(mGameShower);
+                responseStream = this.consoleTemplate.getConsole(mPlayerEngine);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/action":
-                responseStream = actionTemplate.getAction(mGameShower);
+                responseStream = actionTemplate.getAction(mPlayerEngine);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/htmlCall":
                 actionScript = request.getParameter("actionScript").trim();
-                responseStream = this.htmlTemplate.execHtml(mGameShower, actionScript);
+                responseStream = this.htmlTemplate.execHtml(mPlayerEngine, actionScript);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/userCall":
                 actionScript = request.getParameter("actionScript").trim();
-                responseStream = this.userTemplate.execUser(mGameShower, actionScript);
+                responseStream = this.userTemplate.execUser(mPlayerEngine, actionScript);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/actionCall":
                 actionScript = request.getParameter("actionScript").trim();
-                responseStream = this.actionTemplate.execAction(mGameShower, actionScript);
+                responseStream = this.actionTemplate.execAction(mPlayerEngine, actionScript);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/consoleCall":
                 actionScript = request.getParameter("actionScript").trim();
                 // actionScript=new String( Base64.decode(actionScript.getBytes()),"utf-8");
-                responseStream = this.consoleTemplate.execConsole(mGameShower, actionScript);
+                responseStream = this.consoleTemplate.execConsole(mPlayerEngine, actionScript);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/openSaveWindow":
-                HtmlEngine.isOpenSaveWindow = true;
-                QspGameStatus.refreshAll();
+                mPlayerEngine.getGameStatus().isOpenSaveWindow = true;
+                mPlayerEngine.getGameStatus().refreshAll();
                 responseStream = Utils.BlankInputStream();
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/closeSaveWindow":
-                HtmlEngine.isOpenSaveWindow = false;
-                QspGameStatus.refreshAll();
+                mPlayerEngine.getGameStatus().isOpenSaveWindow = false;
+                mPlayerEngine.getGameStatus().refreshAll();
                 responseStream = Utils.BlankInputStream();
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
@@ -219,7 +216,7 @@ public class HtmlEngine {
                     responseVo.setContentType(HTML_CONTENT_TYPE);
                     return responseVo;
                 }
-                responseStream = this.gameSaveTemplate.deleteGameSave(mGameShower, actionScript);
+                responseStream = this.gameSaveTemplate.deleteGameSave(mPlayerEngine, actionScript);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
@@ -232,7 +229,7 @@ public class HtmlEngine {
                     return responseVo;
                 }
 
-                responseStream = this.gameSaveTemplate.saveGame(mGameShower, actionScript);
+                responseStream = this.gameSaveTemplate.saveGame(mPlayerEngine, actionScript);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
@@ -244,17 +241,17 @@ public class HtmlEngine {
                     responseVo.setContentType(HTML_CONTENT_TYPE);
                     return responseVo;
                 }
-                responseStream = this.gameSaveTemplate.loadSaveGame(mGameShower, actionScript);
+                responseStream = this.gameSaveTemplate.loadSaveGame(mPlayerEngine, actionScript);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/QuickSave":
-                responseStream = this.gameSaveTemplate.saveGame(mGameShower, null);
+                responseStream = this.gameSaveTemplate.saveGame(mPlayerEngine, null);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/loadQuickSave":
-                responseStream = this.gameSaveTemplate.loadSaveGame(mGameShower, null);
+                responseStream = this.gameSaveTemplate.loadSaveGame(mPlayerEngine, null);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
@@ -266,7 +263,7 @@ public class HtmlEngine {
                 return responseVo;
             case "/":
             case "/engine.html"://游戏选择界面
-                QspConstants.isStart = false;
+                mPlayerEngine.getGameStatus().isStart = false;
                 htmlCode = gameSelectTemplate.getHtml();
                 responseStream = Utils.StringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
@@ -280,31 +277,31 @@ public class HtmlEngine {
                 return responseVo;
             case "/engine/loadGame":
                 actionScript = request.getParameter("actionScript").trim();
-                responseStream = this.gameSelectTemplate.loadGame(mGameShower, actionScript);
+                responseStream = this.gameSelectTemplate.loadGame(mPlayerEngine, actionScript);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/exportGameToText":
                 actionScript = request.getParameter("actionScript").trim();
-                responseStream = this.gameSelectTemplate.exportGameToText(mGameShower, actionScript);
+                responseStream = this.gameSelectTemplate.exportGameToText(mPlayerEngine, actionScript);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/exportGameToQsp":
                 actionScript = request.getParameter("actionScript").trim();
-                responseStream = this.gameSelectTemplate.exportGameToQsp(mGameShower, actionScript);
+                responseStream = this.gameSelectTemplate.exportGameToQsp(mPlayerEngine, actionScript);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             default:
                 if (target.startsWith("/engine/lib/")) {
-                    responseStream = SteamUtils.getEngineResourceInputSteam(target);
+                    responseStream = SteamUtils.getEngineResourceInputSteam( this.mPlayerEngine,target);
                     responseVo.setResponseStream(responseStream);
                     responseVo.setContentType(MyMediaTypeFactory.getContentType(target));
                     return responseVo;
                 }
         }
-        responseStream = SteamUtils.getGameResourceInputSteam(target);
+        responseStream = SteamUtils.getGameResourceInputSteam(this.mPlayerEngine,target);
         responseVo.setResponseStream(responseStream);
         responseVo.setContentType(MyMediaTypeFactory.getContentType(target));
         return responseVo;
@@ -317,7 +314,7 @@ public class HtmlEngine {
 // if("/isNeedRefresh".equals(target))
 //         {
 //
-//         String htmlCode="{\"actionschanged\":"+ (QspGameStatus.actionschanged?"true":"false")+",\"objectschanged\":"+ (QspGameStatus.objectschanged?"true":"false")+",\"varsdescchanged\":"+ (QspGameStatus.varsdescchanged?"true":"false")+",\"maindescchanged\":"+ (QspGameStatus.maindescchanged?"true":"false")+"}";
+//         String htmlCode="{\"actionschanged\":"+ (mQspEngine.getGameStatus().isActionschanged()?"true":"false")+",\"objectschanged\":"+ (mQspEngine.getGameStatus().isObjectschanged()?"true":"false")+",\"varsdescchanged\":"+ (mQspEngine.getGameStatus().isVarsdescchanged()?"true":"false")+",\"maindescchanged\":"+ (mQspEngine.getGameStatus().isMaindescchanged()?"true":"false")+"}";
 //
 //         return Utils.StringToInputStream(htmlCode);
 //         }
@@ -325,25 +322,25 @@ public class HtmlEngine {
 //         {
 //
 //
-//         return Utils.StringToInputStream(QspGameStatus.maindescchanged?"1":"0");
+//         return Utils.StringToInputStream(mQspEngine.getGameStatus().isMaindescchanged()?"1":"0");
 //         }
 //         if("/isNeedRefreshAction".equals(target))
 //         {
 //
 //
-//         return Utils.StringToInputStream(QspGameStatus.actionschanged?"1":"0");
+//         return Utils.StringToInputStream(mQspEngine.getGameStatus().isActionschanged()?"1":"0");
 //         }
 //         if("/isNeedRefreshUser".equals(target))
 //         {
 //
 //
-//         return Utils.StringToInputStream(QspGameStatus.varsdescchanged?"1":"0");
+//         return Utils.StringToInputStream(mQspEngine.getGameStatus().isVarsdescchanged()?"1":"0");
 //         }
 //         if("/isNeedRefreshConsole".equals(target))
 //         {
 //
 //
-//         return Utils.StringToInputStream(QspGameStatus.objectschanged?"1":"0");
+//         return Utils.StringToInputStream(mQspEngine.getGameStatus().isObjectschanged()?"1":"0");
 //         }
 //
 ////        logger.info(target);
@@ -423,13 +420,13 @@ public class HtmlEngine {
 //         if("/openSaveWindow".equals(target))
 //         {
 //         HtmlEngine.isOpenSaveWindow=true;
-//         QspGameStatus.refreshAll();
+//         mQspEngine.getGameStatus().refreshAll();
 //         return  Utils.BlankInputStream();
 //         }
 //         if("/closeSaveWindow".equals(target))
 //         {
 //         HtmlEngine.isOpenSaveWindow=false;
-//         QspGameStatus.refreshAll();
+//         mQspEngine.getGameStatus().refreshAll();
 //         return  Utils.BlankInputStream();
 //         }
 //         if("/deleteGameSave".equals(target))

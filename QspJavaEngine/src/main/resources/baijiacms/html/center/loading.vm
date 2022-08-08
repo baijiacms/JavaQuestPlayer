@@ -55,7 +55,7 @@ var interval = setInterval(function(){
         <div class="weui-msg__extra-area">
             <div class="weui-footer">
 
-                <p class="weui-footer__text">JQEngine V${engineVersion} by Jason</p>
+                <p class="weui-footer__text">${engineTitle} V${engineVersion}</p>
             </div>
         </div>
     </div>

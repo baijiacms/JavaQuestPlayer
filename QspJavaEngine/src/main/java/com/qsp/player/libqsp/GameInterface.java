@@ -27,5 +27,4 @@ public interface GameInterface {
     /**
      * Выполнить <code>runnable</code> без обработки локации-счётчика.
      */
-    void doWithCounterDisabled(Runnable runnable);
 }

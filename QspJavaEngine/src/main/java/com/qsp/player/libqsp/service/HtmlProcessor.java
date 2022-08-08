@@ -1,7 +1,7 @@
 package com.qsp.player.libqsp.service;
 
 
-import com.qsp.player.common.QspConstants;
+import com.qsp.player.PlayerEngine;
 import com.qsp.player.util.Base64Util;
 import com.qsp.player.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +34,7 @@ public class HtmlProcessor {
      * Привести HTML-код <code>html</code>, полученный из библиотеки к
      * HTML-коду, приемлемому для отображения в {}.
      */
-    public String convertQspHtmlToWebViewHtml(String html,boolean isMainDesc) {
+    public String convertQspHtmlToWebViewHtml(PlayerEngine playerEngine, String html, boolean isMainDesc) {
         if (StringUtil.isNullOrEmpty(html)) {
             return "";
         }
@@ -51,7 +51,7 @@ public class HtmlProcessor {
         document.outputSettings().prettyPrint(false);
         Element body = document.body();
         processUpateHtmlVideosUrl(body);
-        processHtmlImages(body);
+        processHtmlImages(playerEngine,body);
         processHtmlVideos(body);
 
         return document.toString();
@@ -130,7 +130,7 @@ public class HtmlProcessor {
         }
 
     }
-    private void processHtmlImages(Element documentBody) {
+    private void processHtmlImages(PlayerEngine playerEngine, Element documentBody) {
         for (Element img : documentBody.select("img")) {
            String src= img.attr("src");
 
@@ -139,19 +139,19 @@ public class HtmlProcessor {
                     img.attr("src", "/" + src);
                 }
             }
-            boolean resize = shouldImageBeResized(img.attr("src"));
+            boolean resize = shouldImageBeResized(playerEngine,img.attr("src"));
             if (resize) {
                 img.attr("style", "max-width:100%;");
             }
         }
     }
 
-    private boolean shouldImageBeResized(String relPath) {
+    private boolean shouldImageBeResized(PlayerEngine playerEngine, String relPath) {
         if(relPath.startsWith("/")==false)
         {
             relPath="/"+relPath;
         }
-        File imagFile=new File(QspConstants.GAME_RESOURCE_PATH +relPath);
+        File imagFile=new File(playerEngine.getGameStatus().GAME_RESOURCE_PATH +relPath);
         if(imagFile.exists()==false)
         {
             return false;

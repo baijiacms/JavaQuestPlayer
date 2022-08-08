@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${gameTitle}${gameVersion}</title>
+		<title>${engineTitle} V${engineVersion} Powered By ${enginePowerBy}</title>
         <meta charset="utf-8">
         <link type="text/css" href="/engine/lib/jquery-ui.css" rel="stylesheet" />
         <script type="text/javascript" src="/engine/lib/jquery.min.js"></script>
@@ -98,6 +98,6 @@ function showSaveWindow()
 		<iframe id="action"  src="/engineActionPage" width="100%" height="100%"  style="border: medium none;" ></iframe>
 			</div>
 	</div>
-		<div class="south">JQEngine V${engineVersion} Powered By Jason Chen</div>
+		<div class="south">${engineTitle} V${engineVersion} Powered By ${enginePowerBy}</div>
 	</body>
 </html>

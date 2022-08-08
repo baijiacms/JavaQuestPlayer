@@ -1,6 +1,7 @@
-package com.baijiacms.webviewer;
+package com.qsp.jetty;
 
-import com.qsp.webengine.HtmlEngine;
+import com.qsp.QspEngineCore;
+import com.qsp.player.common.QspConstants;
 import com.qsp.webengine.vo.ResponseVo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.app.Velocity;
@@ -10,11 +11,13 @@ import org.eclipse.jetty.server.Request;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 
 public class JettyHandler extends MyFileHandler {
-    private HtmlEngine htmlEngine;
+    private QspEngineCore qspEngineCore;
     private String baseHttpPath;
     public JettyHandler(String baseHttpPath)
     {
@@ -24,8 +27,7 @@ public class JettyHandler extends MyFileHandler {
         ve.setProperty(Velocity.RESOURCE_LOADER,Velocity.RESOURCE_LOADER_CLASS);
         ve.setProperty("class.resource.loader.class","org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         ve.init();
-        htmlEngine=new HtmlEngine();
-        htmlEngine.start();
+        qspEngineCore =new QspEngineCore();
 
     }
 
@@ -38,7 +40,8 @@ public class JettyHandler extends MyFileHandler {
         {
             urlPath=urlPath+"?actionScript="+request.getParameter("actionScript");
         }
-        ResponseVo responseVo =  htmlEngine.getInputStream(new URL( urlPath),target);
+
+        ResponseVo responseVo =  qspEngineCore.getInputStream(QspConstants.DEFAULT_USERID,new URL( urlPath),target);
         InputStream inputStream=responseVo.getResponseStream();
         if(StringUtils.isEmpty(responseVo.getContentType())==false) {
             response.setContentType(responseVo.getContentType());
