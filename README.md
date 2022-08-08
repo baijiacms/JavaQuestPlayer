@@ -21,11 +21,13 @@ Features:
 
 2. Development tool: it supports compiling qsrc source code in memory and playing games. Compiling and testing QSP games is faster.
 
-3. Assistance from the browser: the built-in browser running mode can directly use the translation function of chrome and other browsers.
+3. Browser Mode: the built-in browser running mode can directly use the translation function of chrome and other browsers.
 
 4. Export QSP to TXT file. The encrypted QSP file needs to know the password to export.
 
-5. Game list function.
+5.Export qsrc source code file list to QSP.
+
+6. Game list function.
 more
 
 
