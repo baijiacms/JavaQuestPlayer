@@ -1,3 +1,4 @@
+
 Quest Soft player for JavaSE.
 
 It is developed in Java language, of which 20% is implemented in c++.
@@ -27,7 +28,7 @@ Features:
 
 5. Export qsrc source code file list to QSP file.
 
-6. Game list function.
+6. Game list .
 more
 
 
@@ -36,13 +37,8 @@ StartQsp(JavaFX).bat  is JavaFX mode,Similar applications run.
 StartQsp(Web browser).bat is web browser mode, this will automatically open the default browser of the operating system after running If it is not opened, you can access the browser by yourself http://127.0.0.1:19870 Address can also start the game.
 
 
-Special note:
 
-1. Java in built-in JDK1.8 net. The URI class is customized. This is only for JavaFX mode. More specifically, it is for the built-in video playback function URL of JavaFX. Because I can't capture the URL of the video and modify it into a file stream, the video can't be played. At present, this is the best solution I have found.
-
-2. JavaFX mode does not support playing WebM videos, because JavaFX does not support it. The web browser mode depends on whether the browser supports it. Chrome generally has no problem.
-
-3. The web browser mode uses jetty technology. By default, an HTTP port 19870 will be opened locally for browsers to access. 
+The web browser mode uses jetty technology. By default, an HTTP port 19870 will be opened locally for browsers to access. 
 
 If you want to modify the port, just change "StartQsp(JavaFX).bat" file
 source
