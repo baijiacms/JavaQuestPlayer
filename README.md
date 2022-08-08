@@ -25,7 +25,7 @@ Features:
 
 4. Export QSP to TXT file. The encrypted QSP file needs to know the password to export.
 
-5.Export qsrc source code file list to QSP.
+5. Export qsrc source code file list to QSP file.
 
 6. Game list function.
 more
