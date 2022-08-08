@@ -8,7 +8,7 @@ the official site:  [the official site](https://baijiacms.github.io/)
 
 Module introduction:
 
-1.QspJavaEngine: Kernel for running QSP games.
+1.BaseQspEngine: Kernel for running QSP games.
 
 2.QspJavaFxPlayer: Use JavaFX operation mode (imperfect).
 

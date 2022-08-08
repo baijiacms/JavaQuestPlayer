@@ -39,13 +39,28 @@ public class QspConstants {
 
         QSP_DLL_PATH=ENGINE_RESOURCE_PATH+"/engine/engine.dll";
         QSP_DEV_DLL_PATH=ENGINE_RESOURCE_PATH+"/engine/devtools.dll";
-        String parentJarPath=new File(jarPath).getParent();
-        if(parentJarPath.endsWith("/")==false)
-        {
-            parentJarPath=parentJarPath+"/";
+        String localJarPath=jarPath;
+        String parentJarPath=localJarPath;
+        if (parentJarPath.endsWith("/") == false) {
+            parentJarPath = parentJarPath + "/";
         }
-        GAME_DATA_PATH=parentJarPath+"QspGames/";
+        String path=parentJarPath;
+        for(int i=0;i<3;i++)
+        {
+             path= new File(path).getParent();
+             if(path!=null) {
+                 if (path.endsWith("/") == false) {
+                     path = path + "/";
+                 }
+                 if (new File(path+ "QspGames/").exists()) {
+                     parentJarPath = path;
+                     break;
+                 }
+             }
 
+        }
+        GAME_DATA_PATH = parentJarPath + "QspGames/";
+        System.out.println("GAME_DATA_PATH="+GAME_DATA_PATH);
 //        GAME_DATA_PATH="D:/javaproject/game/";
 //        setGameResource(GAME_ID);
     }

@@ -3,32 +3,28 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
- <parent>
+
+	 <parent>
 		<groupId>com.baijiacms</groupId>
 		<artifactId>JavaQspPlayer</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <groupId>com.baijiacms</groupId>
-    <artifactId>QspJavaWebPlayer</artifactId>
+    <artifactId>BaseQspEngine</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-
 
     <properties>
+        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <java.version>1.8</java.version>
         <swagger.version>2.9.2</swagger.version>
         <mysql.version>8.0.22</mysql.version>
         <user-agent.version>1.20</user-agent.version>
-        <start-class>com.baijiacms.webviewer.Runner</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.baijiacms</groupId>
-            <artifactId>BaseQspEngine</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
+
+
     </dependencies>
 
 
