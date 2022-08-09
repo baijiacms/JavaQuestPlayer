@@ -1,6 +1,6 @@
-Quest Soft player for JavaSE.
+Quest Soft player for JavaWeb.
 
-It is developed in Java language, of which 20% is implemented in c++.
+It is developed in Java language, support to play QSP games on the web, the beta version restricts single player games, and the release version will supports multiplayer games.
 
 The application is still in the beta stage. At present,can run on the windows x64 version.. 
 
@@ -19,7 +19,7 @@ Module introduction:
 5.QspGames: QSP Game file folder
 
 Features:
-1. Run QSP games.
+1. the beta version restricts single player QSP games, and the release version will supports multiplayer QSP games.
 
 2. Development tool: it supports compiling qsrc source code in memory and playing games. Compiling and testing QSP games is faster.
 
@@ -29,7 +29,7 @@ Features:
 
 5. Export qsrc source code file list to QSP file.
 
-6. Game list.
+6. Game list,Save Game Online.
 7. 
 more
 
