@@ -1,39 +1,50 @@
 package com.qsp.player.libqsp.service;
 
 
-
 import com.qsp.player.vi.AudioInterface;
-import com.qsp.player.common.QspConstants;
-import com.qsp.player.util.StringUtil;
-import com.qsp.player.util.ThreadUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class AudioPlayer {
-    public AudioPlayer(AudioInterface audioInterface)
-    {}
+    private AudioInterface audioFactory;
+    private AudioInterface audioInterface;
+    public AudioPlayer(AudioInterface audioFactory) {
+        this.audioFactory=audioFactory;
+    }
+
     public void playFile(String path, int volume) {
-
+        closeAllFiles();
+        audioInterface=audioFactory.createNewPlayer(path);
+        audioInterface.setVolume(volume);
+        audioInterface.start();
     }
 
-    public boolean IsPlayingFile(final String path){
-        return true;
+    public boolean IsPlayingFile(final String path) {
+        if(audioInterface!=null) {
+            return audioInterface.isPlaying();
+        }else
+        {
+            return false;
+        }
     }
 
-    public void closeFile(String path)
-    {
-
-    }
-    public void closeAllFiles()
-    {
-
+    public void closeFile(String path) {
+        if(audioInterface!=null) {
+            audioInterface.release();
+        }
     }
 
-    public boolean isPlayingFile(final String path)
-    {
-        return true;
+    public void closeAllFiles() {
+        if(audioInterface!=null) {
+            audioInterface.release();
+        }
+    }
+
+    public boolean isPlayingFile(final String path) {
+
+        if(audioInterface!=null) {
+            return audioInterface.isPlaying();
+        }else
+        {
+            return false;
+        }
     }
 }

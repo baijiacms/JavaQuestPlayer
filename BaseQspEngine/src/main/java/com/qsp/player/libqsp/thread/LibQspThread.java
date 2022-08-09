@@ -1,7 +1,6 @@
 package com.qsp.player.libqsp.thread;
 
 import com.qsp.player.common.GameFolderLoader;
-import com.qsp.player.common.QspConstants;
 import com.qsp.player.libqsp.GameInterface;
 import com.qsp.player.libqsp.LibQspProxyImpl;
 import com.qsp.player.libqsp.dto.*;
@@ -9,7 +8,6 @@ import com.qsp.player.libqsp.service.HtmlProcessor;
 import com.qsp.player.libqsp.util.DevUtils;
 import com.qsp.player.util.StreamUtil;
 import com.qsp.player.util.Uri;
-import com.qsp.webengine.template.GameSelectTemplate;
 import com.qsp.webengine.vo.GameVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +19,7 @@ import java.util.Locale;
 import static com.qsp.player.util.StringUtil.getStringOrEmpty;
 
 public class LibQspThread extends Thread {
-    public static ThreadObject libQspThreadObject = new ThreadObject();
+    public ThreadObject libQspThreadObject = new ThreadObject();
 
     private static final Logger logger = LoggerFactory.getLogger(LibQspThread.class);
 
@@ -29,100 +27,100 @@ public class LibQspThread extends Thread {
     private final DevUtils devUtils;
 
     private LibQspProxyImpl libQspProxyImpl;
-    public LibQspThread(String userId,LibQspProxyImpl libQspProxyImpl) {
-        super("ThreadName@"+userId);
-        this.threadName="ThreadName@"+userId;
-        this.libQspProxyImpl=libQspProxyImpl;
+
+    public LibQspThread(String userId, LibQspProxyImpl libQspProxyImpl) {
+        super("ThreadName@" + userId);
+        this.threadName = "ThreadName@" + userId;
+        this.libQspProxyImpl = libQspProxyImpl;
         devUtils = new DevUtils();
     }
 
     public void run() {
         while (true) {
-                if(libQspThreadObject.seekCount<0)
-                {
-                    libQspThreadObject.seekCount=0;
-                }
-                if(libQspThreadObject.seekCount==0) {
-                    libQspThreadObject.threadRun=false;
+            if (libQspThreadObject.seekCount < 0) {
+                libQspThreadObject.seekCount = 0;
+            }
+            if (libQspThreadObject.seekCount == 0) {
+                libQspThreadObject.threadRun = false;
 
-                    try {
-                        Thread.sleep(1L);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    Thread.sleep(1L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 //                    try {
 //                        libQspThreadObject.wait();
 //                    } catch (InterruptedException e) {
 //                        e.printStackTrace();
 //                    }
-                }else{
-                    libQspThreadObject.threadRun=true;
-                }
+            } else {
+                libQspThreadObject.threadRun = true;
+            }
 
-                if(  libQspThreadObject.threadRun) {
-                    libQspThreadObject.seekCount=libQspThreadObject.seekCount-1;
-                    try {
-                        toDo();
-                    }catch (Exception ex)
-                    {
-                        ex.printStackTrace();
-                    }
+            if (libQspThreadObject.threadRun) {
+                libQspThreadObject.seekCount = libQspThreadObject.seekCount - 1;
+                try {
+                    toDo();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
+            }
         }
     }
-    public void  threadGoto()
-    {
-        libQspThreadObject.threadRun=true;
+
+    private void threadRun() {
+        libQspThreadObject.seekCount = libQspThreadObject.seekCount + 1;
+        libQspThreadObject.threadRun = true;
 
     }
 
     private void toDo() {
 //        synchronized (libQspThreadObject) {
-            switch (libQspThreadObject.method) {
-                case ThreadConstants.qspFileToText:
-                    qspFileToText();
-                    break;
-                case ThreadConstants.toGemFile:
-                    toGemFile();
-                    break;
-                case ThreadConstants.QSPSelectMenuItem:
-                    QSPSelectMenuItem();
-                    break;
-                case ThreadConstants.loadGameState:
-                    loadGameState();
-                    break;
-                case ThreadConstants.QSPExecCounter:
-                    QSPExecCounter();
-                    break;
-                case ThreadConstants.QSPExecString:
-                    QSPExecString();
-                    break;
-                case ThreadConstants.QSPSetInputStrText:
-                    QSPSetInputStrText();
-                    break;
-                case ThreadConstants.QSPSetSelObjectIndex:
-                    QSPSetSelObjectIndex();
-                    break;
-                case ThreadConstants.QSPSetSelActionIndex:
-                    QSPSetSelActionIndex();
-                    break;
-                case ThreadConstants.QSPExecuteSelActionCode:
-                    QSPExecuteSelActionCode();
-                    break;
-                case ThreadConstants.QSPRestartGame:
-                    QSPRestartGame();
-                    break;
-                case ThreadConstants.QSPStart:
-                    QSPStart();
-                    break;
-                case ThreadConstants.loadGameWorld:
-                    loadGameWorld();
-                    break;
-                case ThreadConstants.QSPSaveGameAsData:
-                    QSPSaveGameAsData();
-                    break;
+        switch (libQspThreadObject.method) {
+            case ThreadConstants.qspFileToText:
+                qspFileToText();
+                break;
+            case ThreadConstants.toGemFile:
+                toGemFile();
+                break;
+            case ThreadConstants.QSPSelectMenuItem:
+                QSPSelectMenuItem();
+                break;
+            case ThreadConstants.loadGameState:
+                loadGameState();
+                break;
+            case ThreadConstants.QSPExecCounter:
+                QSPExecCounter();
+                break;
+            case ThreadConstants.QSPExecString:
+                QSPExecString();
+                break;
+            case ThreadConstants.QSPSetInputStrText:
+                QSPSetInputStrText();
+                break;
+            case ThreadConstants.QSPSetSelObjectIndex:
+                QSPSetSelObjectIndex();
+                break;
+            case ThreadConstants.QSPSetSelActionIndex:
+                QSPSetSelActionIndex();
+                break;
+            case ThreadConstants.QSPExecuteSelActionCode:
+                QSPExecuteSelActionCode();
+                break;
+            case ThreadConstants.QSPRestartGame:
+                QSPRestartGame();
+                break;
+            case ThreadConstants.QSPStart:
+                QSPStart();
+                break;
+            case ThreadConstants.loadGameWorld:
+                loadGameWorld();
+                break;
+            case ThreadConstants.QSPSaveGameAsData:
+                QSPSaveGameAsData();
+                break;
 
-            }
+        }
 //        }
     }
 
@@ -135,27 +133,25 @@ public class LibQspThread extends Thread {
     private String input;
     private int index;
     private GameObject gameObject;
-    public void QSPSaveGameAsData(GameInterface gameInterface,Uri uri)
-    {
-        this.uri=uri;
-        this.gameInterface=gameInterface;
 
-        if(threadName.equals(Thread.currentThread().getName()))
-        {
+    public void QSPSaveGameAsData(GameInterface gameInterface, Uri uri) {
+        this.uri = uri;
+        this.gameInterface = gameInterface;
+
+        if (threadName.equals(Thread.currentThread().getName())) {
 
             QSPSaveGameAsData();
-        }else {
+        } else {
             synchronized (libQspThreadObject) {
                 libQspThreadObject.method = ThreadConstants.QSPSaveGameAsData;
-                libQspThreadObject.seekCount = libQspThreadObject.seekCount + 1;
-                threadGoto();
+                threadRun();
             }
         }
     }
-    private void QSPSaveGameAsData()
-    {
 
-        byte[] gameData =  this.libQspProxyImpl.getNativeMethods().QSPSaveGameAsData(false);
+    private void QSPSaveGameAsData() {
+
+        byte[] gameData = this.libQspProxyImpl.getNativeMethods().QSPSaveGameAsData(false);
         if (gameData == null) {
             return;
         }
@@ -166,33 +162,30 @@ public class LibQspThread extends Thread {
             logger.error("Failed to save the game state", ex);
         }
     }
+
     public void loadGameWorld(GameObject gameObject, GameInterface gameInterface) {
 
         this.gameObject = gameObject;
         this.gameInterface = gameInterface;
 
-        if(threadName.equals(Thread.currentThread().getName()))
-        {
+        if (threadName.equals(Thread.currentThread().getName())) {
 
             loadGameWorld();
-        }else {
+        } else {
             synchronized (libQspThreadObject) {
                 libQspThreadObject.method = ThreadConstants.loadGameWorld;
-                libQspThreadObject.seekCount = libQspThreadObject.seekCount + 1;
-                threadGoto();
+                threadRun();
             }
         }
     }
 
-    private void loadGameWorld()
-    {
+    private void loadGameWorld() {
         byte[] gameData;
-        GameVo gameVo= GameFolderLoader.getFolderMap().get(gameObject.gameId);
-        if(gameVo.getIsDevProject()==1)
-        {
+        GameVo gameVo = GameFolderLoader.getFolderMap().get(gameObject.gameId);
+        if (gameVo.getIsDevProject() == 1) {
 //            devUtils.toGemFile(gameVo.getGameDevFolder(),gameVo.getGameQproj(),"D:/1.qsp");
-            gameData= this.devUtils.getGemDate(gameVo.getGameDevFolder(),gameVo.getGameQproj());
-        }else {
+            gameData = this.devUtils.getGemDate(gameVo.getGameDevFolder(), gameVo.getGameQproj());
+        } else {
             try (FileInputStream in = new FileInputStream(gameObject.gameFile)) {
                 try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
                     StreamUtil.copy(in, out);
@@ -200,87 +193,81 @@ public class LibQspThread extends Thread {
                 }
             } catch (IOException ex) {
                 logger.error("Failed to load the game world", ex);
-                return ;
+                return;
             }
         }
         String fileName = gameObject.gameFile.getAbsolutePath();
 
         if (!this.libQspProxyImpl.getNativeMethods().QSPLoadGameWorldFromData(gameData, gameData.length, fileName)) {
             showLastQspError(gameInterface);
-            return ;
+            return;
         }
         this.libQspProxyImpl.getGameStatus().gameStartTime = System.currentTimeMillis();
         this.libQspProxyImpl.getGameStatus().lastMsCountCallTime = 0;
 //        QSPRestartGame(gameInterface);
         QSPRestartGame();
 
-        return ;
+        return;
     }
-    public void QSPStart(GameInterface gameInterface)
-    {
 
-        this.gameInterface=gameInterface;
+    public void QSPStart(GameInterface gameInterface) {
 
-        if(threadName.equals(Thread.currentThread().getName()))
-        {
+        this.gameInterface = gameInterface;
+
+        if (threadName.equals(Thread.currentThread().getName())) {
 
             QSPStart();
-        }else {
+        } else {
             synchronized (libQspThreadObject) {
                 libQspThreadObject.method = ThreadConstants.QSPStart;
-                libQspThreadObject.seekCount = libQspThreadObject.seekCount + 1;
-                threadGoto();
+                threadRun();
             }
-      }
+        }
     }
-    private void QSPStart()
-    {
+
+    private void QSPStart() {
 
         this.libQspProxyImpl.getNativeMethods().QSPInit();
 //        this.libQspProxyImpl.getNativeMethods().QSPDeInit();
     }
-    public void QSPRestartGame(GameInterface gameInterface)
-    {
 
-        this.gameInterface=gameInterface;
+    public void QSPRestartGame(GameInterface gameInterface) {
 
-        if(threadName.equals(Thread.currentThread().getName()))
-        {
+        this.gameInterface = gameInterface;
+
+        if (threadName.equals(Thread.currentThread().getName())) {
 
             QSPRestartGame();
-        }else {
+        } else {
             synchronized (libQspThreadObject) {
                 libQspThreadObject.method = ThreadConstants.QSPRestartGame;
-                libQspThreadObject.seekCount = libQspThreadObject.seekCount + 1;
-                threadGoto();
+                threadRun();
             }
         }
     }
-    private void QSPRestartGame()
-    {
+
+    private void QSPRestartGame() {
         if (!this.libQspProxyImpl.getNativeMethods().QSPRestartGame(true)) {
             showLastQspError(gameInterface);
         }
     }
-    public void QSPExecuteSelActionCode(int index,GameInterface gameInterface)
-    {
 
-        this.gameInterface=gameInterface;
-        this.index=index;
-        if(threadName.equals(Thread.currentThread().getName()))
-        {
+    public void QSPExecuteSelActionCode(int index, GameInterface gameInterface) {
+
+        this.gameInterface = gameInterface;
+        this.index = index;
+        if (threadName.equals(Thread.currentThread().getName())) {
 
             QSPExecuteSelActionCode();
-        }else {
+        } else {
             synchronized (libQspThreadObject) {
                 libQspThreadObject.method = ThreadConstants.QSPExecuteSelActionCode;
-                libQspThreadObject.seekCount = libQspThreadObject.seekCount + 1;
-                threadGoto();
+                threadRun();
             }
         }
     }
-    private void QSPExecuteSelActionCode()
-    {
+
+    private void QSPExecuteSelActionCode() {
         if (!this.libQspProxyImpl.getNativeMethods().QSPSetSelActionIndex(index, false)) {
             showLastQspError(gameInterface);
         }
@@ -288,140 +275,131 @@ public class LibQspThread extends Thread {
             showLastQspError(gameInterface);
         }
     }
-    public void QSPSetSelActionIndex(int index,GameInterface gameInterface)
-    {
 
-        this.gameInterface=gameInterface;
-        this.index=index;
+    public void QSPSetSelActionIndex(int index, GameInterface gameInterface) {
 
-        if(threadName.equals(Thread.currentThread().getName()))
-        {
+        this.gameInterface = gameInterface;
+        this.index = index;
+
+        if (threadName.equals(Thread.currentThread().getName())) {
 
             QSPSetSelActionIndex();
-        }else {
+        } else {
             synchronized (libQspThreadObject) {
                 libQspThreadObject.method = ThreadConstants.QSPSetSelActionIndex;
-                libQspThreadObject.seekCount = libQspThreadObject.seekCount + 1;
-                threadGoto();
+                threadRun();
             }
         }
     }
-    private void QSPSetSelActionIndex()
-    {
+
+    private void QSPSetSelActionIndex() {
         if (!this.libQspProxyImpl.getNativeMethods().QSPSetSelActionIndex(index, false)) {
             showLastQspError(gameInterface);
         }
     }
-    public void QSPSetSelObjectIndex(int index,GameInterface gameInterface)
-    {
 
-        this.gameInterface=gameInterface;
-        this.index=index;
-        if(threadName.equals(Thread.currentThread().getName()))
-        {
+    public void QSPSetSelObjectIndex(int index, GameInterface gameInterface) {
+
+        this.gameInterface = gameInterface;
+        this.index = index;
+        if (threadName.equals(Thread.currentThread().getName())) {
 
             QSPSetSelObjectIndex();
-        }else {
+        } else {
             synchronized (libQspThreadObject) {
                 libQspThreadObject.method = ThreadConstants.QSPSetSelObjectIndex;
-                libQspThreadObject.seekCount = libQspThreadObject.seekCount + 1;
-                threadGoto();
+                threadRun();
             }
         }
     }
-    private void QSPSetSelObjectIndex()
-    {
+
+    private void QSPSetSelObjectIndex() {
         if (!this.libQspProxyImpl.getNativeMethods().QSPSetSelObjectIndex(index, true)) {
             showLastQspError(gameInterface);
         }
     }
-    public void QSPSetInputStrText(String input,GameInterface gameInterface)
-    {
 
-        this.gameInterface=gameInterface;
-        this.input=input;
+    public void QSPSetInputStrText(String input, GameInterface gameInterface) {
 
-        if(threadName.equals(Thread.currentThread().getName()))
-        {
+        this.gameInterface = gameInterface;
+        this.input = input;
+
+        if (threadName.equals(Thread.currentThread().getName())) {
 
             QSPSetInputStrText();
-        }else {
+        } else {
             synchronized (libQspThreadObject) {
                 libQspThreadObject.method = ThreadConstants.QSPSetInputStrText;
-                libQspThreadObject.seekCount = libQspThreadObject.seekCount + 1;
-                threadGoto();
+                threadRun();
             }
         }
     }
-    private void QSPSetInputStrText()
-    {
+
+    private void QSPSetInputStrText() {
         this.libQspProxyImpl.getNativeMethods().QSPSetInputStrText(input);
 
         if (!this.libQspProxyImpl.getNativeMethods().QSPExecUserInput(true)) {
             showLastQspError(gameInterface);
         }
     }
-    public void QSPExecString(String code,GameInterface gameInterface)
-    {
-        this.gameInterface=gameInterface;
-        this.code=code;
-        if(threadName.equals(Thread.currentThread().getName()))
-        {
+
+    public void QSPExecString(String code, GameInterface gameInterface) {
+        this.gameInterface = gameInterface;
+        this.code = code;
+        if (threadName.equals(Thread.currentThread().getName())) {
 
             QSPExecString();
-        }else {
+        } else {
             synchronized (libQspThreadObject) {
                 libQspThreadObject.method = ThreadConstants.QSPExecString;
-                libQspThreadObject.seekCount = libQspThreadObject.seekCount + 1;
-                threadGoto();
+                threadRun();
             }
         }
     }
-    private void QSPExecString()
-    {
-        logger.debug("exec:"+code);
+
+    private void QSPExecString() {
+        logger.debug("exec:" + code);
         if (!this.libQspProxyImpl.getNativeMethods().QSPExecString(code, true)) {
             showLastQspError(gameInterface);
         }
     }
-    public void QSPExecCounter(GameInterface gameInterface)
-    {
-        this.gameInterface=gameInterface;
 
-        if(threadName.equals(Thread.currentThread().getName()))
-        {
+    public void QSPExecCounter(GameInterface gameInterface) {
+        this.gameInterface = gameInterface;
+
+        if (threadName.equals(Thread.currentThread().getName())) {
 
             QSPExecCounter();
-        }else {
+        } else {
             synchronized (libQspThreadObject) {
                 libQspThreadObject.method = ThreadConstants.QSPExecCounter;
-                libQspThreadObject.seekCount = libQspThreadObject.seekCount + 1;
-                threadGoto();
+                threadRun();
             }
         }
     }
+
     private void QSPExecCounter() {
         if (!this.libQspProxyImpl.getNativeMethods().QSPExecCounter(true)) {
             showLastQspError(this.gameInterface);
         }
     }
-    public void loadGameState(final Uri uri,GameInterface gameInterface) {
 
-        this.uri=uri;
-        this.gameInterface=gameInterface;
+    public void loadGameState(final Uri uri, GameInterface gameInterface) {
 
-        if(threadName.equals(Thread.currentThread().getName()))
-        {
+        this.uri = uri;
+        this.gameInterface = gameInterface;
+
+        if (threadName.equals(Thread.currentThread().getName())) {
 
             loadGameState();
-        }else {
+        } else {
             synchronized (libQspThreadObject) {
                 libQspThreadObject.method = ThreadConstants.loadGameState;
-                libQspThreadObject.seekCount = libQspThreadObject.seekCount + 1;
-                threadGoto();
+                threadRun();
             }
         }
     }
+
     private void loadGameState() {
 
         logger.info("command:loadGameState");
@@ -441,33 +419,31 @@ public class LibQspThread extends Thread {
             showLastQspError(gameInterface);
         }
     }
-    public void QSPSelectMenuItem(int result)
-    {
-        this.result=result;
-        if(threadName.equals(Thread.currentThread().getName()))
-        {
+
+    public void QSPSelectMenuItem(int result) {
+        this.result = result;
+        if (threadName.equals(Thread.currentThread().getName())) {
 
             QSPSelectMenuItem();
-        }else {
+        } else {
             synchronized (libQspThreadObject) {
                 libQspThreadObject.method = ThreadConstants.QSPSelectMenuItem;
-                libQspThreadObject.seekCount = libQspThreadObject.seekCount + 1;
-                threadGoto();
+                threadRun();
             }
         }
     }
-    private void QSPSelectMenuItem()
-    {
+
+    private void QSPSelectMenuItem() {
         this.libQspProxyImpl.getNativeMethods().QSPSelectMenuItem(result);
     }
-    public void qspFileToText(GameVo gameVo, String toFile)
-    {
-        this.gameVo=gameVo;
-        this.toFile=toFile;
+
+    public void qspFileToText(GameVo gameVo, String toFile) {
+        this.gameVo = gameVo;
+        this.toFile = toFile;
 //        if(threadName.equals(Thread.currentThread().getName()))
 //        {
 
-            qspFileToText();
+        qspFileToText();
 //        }else {
 //            synchronized (libQspThreadObject) {
 //                libQspThreadObject.method = ThreadConstants.qspFileToText;
@@ -476,20 +452,20 @@ public class LibQspThread extends Thread {
 //            }
 //        }
     }
-    private void qspFileToText()
-    {
-        if(gameVo.getIsDevProject()==0) {
-            this.devUtils.qspFileToText(gameVo.getGameFile(), toFile,gameVo.getQspPassword());
+
+    private void qspFileToText() {
+        if (gameVo.getIsDevProject() == 0) {
+            this.devUtils.qspFileToText(gameVo.getGameFile(), toFile, gameVo.getQspPassword());
         }
     }
-    public void toGemFile(  GameVo gameVo, String toFile)
-    {
-        this.gameVo=gameVo;
-        this.toFile=toFile;
+
+    public void toGemFile(GameVo gameVo, String toFile) {
+        this.gameVo = gameVo;
+        this.toFile = toFile;
 //        if(threadName.equals(Thread.currentThread().getName()))
 //        {
 
-            toGemFile();
+        toGemFile();
 //        }else {
 //            synchronized (libQspThreadObject) {
 //                libQspThreadObject.method = ThreadConstants.toGemFile;
@@ -498,12 +474,13 @@ public class LibQspThread extends Thread {
 //            }
 //        }
     }
-    private void toGemFile()
-    {
-        if(gameVo.getIsDevProject()==1) {
+
+    private void toGemFile() {
+        if (gameVo.getIsDevProject() == 1) {
             devUtils.toGemFile(gameVo.getGameDevFolder(), gameVo.getGameQproj(), toFile);
         }
     }
+
     private void showLastQspError(GameInterface gameInterface) {
         ErrorData errorData = (ErrorData) this.libQspProxyImpl.getNativeMethods().QSPGetLastErrorData();
         String locName = getStringOrEmpty(errorData.locName);
@@ -525,42 +502,40 @@ public class LibQspThread extends Thread {
             gameInterface.showError(message);
         }
     }
-    public RefreshInterfaceRequest getRefreshInterfaceRequest( HtmlProcessor htmlProcessor )
-    {
-//        synchronized (libQspThreadObject) {
-            RefreshInterfaceRequest request = new RefreshInterfaceRequest();
 
-            if (this.libQspProxyImpl.getNativeMethods().QSPIsMainDescChanged()) {
-                gameObject.mainDesc =  this.libQspProxyImpl.getNativeMethods().QSPGetMainDesc();
-                request.mainDescChanged = true;
-            }
-            if ( this.libQspProxyImpl.getNativeMethods().QSPIsActionsChanged()) {
-                gameObject.actions = getActions(htmlProcessor);
-                request.actionsChanged = true;
-            }
-            if ( this.libQspProxyImpl.getNativeMethods().QSPIsObjectsChanged()) {
-                gameObject.objects = getObjects(htmlProcessor);
-                request.objectsChanged = true;
-            }
-            if ( this.libQspProxyImpl.getNativeMethods().QSPIsVarsDescChanged()) {
-                gameObject.varsDesc =  this.libQspProxyImpl.getNativeMethods().QSPGetVarsDesc();
-                request.varsDescChanged = true;
-            }
-            return request;
+    public RefreshInterfaceRequest getRefreshInterfaceRequest(HtmlProcessor htmlProcessor) {
+//        synchronized (libQspThreadObject) {
+        RefreshInterfaceRequest request = new RefreshInterfaceRequest();
+
+        if (this.libQspProxyImpl.getNativeMethods().QSPIsMainDescChanged()) {
+            gameObject.mainDesc = this.libQspProxyImpl.getNativeMethods().QSPGetMainDesc();
+            request.mainDescChanged = true;
+        }
+        if (this.libQspProxyImpl.getNativeMethods().QSPIsActionsChanged()) {
+            gameObject.actions = getActions(htmlProcessor);
+            request.actionsChanged = true;
+        }
+        if (this.libQspProxyImpl.getNativeMethods().QSPIsObjectsChanged()) {
+            gameObject.objects = getObjects(htmlProcessor);
+            request.objectsChanged = true;
+        }
+        if (this.libQspProxyImpl.getNativeMethods().QSPIsVarsDescChanged()) {
+            gameObject.varsDesc = this.libQspProxyImpl.getNativeMethods().QSPGetVarsDesc();
+            request.varsDescChanged = true;
+        }
+        return request;
 //        }
     }
-
-
 
 
     private ArrayList<QspListItem> getActions(HtmlProcessor htmlProcessor) {
         ArrayList<QspListItem> actions = new ArrayList<>();
 
-        int count =  this.libQspProxyImpl.getNativeMethods().QSPGetActionsCount();
+        int count = this.libQspProxyImpl.getNativeMethods().QSPGetActionsCount();
         for (int i = 0; i < count; ++i) {
-            ActionData actionData = (ActionData)  this.libQspProxyImpl.getNativeMethods().QSPGetActionData(i);
+            ActionData actionData = (ActionData) this.libQspProxyImpl.getNativeMethods().QSPGetActionData(i);
             QspListItem action = new QspListItem();
-            action.index=i;
+            action.index = i;
             action.text = true ? htmlProcessor.removeHtmlTags(actionData.name) : actionData.name;
             actions.add(action);
         }
@@ -569,11 +544,11 @@ public class LibQspThread extends Thread {
 
     private ArrayList<QspListItem> getObjects(HtmlProcessor htmlProcessor) {
         ArrayList<QspListItem> objects = new ArrayList<>();
-        int count =  this.libQspProxyImpl.getNativeMethods().QSPGetObjectsCount();
+        int count = this.libQspProxyImpl.getNativeMethods().QSPGetObjectsCount();
         for (int i = 0; i < count; i++) {
-            ObjectData objectResult = (ObjectData)  this.libQspProxyImpl.getNativeMethods().QSPGetObjectData(i);
+            ObjectData objectResult = (ObjectData) this.libQspProxyImpl.getNativeMethods().QSPGetObjectData(i);
             QspListItem object = new QspListItem();
-            object.index=i;
+            object.index = i;
             object.text = true ? htmlProcessor.removeHtmlTags(objectResult.name) : objectResult.name;
             objects.add(object);
         }

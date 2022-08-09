@@ -5,10 +5,16 @@ package com.qsp.player.vi;
  */
 public interface AudioInterface {
     AudioInterface createNewPlayer(String fileName);
+
     public void stop();
+
     public void setVolume(float sysVolume);
+
     public void start();
+
     boolean isPlaying();
+
     public void release();
+
     public void pause();
 }

@@ -1,8 +1,8 @@
 package com.qsp.webengine.template;
 
+import com.qsp.player.PlayerEngine;
 import com.qsp.webengine.util.Utils;
 import com.qsp.webengine.vo.SaveGameVo;
-import com.qsp.player.PlayerEngine;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -16,6 +16,7 @@ import java.util.*;
 
 /**
  * 游戏存取
+ *
  * @author cxy
  */
 public class GameSaveTemplate {
@@ -23,6 +24,7 @@ public class GameSaveTemplate {
     private Template htmlTemplateKuyash;
 
     private PlayerEngine mPlayerEngine;
+
     public GameSaveTemplate(PlayerEngine mPlayerEngine, VelocityEngine ve) {
         this.mPlayerEngine = mPlayerEngine;
 
@@ -41,10 +43,10 @@ public class GameSaveTemplate {
         context.put("randomId", randomId);
         StringWriter writer = new StringWriter();
 
-        if(mPlayerEngine.getGameStatus().IS_BIG_KUYASH) {
+        if (mPlayerEngine.getGameStatus().IS_BIG_KUYASH) {
             htmlTemplateKuyash.merge(context, writer);
 
-        }else {
+        } else {
             htmlTemplate.merge(context, writer);
         }
         writer.flush();

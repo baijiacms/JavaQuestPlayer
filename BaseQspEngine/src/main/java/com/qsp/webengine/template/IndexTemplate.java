@@ -11,6 +11,7 @@ import java.io.StringWriter;
 
 /**
  * 游戏主窗口，iframe关联其他窗口
+ *
  * @author cxy
  */
 public class IndexTemplate {
@@ -18,6 +19,7 @@ public class IndexTemplate {
     private Template indexSobTemplate;
     private Template indexBigKuyashTemplate;
     private PlayerEngine mPlayerEngine;
+
     public IndexTemplate(PlayerEngine mPlayerEngine, VelocityEngine ve) {
         this.mPlayerEngine = mPlayerEngine;
         indexTemplate = ve.getTemplate("baijiacms/html/core/index.vm", "utf-8");
@@ -44,14 +46,12 @@ public class IndexTemplate {
 
 
         StringWriter writer = new StringWriter();
-        if(mPlayerEngine.getGameStatus().IS_SOB_GAME) {
+        if (mPlayerEngine.getGameStatus().IS_SOB_GAME) {
             indexSobTemplate.merge(context, writer);
-        }else
-        {
-            if(mPlayerEngine.getGameStatus().IS_BIG_KUYASH) {
+        } else {
+            if (mPlayerEngine.getGameStatus().IS_BIG_KUYASH) {
                 indexBigKuyashTemplate.merge(context, writer);
-            }else
-            {
+            } else {
                 indexTemplate.merge(context, writer);
             }
         }

@@ -5,6 +5,7 @@ import com.qsp.player.vi.ViewInterface;
 public class JavaFxViewImpl implements ViewInterface {
     /**
      * 消息输入
+     *
      * @param prompt
      * @return
      */
@@ -15,12 +16,14 @@ public class JavaFxViewImpl implements ViewInterface {
 
     /**
      * 消息提示框
+     *
      * @param prompt
      */
     @Override
     public void showMessageBox(String prompt) {
         JavaFxUtils.showAlertDialog(prompt);
     }
+
     @Override
     public void showErrorBox(String prompt) {
         JavaFxUtils.showErrorialog(prompt);

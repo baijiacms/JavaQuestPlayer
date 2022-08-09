@@ -1,8 +1,8 @@
 package com.qsp.webengine.template;
 
-import com.qsp.webengine.util.Utils;
 import com.qsp.player.PlayerEngine;
 import com.qsp.player.libqsp.dto.QspListItem;
+import com.qsp.webengine.util.Utils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 /**
  * 游戏窗口-动作选择界面 对应qsp的WindowType.ACTIONS
+ *
  * @author cxy
  */
 public class ActionTemplate {
@@ -53,6 +54,7 @@ public class ActionTemplate {
 
     /**
      * 生成动作按钮
+     *
      * @param list
      * @return
      */
@@ -69,6 +71,7 @@ public class ActionTemplate {
 
     /**
      * 执行动作按钮
+     *
      * @param mPlayerEngine
      * @param command
      * @return

@@ -3,12 +3,7 @@ package com.qsp.player.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public final class FileUtil {
 
@@ -118,7 +113,8 @@ public final class FileUtil {
         String dirName = path.substring(0, idx);
         File dir = findFileOrDirectory(parentDir, dirName);
         if (dir == null) {
-            dir =  createDirectory(parentDir, dirName);;
+            dir = createDirectory(parentDir, dirName);
+            ;
         }
 
         return getParentDirectory(dir, path.substring(idx + 1));

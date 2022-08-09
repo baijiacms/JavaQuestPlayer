@@ -21,8 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, WelcomeFactory
-{
+public class MyFileHandler extends HandlerWrapper implements ResourceFactory, WelcomeFactory {
     private static final Logger LOG = Log.getLogger(MyFileHandler.class);
 
     Resource _baseResource;
@@ -33,31 +32,25 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
     Resource _stylesheet;
     String[] _welcomes = {"index.html"};
 
-    public MyFileHandler(ResourceService resourceService)
-    {
+    public MyFileHandler(ResourceService resourceService) {
         _resourceService = resourceService;
     }
 
-    public MyFileHandler()
-    {
-        this(new ResourceService()
-        {
+    public MyFileHandler() {
+        this(new ResourceService() {
             @Override
-            protected void notFound(HttpServletRequest request, HttpServletResponse response) throws IOException
-            {
+            protected void notFound(HttpServletRequest request, HttpServletResponse response) throws IOException {
             }
         });
         _resourceService.setGzipEquivalentFileExtensions(new ArrayList<>(Arrays.asList(".svgz")));
     }
 
     @Override
-    public String getWelcomeFile(String pathInContext)
-    {
+    public String getWelcomeFile(String pathInContext) {
         if (_welcomes == null)
             return null;
 
-        for (int i = 0; i < _welcomes.length; i++)
-        {
+        for (int i = 0; i < _welcomes.length; i++) {
             String welcomeInContext = URIUtil.addPaths(pathInContext, _welcomes[i]);
             Resource welcome = getResource(welcomeInContext);
             if (welcome != null && welcome.exists())
@@ -68,8 +61,7 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
     }
 
     @Override
-    public void doStart() throws Exception
-    {
+    public void doStart() throws Exception {
         Context scontext = ContextHandler.getCurrentContext();
         _context = (scontext == null ? null : scontext.getContextHandler());
         if (_mimeTypes == null)
@@ -84,8 +76,7 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
     /**
      * @return Returns the resourceBase.
      */
-    public Resource getBaseResource()
-    {
+    public Resource getBaseResource() {
         if (_baseResource == null)
             return null;
         return _baseResource;
@@ -94,21 +85,18 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
     /**
      * @return the cacheControl header to set on all static content.
      */
-    public String getCacheControl()
-    {
+    public String getCacheControl() {
         return _resourceService.getCacheControl().getValue();
     }
 
     /**
      * @return file extensions that signify that a file is gzip compressed. Eg ".svgz"
      */
-    public List<String> getGzipEquivalentFileExtensions()
-    {
+    public List<String> getGzipEquivalentFileExtensions() {
         return _resourceService.getGzipEquivalentFileExtensions();
     }
 
-    public MimeTypes getMimeTypes()
-    {
+    public MimeTypes getMimeTypes() {
         return _mimeTypes;
     }
 
@@ -119,8 +107,7 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
      * {@link HttpServletResponse#getBufferSize()} as the minimum length.
      */
     @Deprecated
-    public int getMinAsyncContentLength()
-    {
+    public int getMinAsyncContentLength() {
         return -1;
     }
 
@@ -130,46 +117,38 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
      * @return the minimum size in bytes of a file resource that will be served using a memory mapped buffer, or -1 (default) for no memory mapped buffers.
      */
     @Deprecated
-    public int getMinMemoryMappedContentLength()
-    {
+    public int getMinMemoryMappedContentLength() {
         return -1;
     }
 
     @Override
-    public Resource getResource(String path)
-    {
+    public Resource getResource(String path) {
         if (LOG.isDebugEnabled())
             LOG.debug("{} getResource({})", _context == null ? _baseResource : _context, _baseResource, path);
 
         if (path == null || !path.startsWith("/"))
             return null;
 
-        try
-        {
+        try {
             Resource r = null;
 
-            if (_baseResource != null)
-            {
+            if (_baseResource != null) {
                 path = URIUtil.canonicalPath(path);
                 r = _baseResource.addPath(path);
 
-                if (r != null && r.isAlias() && (_context == null || !_context.checkAlias(path, r)))
-                {
+                if (r != null && r.isAlias() && (_context == null || !_context.checkAlias(path, r))) {
                     if (LOG.isDebugEnabled())
                         LOG.debug("resource={} alias={}", r, r.getAlias());
                     return null;
                 }
-            }
-            else if (_context != null)
+            } else if (_context != null)
                 r = _context.getResource(path);
 
             if ((r == null || !r.exists()) && path.endsWith("/jetty-dir.css"))
                 r = getStylesheet();
 
             return r;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             LOG.debug(e);
         }
 
@@ -179,8 +158,7 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
     /**
      * @return Returns the base resource as a string.
      */
-    public String getResourceBase()
-    {
+    public String getResourceBase() {
         if (_baseResource == null)
             return null;
         return _baseResource.toString();
@@ -189,29 +167,22 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
     /**
      * @return Returns the stylesheet as a Resource.
      */
-    public Resource getStylesheet()
-    {
-        if (_stylesheet != null)
-        {
+    public Resource getStylesheet() {
+        if (_stylesheet != null) {
             return _stylesheet;
-        }
-        else
-        {
-            if (_defaultStylesheet == null)
-            {
+        } else {
+            if (_defaultStylesheet == null) {
                 _defaultStylesheet = getDefaultStylesheet();
             }
             return _defaultStylesheet;
         }
     }
 
-    public static Resource getDefaultStylesheet()
-    {
+    public static Resource getDefaultStylesheet() {
         return Resource.newResource(MyFileHandler.class.getResource("/jetty-dir.css"));
     }
 
-    public String[] getWelcomeFiles()
-    {
+    public String[] getWelcomeFiles() {
         return _welcomes;
     }
 
@@ -219,13 +190,11 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
      * @see org.eclipse.jetty.server.Handler#handle(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, int)
      */
     @Override
-    public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
-    {
+    public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 //        if (baseRequest.isHandled())
 //            return;
 
-        if (!HttpMethod.GET.is(request.getMethod()) && !HttpMethod.HEAD.is(request.getMethod()))
-        {
+        if (!HttpMethod.GET.is(request.getMethod()) && !HttpMethod.HEAD.is(request.getMethod())) {
             // try another handler
             super.handle(target, baseRequest, request, response);
             return;
@@ -241,16 +210,14 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
     /**
      * @return If true, range requests and responses are supported
      */
-    public boolean isAcceptRanges()
-    {
+    public boolean isAcceptRanges() {
         return _resourceService.isAcceptRanges();
     }
 
     /**
      * @return If true, directory listings are returned if no welcome file is found. Else 403 Forbidden.
      */
-    public boolean isDirAllowed()
-    {
+    public boolean isDirAllowed() {
         return _resourceService.isDirAllowed();
     }
 
@@ -259,16 +226,14 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
      *
      * @return true if directories are listed.
      */
-    public boolean isDirectoriesListed()
-    {
+    public boolean isDirectoriesListed() {
         return _resourceService.isDirAllowed();
     }
 
     /**
      * @return True if ETag processing is done
      */
-    public boolean isEtags()
-    {
+    public boolean isEtags() {
         return _resourceService.isEtags();
     }
 
@@ -276,10 +241,8 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
      * @return If set to true, then static content will be served as gzip content encoded if a matching resource is found ending with ".gz"
      */
     @Deprecated
-    public boolean isGzip()
-    {
-        for (CompressedContentFormat formats : _resourceService.getPrecompressedFormats())
-        {
+    public boolean isGzip() {
+        for (CompressedContentFormat formats : _resourceService.getPrecompressedFormats()) {
             if (CompressedContentFormat.GZIP.getEncoding().equals(formats.getEncoding()))
                 return true;
         }
@@ -289,57 +252,50 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
     /**
      * @return Precompressed resources formats that can be used to serve compressed variant of resources.
      */
-    public CompressedContentFormat[] getPrecompressedFormats()
-    {
+    public CompressedContentFormat[] getPrecompressedFormats() {
         return _resourceService.getPrecompressedFormats();
     }
 
     /**
      * @return true, only the path info will be applied to the resourceBase
      */
-    public boolean isPathInfoOnly()
-    {
+    public boolean isPathInfoOnly() {
         return _resourceService.isPathInfoOnly();
     }
 
     /**
      * @return If true, welcome files are redirected rather than forwarded to.
      */
-    public boolean isRedirectWelcome()
-    {
+    public boolean isRedirectWelcome() {
         return _resourceService.isRedirectWelcome();
     }
 
     /**
      * @param acceptRanges If true, range requests and responses are supported
      */
-    public void setAcceptRanges(boolean acceptRanges)
-    {
+    public void setAcceptRanges(boolean acceptRanges) {
         _resourceService.setAcceptRanges(acceptRanges);
     }
 
     /**
      * @param base The resourceBase to server content from. If null the
-     * context resource base is used.
+     *             context resource base is used.
      */
-    public void setBaseResource(Resource base)
-    {
+    public void setBaseResource(Resource base) {
         _baseResource = base;
     }
 
     /**
      * @param cacheControl the cacheControl header to set on all static content.
      */
-    public void setCacheControl(String cacheControl)
-    {
+    public void setCacheControl(String cacheControl) {
         _resourceService.setCacheControl(new PreEncodedHttpField(HttpHeader.CACHE_CONTROL, cacheControl));
     }
 
     /**
      * @param dirAllowed If true, directory listings are returned if no welcome file is found. Else 403 Forbidden.
      */
-    public void setDirAllowed(boolean dirAllowed)
-    {
+    public void setDirAllowed(boolean dirAllowed) {
         _resourceService.setDirAllowed(dirAllowed);
     }
 
@@ -348,16 +304,14 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
      *
      * @param directory true if directories are listed.
      */
-    public void setDirectoriesListed(boolean directory)
-    {
+    public void setDirectoriesListed(boolean directory) {
         _resourceService.setDirAllowed(directory);
     }
 
     /**
      * @param etags True if ETag processing is done
      */
-    public void setEtags(boolean etags)
-    {
+    public void setEtags(boolean etags) {
         _resourceService.setEtags(etags);
     }
 
@@ -365,8 +319,7 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
      * @param gzip If set to true, then static content will be served as gzip content encoded if a matching resource is found ending with ".gz"
      */
     @Deprecated
-    public void setGzip(boolean gzip)
-    {
+    public void setGzip(boolean gzip) {
         setPrecompressedFormats(gzip ? new CompressedContentFormat[]{
                 CompressedContentFormat.GZIP
         } : new CompressedContentFormat[0]);
@@ -375,22 +328,19 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
     /**
      * @param gzipEquivalentFileExtensions file extensions that signify that a file is gzip compressed. Eg ".svgz"
      */
-    public void setGzipEquivalentFileExtensions(List<String> gzipEquivalentFileExtensions)
-    {
+    public void setGzipEquivalentFileExtensions(List<String> gzipEquivalentFileExtensions) {
         _resourceService.setGzipEquivalentFileExtensions(gzipEquivalentFileExtensions);
     }
 
     /**
      * @param precompressedFormats The list of precompresed formats to serve in encoded format if matching resource found.
-     * For example serve gzip encoded file if ".gz" suffixed resource is found.
+     *                             For example serve gzip encoded file if ".gz" suffixed resource is found.
      */
-    public void setPrecompressedFormats(CompressedContentFormat[] precompressedFormats)
-    {
+    public void setPrecompressedFormats(CompressedContentFormat[] precompressedFormats) {
         _resourceService.setPrecompressedFormats(precompressedFormats);
     }
 
-    public void setMimeTypes(MimeTypes mimeTypes)
-    {
+    public void setMimeTypes(MimeTypes mimeTypes) {
         _mimeTypes = mimeTypes;
     }
 
@@ -398,11 +348,10 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
      * Set the minimum content length for async handling.
      *
      * @param minAsyncContentLength The minimum size in bytes of the content before asynchronous handling is used, or -1 for no async handling or 0 for using
-     * {@link HttpServletResponse#getBufferSize()} as the minimum length.
+     *                              {@link HttpServletResponse#getBufferSize()} as the minimum length.
      */
     @Deprecated
-    public void setMinAsyncContentLength(int minAsyncContentLength)
-    {
+    public void setMinAsyncContentLength(int minAsyncContentLength) {
     }
 
     /**
@@ -411,39 +360,32 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
      * @param minMemoryMappedFileSize the minimum size in bytes of a file resource that will be served using a memory mapped buffer, or -1 for no memory mapped buffers.
      */
     @Deprecated
-    public void setMinMemoryMappedContentLength(int minMemoryMappedFileSize)
-    {
+    public void setMinMemoryMappedContentLength(int minMemoryMappedFileSize) {
     }
 
     /**
      * @param pathInfoOnly true, only the path info will be applied to the resourceBase
      */
-    public void setPathInfoOnly(boolean pathInfoOnly)
-    {
+    public void setPathInfoOnly(boolean pathInfoOnly) {
         _resourceService.setPathInfoOnly(pathInfoOnly);
     }
 
     /**
      * @param redirectWelcome If true, welcome files are redirected rather than forwarded to.
-     * redirection is always used if the MyFileHandler is not scoped by
-     * a ContextHandler
+     *                        redirection is always used if the MyFileHandler is not scoped by
+     *                        a ContextHandler
      */
-    public void setRedirectWelcome(boolean redirectWelcome)
-    {
+    public void setRedirectWelcome(boolean redirectWelcome) {
         _resourceService.setRedirectWelcome(redirectWelcome);
     }
 
     /**
      * @param resourceBase The base resource as a string.
      */
-    public void setResourceBase(String resourceBase)
-    {
-        try
-        {
+    public void setResourceBase(String resourceBase) {
+        try {
             setBaseResource(Resource.newResource(resourceBase));
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             LOG.warn(e.toString());
             LOG.debug(e);
             throw new IllegalArgumentException(resourceBase);
@@ -453,27 +395,21 @@ public class MyFileHandler  extends HandlerWrapper implements ResourceFactory, W
     /**
      * @param stylesheet The location of the stylesheet to be used as a String.
      */
-    public void setStylesheet(String stylesheet)
-    {
-        try
-        {
+    public void setStylesheet(String stylesheet) {
+        try {
             _stylesheet = Resource.newResource(stylesheet);
-            if (!_stylesheet.exists())
-            {
+            if (!_stylesheet.exists()) {
                 LOG.warn("unable to find custom stylesheet: " + stylesheet);
                 _stylesheet = null;
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             LOG.warn(e.toString());
             LOG.debug(e);
             throw new IllegalArgumentException(stylesheet);
         }
     }
 
-    public void setWelcomeFiles(String[] welcomeFiles)
-    {
+    public void setWelcomeFiles(String[] welcomeFiles) {
         _welcomes = welcomeFiles;
     }
 }

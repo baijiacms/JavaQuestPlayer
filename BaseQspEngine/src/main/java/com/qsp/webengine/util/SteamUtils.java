@@ -10,6 +10,7 @@ import java.net.URLDecoder;
 
 /**
  * 流文件
+ *
  * @author cxy
  */
 public class SteamUtils {
@@ -18,6 +19,7 @@ public class SteamUtils {
 
     /**
      * 引擎资源js文件
+     *
      * @param fileName
      * @return
      */
@@ -25,14 +27,13 @@ public class SteamUtils {
         try {
             return new FileInputStream(QspConstants.ENGINE_RESOURCE_PATH + fileName);
         } catch (FileNotFoundException e) {
-            logger.error("引擎资源未找到"+  QspConstants.ENGINE_RESOURCE_PATH +  fileName);
+            logger.error("引擎资源未找到" + QspConstants.ENGINE_RESOURCE_PATH + fileName);
             // e.printStackTrace();
         }
-        if(mPlayerEngine.getGameStatus().isStart)
-        {
-            fileName=fileName.replaceFirst("/engine/lib/bigKuyash/","/");
-            fileName=fileName.replaceFirst("/engine/lib/sob/","/");
-           return getGameResourceInputSteam(mPlayerEngine, fileName);
+        if (mPlayerEngine.getGameStatus().isStart) {
+            fileName = fileName.replaceFirst("/engine/lib/bigKuyash/", "/");
+            fileName = fileName.replaceFirst("/engine/lib/sob/", "/");
+            return getGameResourceInputSteam(mPlayerEngine, fileName);
         }
         return Utils.BlankInputStream();
 //        return Gengine.class.getResourceAsStream(Constants.LUA_SCRIPT_FILE_PATH+luaFileMap.get(fileName));
@@ -40,24 +41,24 @@ public class SteamUtils {
 
     /**
      * 游戏资源文件
+     *
      * @param fileName
      * @return
      */
     public static InputStream getGameResourceInputSteam(PlayerEngine mPlayerEngine, String fileName) {
 
-        if(fileName.startsWith("/"))
-        {
-            fileName= fileName.substring(1);
+        if (fileName.startsWith("/")) {
+            fileName = fileName.substring(1);
         }
-      if(  new File(QspConstants.GAME_DATA_PATH + fileName).exists()==false&&(mPlayerEngine.getGameStatus().isStart&&new File(mPlayerEngine.getGameStatus()+"/" + fileName).exists()==false)) {
-          try {
-              fileName = URLDecoder.decode(fileName, "UTF-8");
-          } catch (UnsupportedEncodingException e) {
-              e.printStackTrace();
-          }
-      }
+        if (new File(QspConstants.GAME_DATA_PATH + fileName).exists() == false && (mPlayerEngine.getGameStatus().isStart && new File(mPlayerEngine.getGameStatus() + "/" + fileName).exists() == false)) {
+            try {
+                fileName = URLDecoder.decode(fileName, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
 
-        if(mPlayerEngine.getGameStatus().isStart) {
+        if (mPlayerEngine.getGameStatus().isStart) {
 //        fileName=fileName.replaceAll("%20"," ");
             try {
                 return new FileInputStream(mPlayerEngine.getGameStatus().GAME_RESOURCE_PATH + "/" + fileName);
@@ -70,7 +71,7 @@ public class SteamUtils {
         try {
             return new FileInputStream(QspConstants.GAME_DATA_PATH + fileName);
         } catch (Exception e) {
-            logger.error("系统资源未找到:"+  QspConstants.GAME_DATA_PATH +  fileName);
+            logger.error("系统资源未找到:" + QspConstants.GAME_DATA_PATH + fileName);
             // e.printStackTrace();
         }
         return Utils.BlankInputStream();

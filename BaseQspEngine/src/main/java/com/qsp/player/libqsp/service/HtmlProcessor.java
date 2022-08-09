@@ -19,7 +19,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HtmlProcessor {
-    private static final int IMAGE_WIDTH_THRESHOLD = 400;
 
     private static final Logger logger = LoggerFactory.getLogger(HtmlProcessor.class);
     private static final Pattern execPattern = Pattern.compile("href=\"exec:([\\s\\S]*?)\"", Pattern.CASE_INSENSITIVE);
@@ -30,17 +29,14 @@ public class HtmlProcessor {
         this.gameContentResolver = gameContentResolver;
     }
 
-    /**
-     * Привести HTML-код <code>html</code>, полученный из библиотеки к
-     * HTML-коду, приемлемому для отображения в {}.
-     */
+
     public String convertQspHtmlToWebViewHtml(PlayerEngine playerEngine, String html, boolean isMainDesc) {
         if (StringUtil.isNullOrEmpty(html)) {
             return "";
         }
 
         String result = unescapeQuotes(html);
-        result = encodeExec(result,isMainDesc);
+        result = encodeExec(result, isMainDesc);
         result = htmlizeLineBreaks(result);
 
 //        if(QspConstants.IS_SOB_GAME)
@@ -51,7 +47,7 @@ public class HtmlProcessor {
         document.outputSettings().prettyPrint(false);
         Element body = document.body();
         processUpateHtmlVideosUrl(body);
-        processHtmlImages(playerEngine,body);
+        processHtmlImages(playerEngine, body);
         processHtmlVideos(body);
 
         return document.toString();
@@ -62,16 +58,15 @@ public class HtmlProcessor {
     }
 
 
-    private String encodeExec(String html,boolean isMainDesc) {
+    private String encodeExec(String html, boolean isMainDesc) {
         Matcher matcher = execPattern.matcher(html);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
             String exec = normalizePathsInExec(matcher.group(1));
             String encodedExec = Base64Util.encodeBase64(exec);
-            if(isMainDesc) {
+            if (isMainDesc) {
                 matcher.appendReplacement(sb, "onclick=\"htmlExecTo('exec:" + encodedExec + "')\" href=\"javascript:;\"");
-            }else
-            {
+            } else {
                 matcher.appendReplacement(sb, "onclick=\"userExecTo('exec:" + encodedExec + "')\" href=\"javascript:;\"");
 
             }
@@ -102,27 +97,25 @@ public class HtmlProcessor {
         return s.replace("\n", "<br>")
                 .replace("\r", "");
     }
-    private void processUpateHtmlVideosUrl(Element documentBody) {
-        Elements elements= documentBody.select("video");
-        for(Element element:elements)
-        {
-            String sourceUrl=null;
-            if(   element.children()!=null) {
-                Elements source = element.children().select("source");
-                if(source!=null&&source.size()>=1)
-                {
-                    sourceUrl=source.get(0).attr("src");
-                }
-            }
-            String src= element.attr("src");
 
-            if(StringUtils.isEmpty(src)) {
-                if(sourceUrl!=null)
-                {
-                    src=sourceUrl;
+    private void processUpateHtmlVideosUrl(Element documentBody) {
+        Elements elements = documentBody.select("video");
+        for (Element element : elements) {
+            String sourceUrl = null;
+            if (element.children() != null) {
+                Elements source = element.children().select("source");
+                if (source != null && source.size() >= 1) {
+                    sourceUrl = source.get(0).attr("src");
                 }
             }
-            if(StringUtils.isEmpty(src)==false) {
+            String src = element.attr("src");
+
+            if (StringUtils.isEmpty(src)) {
+                if (sourceUrl != null) {
+                    src = sourceUrl;
+                }
+            }
+            if (StringUtils.isEmpty(src) == false) {
                 if (src.startsWith("/") == false) {
                     element.attr("src", "/" + src);
                 }
@@ -130,16 +123,17 @@ public class HtmlProcessor {
         }
 
     }
+
     private void processHtmlImages(PlayerEngine playerEngine, Element documentBody) {
         for (Element img : documentBody.select("img")) {
-           String src= img.attr("src");
+            String src = img.attr("src");
 
-            if(StringUtils.isEmpty(src)==false) {
+            if (StringUtils.isEmpty(src) == false) {
                 if (src.startsWith("/") == false) {
                     img.attr("src", "/" + src);
                 }
             }
-            boolean resize = shouldImageBeResized(playerEngine,img.attr("src"));
+            boolean resize = shouldImageBeResized(playerEngine, img.attr("src"));
             if (resize) {
                 img.attr("style", "max-width:100%;");
             }
@@ -147,38 +141,32 @@ public class HtmlProcessor {
     }
 
     private boolean shouldImageBeResized(PlayerEngine playerEngine, String relPath) {
-        if(relPath.startsWith("/")==false)
-        {
-            relPath="/"+relPath;
+        if (relPath.startsWith("/") == false) {
+            relPath = "/" + relPath;
         }
-        File imagFile=new File(playerEngine.getGameStatus().GAME_RESOURCE_PATH +relPath);
-        if(imagFile.exists()==false)
-        {
+        File imagFile = new File(playerEngine.getGameStatus().GAME_RESOURCE_PATH + relPath);
+        if (imagFile.exists() == false) {
             return false;
         }
         try {
-           return ImageIO.read(imagFile).getWidth()>400;
+            return ImageIO.read(imagFile).getWidth() > 400;
         } catch (IOException e) {
             return false;
         }
     }
+
     private void processHtmlVideos(Element documentBody) {
         documentBody.select("video")
                 .attr("style", "max-width:100%;")
                 .attr("muted", "true");
     }
 
-    /**
-     * Привести строку <code>str</code>, полученную из библиотеки, к HTML-коду,
-     * приемлемому для отображения в {}.
-     */
+
     public String convertQspStringToWebViewHtml(String str) {
         return StringUtil.isNotEmpty(str) ? htmlizeLineBreaks(str) : "";
     }
 
-    /**
-     * Удалить HTML-теги из строки <code>html</code> и вернуть результирующую строку.
-     */
+
     public String removeHtmlTags(String html) {
         if (StringUtil.isNullOrEmpty(html)) {
             return "";

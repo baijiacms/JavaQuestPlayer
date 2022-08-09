@@ -10,13 +10,13 @@ import javafx.scene.media.MediaPlayer;
 public class JavaFxMediaPlayer implements AudioInterface {
 
     private MediaPlayer mediaPlayer;
-    public JavaFxMediaPlayer()
-    {
+
+    public JavaFxMediaPlayer() {
 
     }
-    public JavaFxMediaPlayer(String path)
-    {
-        this.mediaPlayer=new MediaPlayer(new Media(path));
+
+    private JavaFxMediaPlayer(String path) {
+        this.mediaPlayer = new MediaPlayer(new Media(path));
         mediaPlayer.play();
     }
 
@@ -26,34 +26,33 @@ public class JavaFxMediaPlayer implements AudioInterface {
     }
 
     @Override
-    public void stop()
-    {
+    public void stop() {
         mediaPlayer.stop();
     }
+
     @Override
-    public void release()
-    {
+    public void release() {
         mediaPlayer.stop();
-        mediaPlayer=null;
+        mediaPlayer = null;
     }
+
     @Override
-    public void pause()
-    {
+    public void pause() {
         mediaPlayer.pause();
     }
 
     @Override
-    public void start()
-    {
+    public void start() {
         mediaPlayer.play();
     }
+
     @Override
-    public boolean isPlaying()
-    {
+    public boolean isPlaying() {
         return mediaPlayer.isAutoPlay();
     }
+
     @Override
-    public void setVolume(float sysVolume){
+    public void setVolume(float sysVolume) {
         mediaPlayer.setVolume(sysVolume);
     }
 }

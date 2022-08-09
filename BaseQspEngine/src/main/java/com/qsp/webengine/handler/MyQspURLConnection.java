@@ -26,13 +26,12 @@ public class MyQspURLConnection extends URLConnection {
     @Override
     public InputStream getInputStream() throws IOException {
         if (input == null) {
-            String path=url.getPath();
-            if("file".equals(url.getProtocol()))
-            {
-                path=url.getAuthority()+path;
+            String path = url.getPath();
+            if ("file".equals(url.getProtocol())) {
+                path = url.getAuthority() + path;
             }
-            ResponseVo responseVo = htmlEngine.getInputStream(url,path );
-            input=responseVo.getResponseStream();
+            ResponseVo responseVo = htmlEngine.getInputStream(url, path);
+            input = responseVo.getResponseStream();
         }
         return input;
     }

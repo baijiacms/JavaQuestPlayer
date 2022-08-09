@@ -4,8 +4,6 @@ import com.qsp.QspEngineCore;
 import com.qsp.player.common.QspConstants;
 import com.qsp.webengine.vo.ResponseVo;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.jetty.server.Request;
 
 import javax.servlet.ServletException;
@@ -15,52 +13,52 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JettyHandler extends MyFileHandler {
     private QspEngineCore qspEngineCore;
-    private String baseHttpPath;
-    public JettyHandler(String baseHttpPath)
-    {
+//private volatile Map<String,QspEngineCore> qspEngineCoreMap=new HashMap();
+    public JettyHandler() {
         super();
-        this.baseHttpPath=baseHttpPath;
-        VelocityEngine ve=new VelocityEngine();
-        ve.setProperty(Velocity.RESOURCE_LOADER,Velocity.RESOURCE_LOADER_CLASS);
-        ve.setProperty("class.resource.loader.class","org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        ve.init();
-        qspEngineCore =new QspEngineCore();
+        qspEngineCore = new QspEngineCore(QspConstants.DEFAULT_USERID);
 
     }
-
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
-        String urlPath=request.getRequestURL().toString();
-        if(StringUtils.isEmpty(request.getParameter("actionScript"))==false)
-        {
-            urlPath=urlPath+"?actionScript="+request.getParameter("actionScript");
+        String urlPath = request.getRequestURL().toString();
+        if (StringUtils.isEmpty(request.getParameter("actionScript")) == false) {
+            urlPath = urlPath + "?actionScript=" + request.getParameter("actionScript");
         }
-
-        ResponseVo responseVo =  qspEngineCore.getInputStream(QspConstants.DEFAULT_USERID,new URL( urlPath),target);
-        InputStream inputStream=responseVo.getResponseStream();
-        if(StringUtils.isEmpty(responseVo.getContentType())==false) {
+//        QspEngineCore  qspEngineCore=qspEngineCoreMap.get(Test.userId);
+//        if(qspEngineCore==null)
+//        {
+//            qspEngineCore= new QspEngineCore( Test.userId);
+//            qspEngineCoreMap.put( Test.userId,qspEngineCore);
+//        }
+        ResponseVo responseVo = qspEngineCore.getInputStream(new URL(urlPath), target);
+        InputStream inputStream = responseVo.getResponseStream();
+        if (StringUtils.isEmpty(responseVo.getContentType()) == false) {
             response.setContentType(responseVo.getContentType());
-            response.setHeader("Content-Type",responseVo.getContentType());
+            response.setHeader("Content-Type", responseVo.getContentType());
         }
         try {
-            copyStream(inputStream,response.getOutputStream());
+            copyStream(inputStream, response.getOutputStream());
             return;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        super.handle( target,  baseRequest,  request,  response) ;
+        super.handle(target, baseRequest, request, response);
     }
-    private    void  copyStream(InputStream ips,OutputStream ops)  throws  Exception {
-        byte [] buf =  new  byte [ 1024 ];
-        int  len = ips.read(buf);
-        while (len != - 1 ) {
-            ops.write(buf, 0 ,len);
+
+    private void copyStream(InputStream ips, OutputStream ops) throws Exception {
+        byte[] buf = new byte[1024];
+        int len = ips.read(buf);
+        while (len != -1) {
+            ops.write(buf, 0, len);
             len = ips.read(buf);
         }
         ops.flush();

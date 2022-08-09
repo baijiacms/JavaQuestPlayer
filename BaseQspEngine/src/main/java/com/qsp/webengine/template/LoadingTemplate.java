@@ -10,6 +10,7 @@ import java.io.StringWriter;
 
 /**
  * 载入等待窗口
+ *
  * @author cxy
  */
 public class LoadingTemplate {

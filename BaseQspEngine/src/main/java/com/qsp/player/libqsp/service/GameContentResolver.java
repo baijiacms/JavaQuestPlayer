@@ -20,11 +20,6 @@ public class GameContentResolver {
         return file != null ? file.getAbsolutePath() : null;
     }
 
-    /**
-     * Приводит к нормальной форме путь до игрового ресурса (мелодии, изображения).
-     *
-     * @implNote Удаляет "./" из начала пути, заменяет все вхождения "\" на "/".
-     */
     public static String normalizeContentPath(String path) {
         if (path == null) {
             return null;

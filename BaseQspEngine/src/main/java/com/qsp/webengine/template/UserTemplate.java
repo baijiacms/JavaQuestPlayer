@@ -1,7 +1,7 @@
 package com.qsp.webengine.template;
 
-import com.qsp.webengine.util.Utils;
 import com.qsp.player.PlayerEngine;
+import com.qsp.webengine.util.Utils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -12,6 +12,7 @@ import java.io.StringWriter;
 
 /**
  * 游戏窗口-角色状态窗口 对应qsp的WindowType.VARIABLES
+ *
  * @author cxy
  */
 public class UserTemplate {

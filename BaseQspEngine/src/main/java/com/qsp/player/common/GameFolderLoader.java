@@ -11,28 +11,26 @@ import java.util.*;
 
 public class GameFolderLoader {
 
-    private static Map<String, GameVo> GAME_FOLDER_MAP=new HashMap<>();
-    public static Map<String, GameVo>  getFolderMap()
-    {
-        if(GAME_FOLDER_MAP.size()==0)
-        {
+    private static Map<String, GameVo> GAME_FOLDER_MAP = new HashMap<>();
+
+    public static Map<String, GameVo> getFolderMap() {
+        if (GAME_FOLDER_MAP.size() == 0) {
             loadGameFolder(new ArrayList<>());
         }
         return GAME_FOLDER_MAP;
     }
-    public static void loadGameFolder(List<GameVo> gameList)
-    {
-        List<FileVo> gameFileList=new ArrayList<>();
+
+    public static void loadGameFolder(List<GameVo> gameList) {
+        List<FileVo> gameFileList = new ArrayList<>();
         File[] files = new File(QspConstants.GAME_DATA_PATH).listFiles();
         for (File folder : files) {
             if (folder.isDirectory()) {
                 File[] childFiles = folder.listFiles();
-                boolean hasFile=false;
-                for(File qspFile:childFiles)
-                {
-                    if(qspFile.isFile()&&qspFile.getPath().endsWith(".qsp")) {
-                        hasFile=true;
-                        FileVo fileVo=new FileVo();
+                boolean hasFile = false;
+                for (File qspFile : childFiles) {
+                    if (qspFile.isFile() && qspFile.getPath().endsWith(".qsp")) {
+                        hasFile = true;
+                        FileVo fileVo = new FileVo();
                         fileVo.setFile(qspFile);
                         fileVo.setFolder(folder);
                         fileVo.setQproj(false);
@@ -40,10 +38,10 @@ public class GameFolderLoader {
                         break;
                     }
                 }
-                if(hasFile==false) {
+                if (hasFile == false) {
                     for (File qspFile : childFiles) {
                         if (qspFile.isFile() && qspFile.getPath().endsWith(".qproj")) {
-                            FileVo fileVo=new FileVo();
+                            FileVo fileVo = new FileVo();
                             fileVo.setFile(qspFile);
                             fileVo.setFolder(folder);
                             fileVo.setQproj(true);
@@ -54,23 +52,20 @@ public class GameFolderLoader {
                 }
             }
         }
-        for(FileVo file:gameFileList)
-        {
+        for (FileVo file : gameFileList) {
             dirFolder(gameList, file.getFile(), file.getFolder().getName());
         }
     }
 
 
-
     private static void dirFolder(List<GameVo> list, File file, String gameId) {
         if ("".equals(gameId) == false) {
-            String gameFolder=QspConstants.GAME_DATA_PATH + "" + gameId + "/";
-            boolean isDev=false;
-            if(file.getPath().endsWith(".qproj"))
-            {
-                isDev=true;
+            String gameFolder = QspConstants.GAME_DATA_PATH + "" + gameId + "/";
+            boolean isDev = false;
+            if (file.getPath().endsWith(".qproj")) {
+                isDev = true;
             }
-            File configFile = new File(gameFolder+ "game.ini");
+            File configFile = new File(gameFolder + "game.ini");
             boolean isReadConfig = false;
             if (configFile.exists()) {
                 isReadConfig = true;
@@ -84,35 +79,29 @@ public class GameFolderLoader {
                         gameVo.setGameId(gameId);
                         gameVo.setGameName(properties.getProperty("GAME_NAME"));
                         gameVo.setGameVersion(properties.getProperty("GAME_VERSION"));
-                        gameVo.setIsDevProject(isDev?1:0);
+                        gameVo.setIsDevProject(isDev ? 1 : 0);
                         gameVo.setGameFolder(gameFolder);
-                        gameVo.setGameDevFolder(gameFolder+"locations/");
+                        gameVo.setGameDevFolder(gameFolder + "locations/");
                         gameVo.setGameQproj(file.getPath());
-                        GAME_FOLDER_MAP.put(gameId,gameVo);
+                        GAME_FOLDER_MAP.put(gameId, gameVo);
 
-                        String gameIsSob= properties.getProperty("GAME_IS_SOB");
-                        if(StringUtils.isEmpty(gameIsSob)==false)
-                        {
+                        String gameIsSob = properties.getProperty("GAME_IS_SOB");
+                        if (StringUtils.isEmpty(gameIsSob) == false) {
                             gameVo.setSob(Boolean.valueOf(gameIsSob));
                         }
-                        String gameIsBigKuyash= properties.getProperty("GAME_IS_BIG_KUYASH");
-                        if(StringUtils.isEmpty(gameIsBigKuyash)==false)
-                        {
+                        String gameIsBigKuyash = properties.getProperty("GAME_IS_BIG_KUYASH");
+                        if (StringUtils.isEmpty(gameIsBigKuyash) == false) {
                             gameVo.setBigKuyash(Boolean.valueOf(gameIsBigKuyash));
                         }
-                        String gameIsDev= properties.getProperty("GAME_IS_DEV");
-                        if(StringUtils.isEmpty(gameIsDev)==false)
-                        {
-                            gameVo.setIsDev(Boolean.valueOf(gameIsDev)?1:0);
-                        }else
-                        {
+                        String gameIsDev = properties.getProperty("GAME_IS_DEV");
+                        if (StringUtils.isEmpty(gameIsDev) == false) {
+                            gameVo.setIsDev(Boolean.valueOf(gameIsDev) ? 1 : 0);
+                        } else {
                             gameVo.setIsDev(0);
                         }
-                        if(StringUtils.isEmpty(properties.getProperty("QSP_PASSWORD"))==false)
-                        {
+                        if (StringUtils.isEmpty(properties.getProperty("QSP_PASSWORD")) == false) {
                             gameVo.setQspPassword(properties.getProperty("QSP_PASSWORD"));
-                        }else
-                        {
+                        } else {
                             gameVo.setQspPassword("");
                         }
                         list.add(gameVo);
@@ -134,12 +123,12 @@ public class GameFolderLoader {
                 gameVo.setBigKuyash(false);
                 gameVo.setGameVersion("1.0.0");
                 gameVo.setIsDev(0);
-                gameVo.setIsDevProject(isDev?1:0);
+                gameVo.setIsDevProject(isDev ? 1 : 0);
                 gameVo.setQspPassword("");
-                gameVo.setGameDevFolder(gameFolder+"locations/");
+                gameVo.setGameDevFolder(gameFolder + "locations/");
                 gameVo.setGameQproj(file.getPath());
                 list.add(gameVo);
-                GAME_FOLDER_MAP.put(gameId,gameVo);
+                GAME_FOLDER_MAP.put(gameId, gameVo);
                 // System.out.println(f.getPath());
             }
 

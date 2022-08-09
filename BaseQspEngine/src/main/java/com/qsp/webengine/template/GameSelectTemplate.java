@@ -1,21 +1,25 @@
 package com.qsp.webengine.template;
 
-import com.qsp.player.common.GameFolderLoader;
-import com.qsp.webengine.util.Utils;
-import com.qsp.webengine.vo.FileVo;
-import com.qsp.webengine.vo.GameVo;
-import com.qsp.player.common.QspConstants;
 import com.qsp.player.PlayerEngine;
+import com.qsp.player.common.GameFolderLoader;
+import com.qsp.player.common.QspConstants;
+import com.qsp.webengine.util.Utils;
+import com.qsp.webengine.vo.GameVo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 游戏选择界面
+ *
  * @author cxy
  */
 public class GameSelectTemplate {
@@ -48,8 +52,6 @@ public class GameSelectTemplate {
     }
 
 
-
-
     public InputStream loadGame(PlayerEngine mPlayerEngine, String gameId) {
 
         if (StringUtils.isEmpty(gameId)) {
@@ -66,11 +68,11 @@ public class GameSelectTemplate {
             return Utils.BlankInputStream();
         }
         mPlayerEngine.getGameStatus().setGamePathById(actionScript);
-        GameVo gameVo= GameFolderLoader.getFolderMap().get(gameId);
+        GameVo gameVo = GameFolderLoader.getFolderMap().get(gameId);
 
-        new File(gameVo.getGameFolder()+"/exportText/").mkdir();
+        new File(gameVo.getGameFolder() + "/exportText/").mkdir();
 
-        mPlayerEngine.getLibQspProxy().qspFileToText(gameVo,gameVo.getGameFolder()+"/exportText/source.txt");
+        mPlayerEngine.getLibQspProxy().qspFileToText(gameVo, gameVo.getGameFolder() + "/exportText/source.txt");
         return Utils.StringToInputStream("1");
     }
 
@@ -81,9 +83,9 @@ public class GameSelectTemplate {
         }
         mPlayerEngine.getGameStatus().setGamePathById(actionScript);
 
-        GameVo gameVo= GameFolderLoader.getFolderMap().get(gameId);
-        new File(gameVo.getGameFolder()+"/exportQsp/").mkdir();
-        mPlayerEngine.getLibQspProxy().toGemFile(gameVo, gameVo.getGameFolder()+"/exportQsp/game.qsp");
+        GameVo gameVo = GameFolderLoader.getFolderMap().get(gameId);
+        new File(gameVo.getGameFolder() + "/exportQsp/").mkdir();
+        mPlayerEngine.getLibQspProxy().toGemFile(gameVo, gameVo.getGameFolder() + "/exportQsp/game.qsp");
         return Utils.StringToInputStream("1");
     }
 }

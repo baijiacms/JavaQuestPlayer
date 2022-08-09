@@ -1,8 +1,5 @@
 package com.qsp.player.libqsp.dto;
 
-import com.qsp.player.libqsp.dto.QspListItem;
-import com.qsp.player.libqsp.dto.QspMenuItem;
-
 import java.io.File;
 import java.util.ArrayList;
 

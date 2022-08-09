@@ -12,7 +12,7 @@ public final class Base64Util {
 
     public static String decodeBase64(String base64) {
         try {
-            return new String(java.util.Base64.getDecoder().decode(base64),"utf-8");
+            return new String(java.util.Base64.getDecoder().decode(base64), "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
