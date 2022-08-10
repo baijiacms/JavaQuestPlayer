@@ -12,9 +12,6 @@ import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.eclipse.jetty.server.Server;
-
-import javax.swing.*;
 
 
 /**
@@ -34,7 +31,7 @@ public class Runner extends Application {
             browser.setEventDispatcher(new MyEventDispatcher(browser.getEventDispatcher()));
         }
         BorderPane root = new BorderPane(browser);
-        stage.setScene(new Scene(root, QspConstants.minWidth, QspConstants.minHeight));
+        stage.setScene(new Scene(root, QspConstants.MIN_WIDTH, QspConstants.MIN_HEIGHT));
         stage.setTitle(QspConstants.ENGINE_TITLE+" "+ QspConstants.ENGINE_VERSION+" Powered By "+QspConstants.ENGINE_POWER_BY);
         webEngine.setJavaScriptEnabled(true);
         //alert提示

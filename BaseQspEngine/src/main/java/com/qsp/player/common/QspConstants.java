@@ -7,14 +7,14 @@ import java.io.File;
  */
 public class QspConstants {
 
-    public static final String DEFAULT_USERID = "USER1";
+    public static final String DEFAULT_USER = "USER1";
     public static int HTTP_PORT = 19870;
     public static String HTTP_LOCAL_URL = "http://127.0.0.1:" + HTTP_PORT;
     public static final String ENGINE_TITLE = "JavaQuestPlayer";
     public static final String ENGINE_POWER_BY = "https://github.com/baijiacms/";
-    public static final String ENGINE_VERSION = "20220809";
-    public static final int minWidth = 1280;
-    public static final int minHeight = 960;
+    public static final String ENGINE_VERSION = "20220810";
+    public static final int MIN_WIDTH = 1280;
+    public static final int MIN_HEIGHT = 960;
 
     public static String ENGINE_RESOURCE_PATH;
     public static String QSP_DLL_PATH;

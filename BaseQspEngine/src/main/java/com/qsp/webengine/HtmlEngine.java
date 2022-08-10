@@ -73,7 +73,7 @@ public class HtmlEngine {
         ResponseVo responseVo = new ResponseVo();
         target = target.replace(QspConstants.HTTP_LOCAL_URL, "");
         if (this.mPlayerEngine.getGameStatus().isStart) {
-            target = target.replace(mPlayerEngine.getGameStatus().GAME_RESOURCE_PATH, "");
+            target = target.replace(mPlayerEngine.getGameStatus().gameResourcePath, "");
         }
         target = target.replace(QspConstants.ENGINE_RESOURCE_PATH, "");
         if (target.startsWith("/") == false) {
@@ -89,57 +89,57 @@ public class HtmlEngine {
         switch (target) {
             case "/engine/isNeedRefresh":
                 htmlCode = "{\"actionschanged\":" + (mPlayerEngine.getGameStatus().isActionschanged() ? "true" : "false") + ",\"objectschanged\":" + (mPlayerEngine.getGameStatus().isObjectschanged() ? "true" : "false") + ",\"varsdescchanged\":" + (mPlayerEngine.getGameStatus().isVarsdescchanged() ? "true" : "false") + ",\"maindescchanged\":" + (mPlayerEngine.getGameStatus().isMaindescchanged(false) ? "true" : "false") + "}";
-                responseStream = Utils.StringToInputStream(htmlCode);
+                responseStream = Utils.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/engine/isNeedRefreshHtml":
-                responseStream = Utils.StringToInputStream(mPlayerEngine.getGameStatus().isMaindescchanged(false) ? "1" : "0");
+                responseStream = Utils.stringToInputStream(mPlayerEngine.getGameStatus().isMaindescchanged(false) ? "1" : "0");
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/engine/isNeedRefreshAction":
-                responseStream = Utils.StringToInputStream(mPlayerEngine.getGameStatus().isActionschanged() ? "1" : "0");
+                responseStream = Utils.stringToInputStream(mPlayerEngine.getGameStatus().isActionschanged() ? "1" : "0");
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/engine/isNeedRefreshUser":
-                responseStream = Utils.StringToInputStream(mPlayerEngine.getGameStatus().isVarsdescchanged() ? "1" : "0");
+                responseStream = Utils.stringToInputStream(mPlayerEngine.getGameStatus().isVarsdescchanged() ? "1" : "0");
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/engine/isNeedRefreshConsole":
-                responseStream = Utils.StringToInputStream(mPlayerEngine.getGameStatus().isObjectschanged() ? "1" : "0");
+                responseStream = Utils.stringToInputStream(mPlayerEngine.getGameStatus().isObjectschanged() ? "1" : "0");
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/favicon.ico":
-                responseStream = Utils.BlankInputStream();
+                responseStream = Utils.blankInputStream();
                 responseVo.setResponseStream(responseStream);
 
                 responseVo.setContentType(MyMediaTypeFactory.getContentType(target));
                 return responseVo;
             case "/engineHtmlPage":
                 htmlCode = htmlTemplate.getHtmlHtml();
-                responseStream = Utils.StringToInputStream(htmlCode);
+                responseStream = Utils.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engineUserPage":
                 htmlCode = userTemplate.getUserHtml();
-                responseStream = Utils.StringToInputStream(htmlCode);
+                responseStream = Utils.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engineConsolePage":
                 htmlCode = consoleTemplate.getConsoleHtml();
-                responseStream = Utils.StringToInputStream(htmlCode);
+                responseStream = Utils.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engineActionPage":
                 htmlCode = actionTemplate.getActionHtml();
-                responseStream = Utils.StringToInputStream(htmlCode);
+                responseStream = Utils.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
@@ -193,21 +193,21 @@ public class HtmlEngine {
             case "/engine/openSaveWindow":
                 mPlayerEngine.getGameStatus().isOpenSaveWindow = true;
                 mPlayerEngine.getGameStatus().refreshAll();
-                responseStream = Utils.BlankInputStream();
+                responseStream = Utils.blankInputStream();
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/closeSaveWindow":
                 mPlayerEngine.getGameStatus().isOpenSaveWindow = false;
                 mPlayerEngine.getGameStatus().refreshAll();
-                responseStream = Utils.BlankInputStream();
+                responseStream = Utils.blankInputStream();
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/deleteGameSave":
                 actionScript = request.getParameter("actionScript").trim();
                 if (StringUtils.isEmpty(actionScript)) {
-                    responseStream = Utils.BlankInputStream();
+                    responseStream = Utils.blankInputStream();
                     responseVo.setResponseStream(responseStream);
                     responseVo.setContentType(HTML_CONTENT_TYPE);
                     return responseVo;
@@ -219,7 +219,7 @@ public class HtmlEngine {
             case "/engine/GameSave":
                 actionScript = request.getParameter("actionScript").trim();
                 if (StringUtils.isEmpty(actionScript)) {
-                    responseStream = Utils.BlankInputStream();
+                    responseStream = Utils.blankInputStream();
                     responseVo.setResponseStream(responseStream);
                     responseVo.setContentType(HTML_CONTENT_TYPE);
                     return responseVo;
@@ -232,7 +232,7 @@ public class HtmlEngine {
             case "/engine/LoadGameSave":
                 actionScript = request.getParameter("actionScript").trim();
                 if (StringUtils.isEmpty(actionScript)) {
-                    responseStream = Utils.BlankInputStream();
+                    responseStream = Utils.blankInputStream();
                     responseVo.setResponseStream(responseStream);
                     responseVo.setContentType(HTML_CONTENT_TYPE);
                     return responseVo;
@@ -253,7 +253,7 @@ public class HtmlEngine {
                 return responseVo;
             case "/engine/gameIndex"://游戏主界面
                 htmlCode = indexTemplate.getIndexHtml();
-                responseStream = Utils.StringToInputStream(htmlCode);
+                responseStream = Utils.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
@@ -261,13 +261,13 @@ public class HtmlEngine {
             case "/engine.html"://游戏选择界面
                 mPlayerEngine.getGameStatus().isStart = false;
                 htmlCode = gameSelectTemplate.getHtml();
-                responseStream = Utils.StringToInputStream(htmlCode);
+                responseStream = Utils.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/loadingPage":
                 htmlCode = loadingTemplate.getHtml();
-                responseStream = Utils.StringToInputStream(htmlCode);
+                responseStream = Utils.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;

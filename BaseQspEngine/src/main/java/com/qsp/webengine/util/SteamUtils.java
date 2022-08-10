@@ -35,7 +35,7 @@ public class SteamUtils {
             fileName = fileName.replaceFirst("/engine/lib/sob/", "/");
             return getGameResourceInputSteam(mPlayerEngine, fileName);
         }
-        return Utils.BlankInputStream();
+        return Utils.blankInputStream();
 //        return Gengine.class.getResourceAsStream(Constants.LUA_SCRIPT_FILE_PATH+luaFileMap.get(fileName));
     }
 
@@ -61,9 +61,9 @@ public class SteamUtils {
         if (mPlayerEngine.getGameStatus().isStart) {
 //        fileName=fileName.replaceAll("%20"," ");
             try {
-                return new FileInputStream(mPlayerEngine.getGameStatus().GAME_RESOURCE_PATH + "/" + fileName);
+                return new FileInputStream(mPlayerEngine.getGameStatus().gameResourcePath + "/" + fileName);
             } catch (Exception e) {
-                logger.error("游戏资源未找到:" + mPlayerEngine.getGameStatus().GAME_RESOURCE_PATH + "/" + fileName);
+                logger.error("游戏资源未找到:" + mPlayerEngine.getGameStatus().gameResourcePath + "/" + fileName);
                 // e.printStackTrace();
             }
         }
@@ -74,7 +74,7 @@ public class SteamUtils {
             logger.error("系统资源未找到:" + QspConstants.GAME_DATA_PATH + fileName);
             // e.printStackTrace();
         }
-        return Utils.BlankInputStream();
+        return Utils.blankInputStream();
 //        return Gengine.class.getResourceAsStream(Constants.LUA_SCRIPT_FILE_PATH+luaFileMap.get(fileName));
     }
 }

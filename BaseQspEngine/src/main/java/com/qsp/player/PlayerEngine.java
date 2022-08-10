@@ -7,7 +7,7 @@ import com.qsp.player.libqsp.LibQspProxy;
 import com.qsp.player.libqsp.LibQspProxyImpl;
 import com.qsp.player.libqsp.dto.QspListItem;
 import com.qsp.player.libqsp.dto.QspMenuItem;
-import com.qsp.player.libqsp.dto.RefreshInterfaceRequest;
+import com.qsp.player.libqsp.dto.RefreshRequest;
 import com.qsp.player.libqsp.service.AudioPlayer;
 import com.qsp.player.libqsp.service.GameContentResolver;
 import com.qsp.player.libqsp.service.HtmlProcessor;
@@ -51,13 +51,13 @@ public class PlayerEngine implements GameInterface {
 
     private void initGame() {
 
-        String gameId = gameStatus.GAME_ID;
-        String gameTitle = gameStatus.GAME_TITLE;
+        String gameId = gameStatus.gameId;
+        String gameTitle = gameStatus.gameTitle;
 
-        String gameDirUri = gameStatus.GAME_RESOURCE_PATH;
+        String gameDirUri = gameStatus.gameResourcePath;
         File gameDir = new File(gameDirUri);
 
-        String gameFileUri = gameStatus.GAME_FILE;
+        String gameFileUri = gameStatus.gameFile;
         File gameFile = new File(gameFileUri);
 
         libQspProxy.getGameObject().reset();
@@ -81,7 +81,7 @@ public class PlayerEngine implements GameInterface {
     }
 
     @Override
-    public void refresh(RefreshInterfaceRequest request) {
+    public void refresh(RefreshRequest request) {
 
         if (request.mainDescChanged) {
 
@@ -116,11 +116,11 @@ public class PlayerEngine implements GameInterface {
         String newStr = path.toLowerCase();
         if (newStr.endsWith("webm") || newStr.endsWith("mp4") || newStr.endsWith("mp3")) {
             if (newStr.startsWith("file://") == false) {
-                path = path.replace(gameStatus.URL_REPLACE_URL, "");
+                path = path.replace(gameStatus.urlReplaceUrl, "");
                 if (path.startsWith("/") == false) {
                     path = "/" + path;
                 }
-                path = gameStatus.URL_BASE_URL + path;
+                path = gameStatus.urlBaseUrl + path;
             }
         }
         this.viewInterface.showPicture(path);
@@ -159,7 +159,7 @@ public class PlayerEngine implements GameInterface {
     @Override
     public String loadSaveGame(String filename) {
         if (StringUtils.isEmpty(filename)) {
-            filename = LibQspProxyImpl.quickSaveName;
+            filename = LibQspProxyImpl.QUICK_SAVE_NAME;
         }
         if (filename.endsWith(".sav") == false) {
             filename = filename + ".sav";
@@ -192,7 +192,7 @@ public class PlayerEngine implements GameInterface {
     @Override
     public void saveGame(String filename) {
         if (StringUtils.isEmpty(filename)) {
-            filename = LibQspProxyImpl.quickSaveName;
+            filename = LibQspProxyImpl.QUICK_SAVE_NAME;
         }
 
         if (filename.endsWith(".sav") == false) {
@@ -258,8 +258,8 @@ public class PlayerEngine implements GameInterface {
     public void restartGame(String gameId) {
 
         gameStatus.isStart = true;
-        gameStatus.IS_SOB_GAME = false;
-        gameStatus.IS_BIG_KUYASH = false;
+        gameStatus.isSobGame = false;
+        gameStatus.isBigKuyash = false;
         gameStatus.setGamePathById(gameId);
         initGame();
         libQspProxy.restartGame();

@@ -14,50 +14,50 @@ public class GameStatus {
     public volatile long gameStartTime;
     public volatile long lastMsCountCallTime;
     public boolean isOpenSaveWindow = false;
-    public boolean IS_SOB_GAME = false; //sob游戏时候特殊处理
-    public boolean IS_BIG_KUYASH = false; //BIG_KUYASH游戏时候特殊处理
+    public boolean isSobGame = false; //sob游戏时候特殊处理
+    public boolean isBigKuyash = false; //BIG_KUYASH游戏时候特殊处理
     public boolean isProxy = false;
 
     public boolean isStart = false;
-    public String GAME_RESOURCE_PATH;
-    public String GAME_FILE;
-    public String GAME_ID = "default";
-    public String GAME_TITLE = "default";
-    public String GAME_VERSION = "1.0.0";
-    public String URL_BASE_URL;
-    public String URL_REPLACE_URL;
+    public String gameResourcePath;
+    public String gameFile;
+    public String gameId = "default";
+    public String gameTitle = "default";
+    public String gameVersion = "1.0.0";
+    public String urlBaseUrl;
+    public String urlReplaceUrl;
 
     private void setGameResource(String gameId) {
-        this.GAME_ID = gameId;
-        this.GAME_RESOURCE_PATH = QspConstants.GAME_DATA_PATH + this.GAME_ID;
-        URL_BASE_URL = "file:///" + this.GAME_RESOURCE_PATH;
-        URL_REPLACE_URL = QspConstants.HTTP_LOCAL_URL;
+        this.gameId = gameId;
+        this.gameResourcePath = QspConstants.GAME_DATA_PATH + this.gameId;
+        urlBaseUrl = "file:///" + this.gameResourcePath;
+        urlReplaceUrl = QspConstants.HTTP_LOCAL_URL;
 //        if(this.isProxy) {
 //            URI.BASE_URL= "file:///"+ this.GAME_RESOURCE_PATH;
 //            URI.REPLACE_URL=LOCAL_URL;
 //        }
-        GAME_FILE = GAME_RESOURCE_PATH + "/game.qsp";
+        gameFile = gameResourcePath + "/game.qsp";
     }
 
     public String getSaveFolder() {
-        String saveFolder = this.GAME_RESOURCE_PATH + "/saves/";
+        String saveFolder = this.gameResourcePath + "/saves/";
         new File(saveFolder).mkdir();
         return saveFolder;
     }
 
     public void setGamePathById(String gameId) {
         setGameResource(gameId);
-        String gameFolder = this.GAME_RESOURCE_PATH + "/";
+        String gameFolder = this.gameResourcePath + "/";
         File[] files = new File(gameFolder).listFiles();
         for (File f : files) {
             if (f.isDirectory()) {
             } else {
                 if (f.isFile() && f.getPath().endsWith(".qsp")) {
-                    this.GAME_FILE = f.getAbsolutePath();
+                    this.gameFile = f.getAbsolutePath();
                 }
             }
         }
-        File configFile = new File(this.GAME_RESOURCE_PATH + "/game.ini");
+        File configFile = new File(this.gameResourcePath + "/game.ini");
         boolean isReadConfig = false;
         if (configFile.exists()) {
             isReadConfig = true;
@@ -65,15 +65,15 @@ public class GameStatus {
                 Properties properties = new Properties();
                 properties.load(new FileReader(configFile));
                 if (StringUtils.isEmpty(properties.getProperty("GAME_NAME")) == false) {
-                    this.GAME_TITLE = properties.getProperty("GAME_NAME");
-                    this.GAME_VERSION = properties.getProperty("GAME_VERSION");
+                    this.gameTitle = properties.getProperty("GAME_NAME");
+                    this.gameVersion = properties.getProperty("GAME_VERSION");
                     String gameIsSob = properties.getProperty("GAME_IS_SOB");
                     if (StringUtils.isEmpty(gameIsSob) == false) {
-                        this.IS_SOB_GAME = Boolean.valueOf(gameIsSob);
+                        this.isSobGame = Boolean.valueOf(gameIsSob);
                     }
                     String gameIsBigKuyash = properties.getProperty("GAME_IS_BIG_KUYASH");
                     if (StringUtils.isEmpty(gameIsBigKuyash) == false) {
-                        this.IS_BIG_KUYASH = Boolean.valueOf(gameIsBigKuyash);
+                        this.isBigKuyash = Boolean.valueOf(gameIsBigKuyash);
                     }
                 } else {
                     isReadConfig = false;
@@ -84,8 +84,8 @@ public class GameStatus {
         }
 
         if (isReadConfig == false) {
-            this.GAME_TITLE = gameId;
-            this.GAME_VERSION = "1.0.0";
+            this.gameTitle = gameId;
+            this.gameVersion = "1.0.0";
         }
     }
 

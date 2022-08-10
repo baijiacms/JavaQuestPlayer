@@ -25,10 +25,10 @@ function quickSaveGame()
               csGame=false;
            if("1"==data||1==data)
            {
-           alert("快速保存成功");
+           alert("quick save success");
            }else
            {
-           alert("快速保存失败");
+           alert("quick save error");
            }
        });
    }
@@ -43,10 +43,10 @@ function quickLoadGame()
           clGame=false;
        if("1"==data||1==data)
               {
-         alert("快速读取成功");
+         alert("load QuickSave success");
           }else
             {
-                  alert("快速读取失败");
+                  alert("load QuickSave error");
           }
        });
    }
@@ -71,12 +71,12 @@ function showSaveWindow()
                    ${gameTitle}</span>
                 </div>
                            <ul class="nav-item">
-                                                   <li><a href="/" style="color:#fff;text-decoration: none;">返回主页</a></li>
+                                                   <li><a href="/" style="color:#fff;text-decoration: none;">Return GameList</a></li>
                                                                               </ul>
                                                                                <ul class="info">
-                                                                                          <li><a href="javascript:;" onClick="showSaveWindow()" style="color:#fff;text-decoration: none;">存读</a></li>
-                                                                                           <li><a href="javascript:;" onClick="quickSaveGame()" style="color:#fff;text-decoration: none;">快存</a></li>
-                                                                                          <li><a href="javascript:;"  onClick="quickLoadGame()"  style="color:#fff;text-decoration: none;">快取</a></li>
+                                                                                          <li><a href="javascript:;" onClick="showSaveWindow()" style="color:#fff;text-decoration: none;">SaveList</a></li>
+                                                                                           <li><a href="javascript:;" onClick="quickSaveGame()" style="color:#fff;text-decoration: none;">QuickSave</a></li>
+                                                                                          <li><a href="javascript:;"  onClick="quickLoadGame()"  style="color:#fff;text-decoration: none;">QuickLoad</a></li>
                                                                                       </ul>
             </div>
 

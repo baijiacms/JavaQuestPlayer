@@ -2,18 +2,18 @@ package com.qsp.player.libqsp.thread;
 
 
 public class ThreadConstants {
-    public static final int qspFileToText = 1;
-    public static final int toGemFile = 2;
-    public static final int QSPSelectMenuItem = 3;
-    public static final int loadGameState = 4;
-    public static final int QSPExecCounter = 5;
-    public static final int QSPExecString = 6;
-    public static final int QSPSetInputStrText = 7;
-    public static final int QSPSetSelObjectIndex = 8;
-    public static final int QSPSetSelActionIndex = 9;
-    public static final int QSPExecuteSelActionCode = 10;
-    public static final int QSPRestartGame = 11;
-    public static final int QSPStart = 12;
-    public static final int loadGameWorld = 13;
-    public static final int QSPSaveGameAsData = 14;
+    public static final int QSP_FILE_TO_TEXT = 1;
+    public static final int TO_GEM_FILE = 2;
+    public static final int QSP_SELECT_MENU_ITEM = 3;
+    public static final int LOAD_GAME_STATE = 4;
+    public static final int QSP_EXEC_COUNTER = 5;
+    public static final int QSP_EXEC_STRING = 6;
+    public static final int QSP_SET_INPUT_STR_TEXT = 7;
+    public static final int QSP_SET_SEL_OBJECT_INDEX = 8;
+    public static final int QSP_SET_SEL_ACTION_INDEX = 9;
+    public static final int QSP_EXECUTE_SEL_ACTION_CODE = 10;
+    public static final int QSP_RESTART_GAME = 11;
+    public static final int QSP_START = 12;
+    public static final int LOAD_GAME_WORLD = 13;
+    public static final int QSP_SAVE_GAME_AS_DATA = 14;
 }

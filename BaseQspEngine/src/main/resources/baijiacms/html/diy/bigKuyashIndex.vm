@@ -92,7 +92,7 @@ function saveGame()
      if(saveFileName=="")
      {
           csGame=false;
-           alert("请输入文件名");
+           alert("Please enter a file name");
      return;
      }
 $.get("/engine/GameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
@@ -100,10 +100,10 @@ $.get("/engine/GameSave?actionScript="+encodeURIComponent(saveFileName) ,functio
               csGame=false;
            if("1"==data||1==data)
            {
-           alert("保存成功");
+           alert("save Success");
            }else
            {
-           alert("保存失败");
+           alert("save error");
            }
        });
    }
@@ -325,7 +325,7 @@ function closeSaveWindow()
 				<div class="skin-dialog-background"></div>
 				<div id="qsp-dialog-save-slots-container"></div>
 				<div id="autosave-holder">
-					<a class="qsp-save-slot-enabled qsp-button" onclick="javascript:qspCloseSaveSlots(6);">自动保存</a>
+					<a class="qsp-save-slot-enabled qsp-button" onclick="javascript:qspCloseSaveSlots(6);">AutoSave</a>
 				</div>
 			</div>
 		</div>

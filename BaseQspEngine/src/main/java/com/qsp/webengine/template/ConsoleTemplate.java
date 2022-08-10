@@ -45,11 +45,11 @@ public class ConsoleTemplate {
         StringBuffer response = new StringBuffer();
         mPlayerEngine.getGameStatus().setObjectschanged(false);
         if (mPlayerEngine.getGameStatus().isOpenSaveWindow) {
-            return Utils.BlankInputStream();
+            return Utils.blankInputStream();
         }
         ArrayList<QspListItem> list = mPlayerEngine.refreshObjects();
         response.append(getConsoleActionHtml(list));
-        return Utils.StringToInputStream(response.toString());
+        return Utils.stringToInputStream(response.toString());
     }
 
     private String getConsoleActionHtml(ArrayList<QspListItem> list) {
@@ -69,6 +69,6 @@ public class ConsoleTemplate {
         // Looper.loop();
 
         mPlayerEngine.getGameStatus().setObjectschanged(true);
-        return Utils.BlankInputStream();
+        return Utils.blankInputStream();
     }
 }

@@ -2,7 +2,6 @@ package com.baijiacms.browser;
 
 import com.qsp.QspEngineServer;
 import com.qsp.player.common.QspConstants;
-import org.eclipse.jetty.server.Server;
 
 import com.teamdev.jxbrowser.chromium.*;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
@@ -56,7 +55,7 @@ public class Runner {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.add(addressPane, BorderLayout.NORTH);
         frame.add(view, BorderLayout.CENTER);
-        frame.setSize(QspConstants.minWidth, QspConstants.minHeight);
+        frame.setSize(QspConstants.MIN_WIDTH, QspConstants.MIN_HEIGHT);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

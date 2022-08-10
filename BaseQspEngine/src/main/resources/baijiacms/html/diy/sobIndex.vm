@@ -164,7 +164,7 @@ $.get("/engine/htmlCall?actionScript="+encodeURIComponent(script),function(resul
                 <div id="qsp-dialog-save-slots-container"></div>
                 <div id="autosave-holder">
                     <!--<a class="qsp-save-slot-enabled qsp-button" href="exec: OPENGAME 'autosave.sav'">AUTOSAVE</a>-->
-                    <a class="qsp-save-slot-enabled qsp-button" onclick="javascript:qspCloseSaveSlots(6);">自动保存</a>
+                    <a class="qsp-save-slot-enabled qsp-button" onclick="javascript:qspCloseSaveSlots(6);">AUTOSAVE</a>
                 </div>
             </div>
         </div>

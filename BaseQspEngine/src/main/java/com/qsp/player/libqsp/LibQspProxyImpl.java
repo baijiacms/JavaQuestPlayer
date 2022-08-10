@@ -4,7 +4,7 @@ import com.qsp.player.GameStatus;
 import com.qsp.player.common.WindowType;
 import com.qsp.player.libqsp.dto.GameObject;
 import com.qsp.player.libqsp.dto.QspMenuItem;
-import com.qsp.player.libqsp.dto.RefreshInterfaceRequest;
+import com.qsp.player.libqsp.dto.RefreshRequest;
 import com.qsp.player.libqsp.service.AudioPlayer;
 import com.qsp.player.libqsp.service.GameContentResolver;
 import com.qsp.player.libqsp.service.HtmlProcessor;
@@ -33,21 +33,19 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     private final AudioPlayer audioPlayer;
     private LibQspThread libQspThread;
     private GameStatus gameStatus;
-    public static final String quickSaveName = "quickSave";
+    public static final String QUICK_SAVE_NAME = "quickSave";
     private NativeMethods nativeMethods;
-
+    private String userId;
     public LibQspProxyImpl(String userId, GameStatus gameStatus,
                            GameContentResolver gameContentResolver,
                            HtmlProcessor htmlProcessor,
                            AudioPlayer audioPlayer) {
+        this.userId=userId;
         this.gameStatus = gameStatus;
         this.gameContentResolver = gameContentResolver;
         this.htmlProcessor = htmlProcessor;
         this.audioPlayer = audioPlayer;
 
-        nativeMethods = new NativeMethods(this);
-        this.libQspThread = new LibQspThread(userId, this);
-        this.libQspThread.start();
     }
 
     // region LibQspProxy
@@ -55,7 +53,10 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     @Override
     public void start() {
         logger.info("command:start");
-        this.libQspThread.QSPStart(gameInterface);
+        nativeMethods = new NativeMethods(this);
+        this.libQspThread = new LibQspThread(userId, this);
+        this.libQspThread.start();
+        this.libQspThread.qspStart(gameInterface);
     }
 
     @Override
@@ -138,7 +139,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
         //    runOnQspThread(() -> saveGameState(uri));
         //    return;
         //}
-        this.libQspThread.QSPSaveGameAsData(gameInterface, uri);
+        this.libQspThread.qspSaveGameAsData(gameInterface, uri);
     }
 
     @Override
@@ -147,7 +148,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
         logger.info("command:onActionSelected");
 //        runOnQspThread(() -> {
 
-        this.libQspThread.QSPSetSelActionIndex(index, gameInterface);
+        this.libQspThread.qspSetSelActionIndex(index, gameInterface);
 //        });
     }
 
@@ -156,7 +157,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
 
         logger.info("command:onActionClicked");
 //      runOnQspThread(() -> {
-        this.libQspThread.QSPExecuteSelActionCode(index, gameInterface);
+        this.libQspThread.qspExecuteSelActionCode(index, gameInterface);
 //       });
     }
 
@@ -165,7 +166,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
 
         logger.info("command:onObjectSelected");
 //        runOnQspThread(() -> {
-        this.libQspThread.QSPSetSelObjectIndex(index, gameInterface);
+        this.libQspThread.qspSetSelObjectIndex(index, gameInterface);
 //        });
     }
 
@@ -180,7 +181,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
 
 //        runOnQspThread(() -> {
         String input = inter.showInputBox("userInput");
-        this.libQspThread.QSPSetInputStrText(input, gameInterface);
+        this.libQspThread.qspSetInputStrText(input, gameInterface);
 //        });
     }
 
@@ -189,14 +190,14 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
         String code2 = code.trim();
         logger.info("command:execute:" + code2);
         if ("OPENGAME".equals(code2)) {
-            if (gameStatus.IS_BIG_KUYASH) {
+            if (gameStatus.isBigKuyash) {
 
                 this.gameStatus.isOpenSaveWindow = true;
                 return;
             }
         }
 //        runOnQspThread(() -> {
-        this.libQspThread.QSPExecString(code, gameInterface);
+        this.libQspThread.qspExecString(code, gameInterface);
 //        });
     }
 
@@ -209,7 +210,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
         }
 
 //        runOnQspThread(() -> {
-        this.libQspThread.QSPExecCounter(this.gameInterface);
+        this.libQspThread.qspExecCounter(this.gameInterface);
 //        });
     }
 
@@ -235,7 +236,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     public void RefreshInt() {
 
         logger.info("command:RefreshInt");
-        RefreshInterfaceRequest request = this.libQspThread.getRefreshInterfaceRequest(htmlProcessor);
+        RefreshRequest request = this.libQspThread.getRefreshInterfaceRequest(htmlProcessor);
         GameInterface inter = gameInterface;
         if (inter != null) {
             inter.refresh(request);
@@ -299,7 +300,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     @Override
     public void OpenGame(String filename) {
         logger.info("command:OpenGame");
-        if (gameStatus.IS_BIG_KUYASH) {
+        if (gameStatus.isBigKuyash) {
             if (StringUtils.isEmpty(filename)) {
 
                 gameStatus.isOpenSaveWindow = true;
@@ -308,7 +309,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
         }
         File savesDir = getOrCreateDirectory(gameObject.gameDir, "saves");
         if (StringUtils.isEmpty(filename)) {
-            filename = quickSaveName;
+            filename = QUICK_SAVE_NAME;
         }
 
         if (filename.endsWith(".sav") == false) {
@@ -330,7 +331,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     public void SaveGame(String filename) {
         logger.info("command:SaveGame:" + filename);
 
-        if (gameStatus.IS_BIG_KUYASH) {
+        if (gameStatus.isBigKuyash) {
             if (StringUtils.isEmpty(filename)) {
 
                 gameStatus.isOpenSaveWindow = true;
@@ -386,7 +387,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
 
         int result = inter.showMenu();
         if (result != -1) {
-            this.libQspThread.QSPSelectMenuItem(result);
+            this.libQspThread.qspSelectMenuItem(result);
         }
     }
 

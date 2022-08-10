@@ -69,17 +69,17 @@ function saveGame()
      if(saveFileName=="")
      {
           csGame=false;
-           alert("请输入文件名");
+           alert("Please enter a file name");
      return;
      }
 $.get("/engine/GameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
               csGame=false;
            if("1"==data||1==data)
            {
-           alert("保存成功");
+           alert("save success");
            }else
            {
-           alert("保存失败");
+           alert("save error");
            }
        });
    }
@@ -94,11 +94,11 @@ $.get("/engine/LoadGameSave?actionScript="+encodeURIComponent(saveFileName) ,fun
           clGame=false;
        if("1"==data||1==data)
               {
-         alert("读取成功");
+         alert("load success");
          closeSaveWindow();
           }else
             {
-                  alert("读取失败");
+                  alert("load error");
           }
        });
    }
@@ -114,10 +114,10 @@ $.get("/engine/deleteGameSave?actionScript="+encodeURIComponent(saveFileName) ,f
           dlGame=false;
        if("1"==data||1==data)
               {
-         alert("删除成功");
+         alert("delete success");
           }else
             {
-                  alert("删除失败");
+                  alert("delete error");
           }
        });
    }

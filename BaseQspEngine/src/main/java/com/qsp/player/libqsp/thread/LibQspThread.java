@@ -19,7 +19,7 @@ import java.util.Locale;
 import static com.qsp.player.util.StringUtil.getStringOrEmpty;
 
 public class LibQspThread extends Thread {
-    public ThreadObject libQspThreadObject = new ThreadObject();
+    private ThreadObject libQspThreadObject = new ThreadObject();
 
     private static final Logger logger = LoggerFactory.getLogger(LibQspThread.class);
 
@@ -33,8 +33,10 @@ public class LibQspThread extends Thread {
         this.threadName = "ThreadName@" + userId;
         this.libQspProxyImpl = libQspProxyImpl;
         devUtils = new DevUtils();
+        libQspThreadObject.userId=userId;
     }
 
+    @Override
     public void run() {
         while (true) {
             if (libQspThreadObject.seekCount < 0) {
@@ -77,47 +79,49 @@ public class LibQspThread extends Thread {
     private void toDo() {
 //        synchronized (libQspThreadObject) {
         switch (libQspThreadObject.method) {
-            case ThreadConstants.qspFileToText:
+            case ThreadConstants.QSP_FILE_TO_TEXT:
                 qspFileToText();
                 break;
-            case ThreadConstants.toGemFile:
+            case ThreadConstants.TO_GEM_FILE:
                 toGemFile();
                 break;
-            case ThreadConstants.QSPSelectMenuItem:
-                QSPSelectMenuItem();
+            case ThreadConstants.QSP_SELECT_MENU_ITEM:
+                qspSelectMenuItem();
                 break;
-            case ThreadConstants.loadGameState:
+            case ThreadConstants.LOAD_GAME_STATE:
                 loadGameState();
                 break;
-            case ThreadConstants.QSPExecCounter:
-                QSPExecCounter();
+            case ThreadConstants.QSP_EXEC_COUNTER:
+                qspExecCounter();
                 break;
-            case ThreadConstants.QSPExecString:
-                QSPExecString();
+            case ThreadConstants.QSP_EXEC_STRING:
+                qspExecString();
                 break;
-            case ThreadConstants.QSPSetInputStrText:
-                QSPSetInputStrText();
+            case ThreadConstants.QSP_SET_INPUT_STR_TEXT:
+                qspSetInputStrText();
                 break;
-            case ThreadConstants.QSPSetSelObjectIndex:
-                QSPSetSelObjectIndex();
+            case ThreadConstants.QSP_SET_SEL_OBJECT_INDEX:
+                qspSetSelObjectIndex();
                 break;
-            case ThreadConstants.QSPSetSelActionIndex:
-                QSPSetSelActionIndex();
+            case ThreadConstants.QSP_SET_SEL_ACTION_INDEX:
+                qspSetSelActionIndex();
                 break;
-            case ThreadConstants.QSPExecuteSelActionCode:
-                QSPExecuteSelActionCode();
+            case ThreadConstants.QSP_EXECUTE_SEL_ACTION_CODE:
+                qspExecuteSelActionCode();
                 break;
-            case ThreadConstants.QSPRestartGame:
-                QSPRestartGame();
+            case ThreadConstants.QSP_RESTART_GAME:
+                qspRestartGame();
                 break;
-            case ThreadConstants.QSPStart:
-                QSPStart();
+            case ThreadConstants.QSP_START:
+                qspStart();
                 break;
-            case ThreadConstants.loadGameWorld:
+            case ThreadConstants.LOAD_GAME_WORLD:
                 loadGameWorld();
                 break;
-            case ThreadConstants.QSPSaveGameAsData:
-                QSPSaveGameAsData();
+            case ThreadConstants.QSP_SAVE_GAME_AS_DATA:
+                qspSaveGameAsData();
+                break;
+            default:
                 break;
 
         }
@@ -134,22 +138,22 @@ public class LibQspThread extends Thread {
     private int index;
     private GameObject gameObject;
 
-    public void QSPSaveGameAsData(GameInterface gameInterface, Uri uri) {
+    public void qspSaveGameAsData(GameInterface gameInterface, Uri uri) {
         this.uri = uri;
         this.gameInterface = gameInterface;
 
         if (threadName.equals(Thread.currentThread().getName())) {
 
-            QSPSaveGameAsData();
+            qspSaveGameAsData();
         } else {
             synchronized (libQspThreadObject) {
-                libQspThreadObject.method = ThreadConstants.QSPSaveGameAsData;
+                libQspThreadObject.method = ThreadConstants.QSP_SAVE_GAME_AS_DATA;
                 threadRun();
             }
         }
     }
 
-    private void QSPSaveGameAsData() {
+    private void qspSaveGameAsData() {
 
         byte[] gameData = this.libQspProxyImpl.getNativeMethods().QSPSaveGameAsData(false);
         if (gameData == null) {
@@ -173,7 +177,7 @@ public class LibQspThread extends Thread {
             loadGameWorld();
         } else {
             synchronized (libQspThreadObject) {
-                libQspThreadObject.method = ThreadConstants.loadGameWorld;
+                libQspThreadObject.method = ThreadConstants.LOAD_GAME_WORLD;
                 threadRun();
             }
         }
@@ -205,69 +209,69 @@ public class LibQspThread extends Thread {
         this.libQspProxyImpl.getGameStatus().gameStartTime = System.currentTimeMillis();
         this.libQspProxyImpl.getGameStatus().lastMsCountCallTime = 0;
 //        QSPRestartGame(gameInterface);
-        QSPRestartGame();
+        qspRestartGame();
 
         return;
     }
 
-    public void QSPStart(GameInterface gameInterface) {
+    public void qspStart(GameInterface gameInterface) {
 
         this.gameInterface = gameInterface;
 
         if (threadName.equals(Thread.currentThread().getName())) {
 
-            QSPStart();
+            qspStart();
         } else {
             synchronized (libQspThreadObject) {
-                libQspThreadObject.method = ThreadConstants.QSPStart;
+                libQspThreadObject.method = ThreadConstants.QSP_START;
                 threadRun();
             }
         }
     }
 
-    private void QSPStart() {
+    private void qspStart() {
 
         this.libQspProxyImpl.getNativeMethods().QSPInit();
 //        this.libQspProxyImpl.getNativeMethods().QSPDeInit();
     }
 
-    public void QSPRestartGame(GameInterface gameInterface) {
+    public void qspRestartGame(GameInterface gameInterface) {
 
         this.gameInterface = gameInterface;
 
         if (threadName.equals(Thread.currentThread().getName())) {
 
-            QSPRestartGame();
+            qspRestartGame();
         } else {
             synchronized (libQspThreadObject) {
-                libQspThreadObject.method = ThreadConstants.QSPRestartGame;
+                libQspThreadObject.method = ThreadConstants.QSP_RESTART_GAME;
                 threadRun();
             }
         }
     }
 
-    private void QSPRestartGame() {
+    private void qspRestartGame() {
         if (!this.libQspProxyImpl.getNativeMethods().QSPRestartGame(true)) {
             showLastQspError(gameInterface);
         }
     }
 
-    public void QSPExecuteSelActionCode(int index, GameInterface gameInterface) {
+    public void qspExecuteSelActionCode(int index, GameInterface gameInterface) {
 
         this.gameInterface = gameInterface;
         this.index = index;
         if (threadName.equals(Thread.currentThread().getName())) {
 
-            QSPExecuteSelActionCode();
+            qspExecuteSelActionCode();
         } else {
             synchronized (libQspThreadObject) {
-                libQspThreadObject.method = ThreadConstants.QSPExecuteSelActionCode;
+                libQspThreadObject.method = ThreadConstants.QSP_EXECUTE_SEL_ACTION_CODE;
                 threadRun();
             }
         }
     }
 
-    private void QSPExecuteSelActionCode() {
+    private void qspExecuteSelActionCode() {
         if (!this.libQspProxyImpl.getNativeMethods().QSPSetSelActionIndex(index, false)) {
             showLastQspError(gameInterface);
         }
@@ -276,66 +280,66 @@ public class LibQspThread extends Thread {
         }
     }
 
-    public void QSPSetSelActionIndex(int index, GameInterface gameInterface) {
+    public void qspSetSelActionIndex(int index, GameInterface gameInterface) {
 
         this.gameInterface = gameInterface;
         this.index = index;
 
         if (threadName.equals(Thread.currentThread().getName())) {
 
-            QSPSetSelActionIndex();
+            qspSetSelActionIndex();
         } else {
             synchronized (libQspThreadObject) {
-                libQspThreadObject.method = ThreadConstants.QSPSetSelActionIndex;
+                libQspThreadObject.method = ThreadConstants.QSP_SET_SEL_ACTION_INDEX;
                 threadRun();
             }
         }
     }
 
-    private void QSPSetSelActionIndex() {
+    private void qspSetSelActionIndex() {
         if (!this.libQspProxyImpl.getNativeMethods().QSPSetSelActionIndex(index, false)) {
             showLastQspError(gameInterface);
         }
     }
 
-    public void QSPSetSelObjectIndex(int index, GameInterface gameInterface) {
+    public void qspSetSelObjectIndex(int index, GameInterface gameInterface) {
 
         this.gameInterface = gameInterface;
         this.index = index;
         if (threadName.equals(Thread.currentThread().getName())) {
 
-            QSPSetSelObjectIndex();
+            qspSetSelObjectIndex();
         } else {
             synchronized (libQspThreadObject) {
-                libQspThreadObject.method = ThreadConstants.QSPSetSelObjectIndex;
+                libQspThreadObject.method = ThreadConstants.QSP_SET_SEL_OBJECT_INDEX;
                 threadRun();
             }
         }
     }
 
-    private void QSPSetSelObjectIndex() {
+    private void qspSetSelObjectIndex() {
         if (!this.libQspProxyImpl.getNativeMethods().QSPSetSelObjectIndex(index, true)) {
             showLastQspError(gameInterface);
         }
     }
 
-    public void QSPSetInputStrText(String input, GameInterface gameInterface) {
+    public void qspSetInputStrText(String input, GameInterface gameInterface) {
 
         this.gameInterface = gameInterface;
         this.input = input;
 
         if (threadName.equals(Thread.currentThread().getName())) {
 
-            QSPSetInputStrText();
+            qspSetInputStrText();
         } else {
             synchronized (libQspThreadObject) {
-                libQspThreadObject.method = ThreadConstants.QSPSetInputStrText;
+                libQspThreadObject.method = ThreadConstants.QSP_SET_INPUT_STR_TEXT;
                 threadRun();
             }
         }
     }
 
-    private void QSPSetInputStrText() {
+    private void qspSetInputStrText() {
         this.libQspProxyImpl.getNativeMethods().QSPSetInputStrText(input);
 
         if (!this.libQspProxyImpl.getNativeMethods().QSPExecUserInput(true)) {
@@ -343,42 +347,42 @@ public class LibQspThread extends Thread {
         }
     }
 
-    public void QSPExecString(String code, GameInterface gameInterface) {
+    public void qspExecString(String code, GameInterface gameInterface) {
         this.gameInterface = gameInterface;
         this.code = code;
         if (threadName.equals(Thread.currentThread().getName())) {
 
-            QSPExecString();
+            qspExecString();
         } else {
             synchronized (libQspThreadObject) {
-                libQspThreadObject.method = ThreadConstants.QSPExecString;
+                libQspThreadObject.method = ThreadConstants.QSP_EXEC_STRING;
                 threadRun();
             }
         }
     }
 
-    private void QSPExecString() {
+    private void qspExecString() {
         logger.debug("exec:" + code);
         if (!this.libQspProxyImpl.getNativeMethods().QSPExecString(code, true)) {
             showLastQspError(gameInterface);
         }
     }
 
-    public void QSPExecCounter(GameInterface gameInterface) {
+    public void qspExecCounter(GameInterface gameInterface) {
         this.gameInterface = gameInterface;
 
         if (threadName.equals(Thread.currentThread().getName())) {
 
-            QSPExecCounter();
+            qspExecCounter();
         } else {
             synchronized (libQspThreadObject) {
-                libQspThreadObject.method = ThreadConstants.QSPExecCounter;
+                libQspThreadObject.method = ThreadConstants.QSP_EXEC_COUNTER;
                 threadRun();
             }
         }
     }
 
-    private void QSPExecCounter() {
+    private void qspExecCounter() {
         if (!this.libQspProxyImpl.getNativeMethods().QSPExecCounter(true)) {
             showLastQspError(this.gameInterface);
         }
@@ -394,7 +398,7 @@ public class LibQspThread extends Thread {
             loadGameState();
         } else {
             synchronized (libQspThreadObject) {
-                libQspThreadObject.method = ThreadConstants.loadGameState;
+                libQspThreadObject.method = ThreadConstants.LOAD_GAME_STATE;
                 threadRun();
             }
         }
@@ -420,20 +424,20 @@ public class LibQspThread extends Thread {
         }
     }
 
-    public void QSPSelectMenuItem(int result) {
+    public void qspSelectMenuItem(int result) {
         this.result = result;
         if (threadName.equals(Thread.currentThread().getName())) {
 
-            QSPSelectMenuItem();
+            qspSelectMenuItem();
         } else {
             synchronized (libQspThreadObject) {
-                libQspThreadObject.method = ThreadConstants.QSPSelectMenuItem;
+                libQspThreadObject.method = ThreadConstants.QSP_SELECT_MENU_ITEM;
                 threadRun();
             }
         }
     }
 
-    private void QSPSelectMenuItem() {
+    private void qspSelectMenuItem() {
         this.libQspProxyImpl.getNativeMethods().QSPSelectMenuItem(result);
     }
 
@@ -503,9 +507,9 @@ public class LibQspThread extends Thread {
         }
     }
 
-    public RefreshInterfaceRequest getRefreshInterfaceRequest(HtmlProcessor htmlProcessor) {
+    public RefreshRequest getRefreshInterfaceRequest(HtmlProcessor htmlProcessor) {
 //        synchronized (libQspThreadObject) {
-        RefreshInterfaceRequest request = new RefreshInterfaceRequest();
+        RefreshRequest request = new RefreshRequest();
 
         if (this.libQspProxyImpl.getNativeMethods().QSPIsMainDescChanged()) {
             gameObject.mainDesc = this.libQspProxyImpl.getNativeMethods().QSPGetMainDesc();

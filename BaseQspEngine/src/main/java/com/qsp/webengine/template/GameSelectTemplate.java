@@ -55,17 +55,17 @@ public class GameSelectTemplate {
     public InputStream loadGame(PlayerEngine mPlayerEngine, String gameId) {
 
         if (StringUtils.isEmpty(gameId)) {
-            return Utils.BlankInputStream();
+            return Utils.blankInputStream();
         }
         mPlayerEngine.getGameStatus().isOpenSaveWindow = false;
         mPlayerEngine.restartGame(gameId);
-        return Utils.StringToInputStream("1");
+        return Utils.stringToInputStream("1");
     }
 
     public InputStream exportGameToText(PlayerEngine mPlayerEngine, String gameId) {
         String actionScript = gameId;
         if (StringUtils.isEmpty(actionScript)) {
-            return Utils.BlankInputStream();
+            return Utils.blankInputStream();
         }
         mPlayerEngine.getGameStatus().setGamePathById(actionScript);
         GameVo gameVo = GameFolderLoader.getFolderMap().get(gameId);
@@ -73,19 +73,19 @@ public class GameSelectTemplate {
         new File(gameVo.getGameFolder() + "/exportText/").mkdir();
 
         mPlayerEngine.getLibQspProxy().qspFileToText(gameVo, gameVo.getGameFolder() + "/exportText/source.txt");
-        return Utils.StringToInputStream("1");
+        return Utils.stringToInputStream("1");
     }
 
     public InputStream exportGameToQsp(PlayerEngine mPlayerEngine, String gameId) {
         String actionScript = gameId;
         if (StringUtils.isEmpty(actionScript)) {
-            return Utils.BlankInputStream();
+            return Utils.blankInputStream();
         }
         mPlayerEngine.getGameStatus().setGamePathById(actionScript);
 
         GameVo gameVo = GameFolderLoader.getFolderMap().get(gameId);
         new File(gameVo.getGameFolder() + "/exportQsp/").mkdir();
         mPlayerEngine.getLibQspProxy().toGemFile(gameVo, gameVo.getGameFolder() + "/exportQsp/game.qsp");
-        return Utils.StringToInputStream("1");
+        return Utils.stringToInputStream("1");
     }
 }

@@ -45,11 +45,11 @@ public class ActionTemplate {
         StringBuffer response = new StringBuffer();
         mPlayerEngine.getGameStatus().setActionschanged(false);
         if (mPlayerEngine.getGameStatus().isOpenSaveWindow) {
-            return Utils.BlankInputStream();
+            return Utils.blankInputStream();
         }
         ArrayList<QspListItem> list = mPlayerEngine.refreshActions();
         response.append(getActionListHtml(list));
-        return Utils.StringToInputStream(response.toString());
+        return Utils.stringToInputStream(response.toString());
     }
 
     /**
@@ -77,10 +77,10 @@ public class ActionTemplate {
      * @return
      */
     public InputStream execAction(PlayerEngine mPlayerEngine, String command) {
-        // Looper.prepare();
+
         mPlayerEngine.onItemClick(Integer.parseInt(command));
         mPlayerEngine.getGameStatus().setActionschanged(true);
-        // Looper.loop();
-        return Utils.BlankInputStream();
+
+        return Utils.blankInputStream();
     }
 }

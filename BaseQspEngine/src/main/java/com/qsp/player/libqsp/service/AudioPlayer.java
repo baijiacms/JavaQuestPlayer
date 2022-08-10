@@ -17,15 +17,6 @@ public class AudioPlayer {
         audioInterface.start();
     }
 
-    public boolean IsPlayingFile(final String path) {
-        if(audioInterface!=null) {
-            return audioInterface.isPlaying();
-        }else
-        {
-            return false;
-        }
-    }
-
     public void closeFile(String path) {
         if(audioInterface!=null) {
             audioInterface.release();

@@ -42,10 +42,10 @@ public class UserTemplate {
     public InputStream getUser(PlayerEngine mPlayerEngine) {
         mPlayerEngine.getGameStatus().setVarsdescchanged(false);
         if (mPlayerEngine.getGameStatus().isOpenSaveWindow) {
-            return Utils.BlankInputStream();
+            return Utils.blankInputStream();
         }
         String html = mPlayerEngine.refreshVarsDesc();
-        return Utils.StringToInputStream(html);
+        return Utils.stringToInputStream(html);
     }
 
     public InputStream execUser(PlayerEngine mPlayerEngine, String command) {
@@ -55,6 +55,6 @@ public class UserTemplate {
 
 
         mPlayerEngine.getGameStatus().setVarsdescchanged(true);
-        return Utils.BlankInputStream();
+        return Utils.blankInputStream();
     }
 }

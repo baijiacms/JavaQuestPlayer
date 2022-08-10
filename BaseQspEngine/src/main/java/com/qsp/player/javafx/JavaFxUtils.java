@@ -9,12 +9,12 @@ import java.net.URL;
  * @author cxy
  */
 public class JavaFxUtils {
-    private static final Frame frame = new Frame() {{
+    private static final Frame FRAME = new Frame() {{
         this.setAlwaysOnTop(true);
     }};
 
     public static String showTextInputDialog(String prompt) {
-        String input = JOptionPane.showInputDialog(frame, prompt);
+        String input = JOptionPane.showInputDialog(FRAME, prompt);
         if (input == null) {
             return "";
         } else {
@@ -32,14 +32,14 @@ public class JavaFxUtils {
         JLabel label = new JLabel(icon);
         JPanel panel = new JPanel(new GridBagLayout());
         panel.add(label);
-        JOptionPane.showMessageDialog(frame, panel, "Course", JOptionPane.DEFAULT_OPTION);
+        JOptionPane.showMessageDialog(FRAME, panel, "Course", JOptionPane.DEFAULT_OPTION);
     }
 
     public static void showErrorialog(String prompt) {
-        JOptionPane.showMessageDialog(frame, prompt, "错误", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(FRAME, prompt, "错误", JOptionPane.ERROR_MESSAGE);
     }
 
     public static void showAlertDialog(String prompt) {
-        JOptionPane.showMessageDialog(frame, prompt, "提示", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(FRAME, prompt, "提示", JOptionPane.WARNING_MESSAGE);
     }
 }

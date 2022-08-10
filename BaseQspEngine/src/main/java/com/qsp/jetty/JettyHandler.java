@@ -13,17 +13,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 public class JettyHandler extends MyFileHandler {
     private QspEngineCore qspEngineCore;
-//private volatile Map<String,QspEngineCore> qspEngineCoreMap=new HashMap();
     public JettyHandler() {
         super();
-        qspEngineCore = new QspEngineCore(QspConstants.DEFAULT_USERID);
+        qspEngineCore = new QspEngineCore(QspConstants.DEFAULT_USER);
 
     }
+    @Override
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
@@ -32,12 +30,6 @@ public class JettyHandler extends MyFileHandler {
         if (StringUtils.isEmpty(request.getParameter("actionScript")) == false) {
             urlPath = urlPath + "?actionScript=" + request.getParameter("actionScript");
         }
-//        QspEngineCore  qspEngineCore=qspEngineCoreMap.get(Test.userId);
-//        if(qspEngineCore==null)
-//        {
-//            qspEngineCore= new QspEngineCore( Test.userId);
-//            qspEngineCoreMap.put( Test.userId,qspEngineCore);
-//        }
         ResponseVo responseVo = qspEngineCore.getInputStream(new URL(urlPath), target);
         InputStream inputStream = responseVo.getResponseStream();
         if (StringUtils.isEmpty(responseVo.getContentType()) == false) {

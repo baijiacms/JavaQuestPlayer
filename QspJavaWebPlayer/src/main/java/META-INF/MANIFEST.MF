@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Main-Class: com.baijiacms.webviewer.Runner
+Class-Path: jsoup-1.7.2.jar commons-io-2.8.0.jar jetty-server-9.4.41.v20
+ 210516.jar jetty-io-9.4.41.v20210516.jar commons-lang3-3.9.jar commons-
+ codec-1.11.jar fastjson-1.2.73.jar stax-1.2.0.jar velocity-engine-core-
+ 2.3.jar httpclient-4.5.13.jar commons-logging-1.2.jar dom4j-2.1.1.jar s
+ imple-xml-2.7.1.jar jetty-util-9.4.41.v20210516.jar slf4j-api-1.7.30.ja
+ r slf4j-simple-1.7.26.jar jetty-http-9.4.41.v20210516.jar javax.servlet
+ -api-3.1.0.jar stax-api-1.0.1.jar hutool-all-5.2.5.jar xpp3-1.1.3.3.jar
+  httpcore-4.4.13.jar jna-3.4.0.jar BaseQspEngine-1.0.0-SNAPSHOT.jar
+

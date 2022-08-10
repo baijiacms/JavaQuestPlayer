@@ -14,13 +14,7 @@ public class GameContentResolver {
         }
         return FileUtil.findFileRecursively(gameDir, normalizeContentPath(relPath));
     }
-
-    public String getAbsolutePath(String relPath) {
-        File file = getFile(relPath);
-        return file != null ? file.getAbsolutePath() : null;
-    }
-
-    public static String normalizeContentPath(String path) {
+    private String normalizeContentPath(String path) {
         if (path == null) {
             return null;
         }

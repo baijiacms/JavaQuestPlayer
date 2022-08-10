@@ -12,7 +12,7 @@ import java.io.OutputStream;
 public class Utils {
     private static InputStream blankInputStream = null;
 
-    public static InputStream BlankInputStream() {
+    public static InputStream blankInputStream() {
         if (Utils.blankInputStream == null) {
             Utils.blankInputStream = new ByteArrayInputStream(
                     "".getBytes());
@@ -20,9 +20,9 @@ public class Utils {
         return Utils.blankInputStream;
     }
 
-    public static InputStream StringToInputStream(String string) {
+    public static InputStream stringToInputStream(String string) {
         if (StringUtils.isEmpty(string)) {
-            return BlankInputStream();
+            return blankInputStream();
         } else {
             InputStream inputStreamRoute = new ByteArrayInputStream(
                     string.getBytes());

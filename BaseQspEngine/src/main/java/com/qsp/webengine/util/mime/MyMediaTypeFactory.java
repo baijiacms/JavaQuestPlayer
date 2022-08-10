@@ -8,14 +8,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class MyMediaTypeFactory {
-    private static final Map<String, String> fileExtensionToMediaTypes = parseMimeTypes();
+    private static final Map<String, String> FILE_EXTENSION_TO_MEDIA_TYPES = parseMimeTypes();
 
     public static String getContentType(String fileName) {
-        return fileExtensionToMediaTypes.get(getFilenameExtension(fileName));
+        return FILE_EXTENSION_TO_MEDIA_TYPES.get(getFilenameExtension(fileName));
     }
 
     public static Map<String, String> getMediaType() {
-        return fileExtensionToMediaTypes;
+        return FILE_EXTENSION_TO_MEDIA_TYPES;
     }
 
     private static Map<String, String> parseMimeTypes() {

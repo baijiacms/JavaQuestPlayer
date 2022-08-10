@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 public class HtmlProcessor {
 
     private static final Logger logger = LoggerFactory.getLogger(HtmlProcessor.class);
-    private static final Pattern execPattern = Pattern.compile("href=\"exec:([\\s\\S]*?)\"", Pattern.CASE_INSENSITIVE);
+    private  final Pattern execPattern = Pattern.compile("href=\"exec:([\\s\\S]*?)\"", Pattern.CASE_INSENSITIVE);
 
     private final GameContentResolver gameContentResolver;
 
@@ -144,7 +144,7 @@ public class HtmlProcessor {
         if (relPath.startsWith("/") == false) {
             relPath = "/" + relPath;
         }
-        File imagFile = new File(playerEngine.getGameStatus().GAME_RESOURCE_PATH + relPath);
+        File imagFile = new File(playerEngine.getGameStatus().gameResourcePath + relPath);
         if (imagFile.exists() == false) {
             return false;
         }

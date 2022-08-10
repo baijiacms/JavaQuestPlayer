@@ -43,7 +43,7 @@ public class GameSaveTemplate {
         context.put("randomId", randomId);
         StringWriter writer = new StringWriter();
 
-        if (mPlayerEngine.getGameStatus().IS_BIG_KUYASH) {
+        if (mPlayerEngine.getGameStatus().isBigKuyash) {
             htmlTemplateKuyash.merge(context, writer);
 
         } else {
@@ -78,24 +78,24 @@ public class GameSaveTemplate {
     public InputStream deleteGameSave(PlayerEngine mPlayerEngine, String fileName) {
         mPlayerEngine.deleteSaveGame(fileName);
 
-        return Utils.StringToInputStream("1");
+        return Utils.stringToInputStream("1");
     }
 
     public InputStream saveGame(PlayerEngine mPlayerEngine, String fileName) {
         if (mPlayerEngine.getGameStatus().isStart == false) {
-            return Utils.BlankInputStream();
+            return Utils.blankInputStream();
         }
         mPlayerEngine.saveGame(fileName);
 
-        return Utils.StringToInputStream("1");
+        return Utils.stringToInputStream("1");
     }
 
     public InputStream loadSaveGame(PlayerEngine mPlayerEngine, String fileName) {
         if (mPlayerEngine.getGameStatus().isStart == false) {
-            return Utils.BlankInputStream();
+            return Utils.blankInputStream();
         }
         String resp = mPlayerEngine.loadSaveGame(fileName);
         mPlayerEngine.getGameStatus().isOpenSaveWindow = false;
-        return Utils.StringToInputStream(resp);
+        return Utils.stringToInputStream(resp);
     }
 }

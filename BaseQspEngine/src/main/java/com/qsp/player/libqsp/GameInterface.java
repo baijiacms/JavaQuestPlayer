@@ -1,11 +1,11 @@
 package com.qsp.player.libqsp;
 
 import com.qsp.player.common.WindowType;
-import com.qsp.player.libqsp.dto.RefreshInterfaceRequest;
+import com.qsp.player.libqsp.dto.RefreshRequest;
 
 public interface GameInterface {
 
-    void refresh(RefreshInterfaceRequest request);
+    void refresh(RefreshRequest request);
 
     void showError(String message);
 

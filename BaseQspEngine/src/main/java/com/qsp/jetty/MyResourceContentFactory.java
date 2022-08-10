@@ -15,14 +15,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyResourceContentFactory implements ContentFactory {
-    private final ResourceFactory _factory;
-    private final MimeTypes _mimeTypes;
-    private final CompressedContentFormat[] _precompressedFormats;
+    private final ResourceFactory factory;
+    private final MimeTypes mimeTypes;
+    private final CompressedContentFormat[] precompressedFormats;
 
     public MyResourceContentFactory(ResourceFactory factory, MimeTypes mimeTypes, CompressedContentFormat[] precompressedFormats) {
-        _factory = factory;
-        _mimeTypes = mimeTypes;
-        _precompressedFormats = precompressedFormats;
+        this.factory = factory;
+        this.mimeTypes = mimeTypes;
+        this.precompressedFormats = precompressedFormats;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class MyResourceContentFactory implements ContentFactory {
             throws IOException {
         try {
             // try loading the content from our factory.
-            Resource resource = _factory.getResource(pathInContext);
+            Resource resource = factory.getResource(pathInContext);
             HttpContent loaded = load(pathInContext, resource, maxBufferSize);
             return loaded;
         } catch (Throwable t) {
@@ -45,20 +45,20 @@ public class MyResourceContentFactory implements ContentFactory {
             return null;
 
         if (resource.isDirectory())
-            return new ResourceHttpContent(resource, _mimeTypes.getMimeByExtension(resource.toString()), maxBufferSize);
+            return new ResourceHttpContent(resource, mimeTypes.getMimeByExtension(resource.toString()), maxBufferSize);
 
         // Look for a precompressed resource or content
-        String mt = _mimeTypes.getMimeByExtension(pathInContext);
-        if (_precompressedFormats.length > 0) {
+        String mt = mimeTypes.getMimeByExtension(pathInContext);
+        if (precompressedFormats.length > 0) {
             // Is there a compressed resource?
-            Map<CompressedContentFormat, HttpContent> compressedContents = new HashMap(_precompressedFormats.length);
-            for (CompressedContentFormat format : _precompressedFormats) {
+            Map<CompressedContentFormat, HttpContent> compressedContents = new HashMap(precompressedFormats.length);
+            for (CompressedContentFormat format : precompressedFormats) {
                 String compressedPathInContext = pathInContext + format.getExtension();
-                Resource compressedResource = _factory.getResource(compressedPathInContext);
+                Resource compressedResource = factory.getResource(compressedPathInContext);
                 if (compressedResource != null && compressedResource.exists() && compressedResource.lastModified() >= resource.lastModified() &&
                         compressedResource.length() < resource.length())
                     compressedContents.put(format,
-                            new ResourceHttpContent(compressedResource, _mimeTypes.getMimeByExtension(compressedPathInContext), maxBufferSize));
+                            new ResourceHttpContent(compressedResource, mimeTypes.getMimeByExtension(compressedPathInContext), maxBufferSize));
             }
             if (!compressedContents.isEmpty())
                 return new ResourceHttpContent(resource, mt, maxBufferSize, compressedContents);
@@ -68,7 +68,7 @@ public class MyResourceContentFactory implements ContentFactory {
 
     @Override
     public String toString() {
-        return "MyResourceContentFactory[" + _factory + "]@" + hashCode();
+        return "MyResourceContentFactory[" + factory + "]@" + hashCode();
     }
 }
 

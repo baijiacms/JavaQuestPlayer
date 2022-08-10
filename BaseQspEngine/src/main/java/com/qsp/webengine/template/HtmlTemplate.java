@@ -46,7 +46,7 @@ public class HtmlTemplate {
         } else {
             html = gameSaveTemplate.getHtml();
         }
-        return Utils.StringToInputStream(html);
+        return Utils.stringToInputStream(html);
     }
 
     public InputStream execHtml(PlayerEngine mPlayerEngine, String command) {
@@ -54,7 +54,7 @@ public class HtmlTemplate {
         mPlayerEngine.shouldOverrideUrlLoading(command);
         mPlayerEngine.getGameStatus().refreshAll();
 
-        return Utils.BlankInputStream();
+        return Utils.blankInputStream();
     }
 
 }

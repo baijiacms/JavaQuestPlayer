@@ -1,6 +1,5 @@
 package com.qsp;
 
-import com.qsp.player.common.QspConstants;
 import com.qsp.player.javafx.JavaFxMediaPlayer;
 import com.qsp.player.javafx.JavaFxViewImpl;
 import com.qsp.player.vi.AudioInterface;
@@ -15,12 +14,13 @@ public class QspEngineCore {
     private HtmlEngine htmlEngine;
     private ViewInterface javaFxViewImpl;
     private AudioInterface javaFxMediaPlayer;
-
+    private String userId;
     public QspEngineCore(String userId) {
         this(userId,new JavaFxViewImpl(), new JavaFxMediaPlayer());
     }
 
     public QspEngineCore(String userId,ViewInterface qspViewImpl, AudioInterface audioInterfaceImp) {
+        this.userId=userId;
         javaFxViewImpl = qspViewImpl;
         javaFxMediaPlayer = audioInterfaceImp;
         htmlEngine = new HtmlEngine(userId, this);

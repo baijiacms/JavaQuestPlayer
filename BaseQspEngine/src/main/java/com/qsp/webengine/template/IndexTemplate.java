@@ -38,18 +38,18 @@ public class IndexTemplate {
 //        context.put("action_height", action_height);
 //        context.put("root_width", root_width);
 //        context.put("root_height", root_height);
-        context.put("gameTitle", mPlayerEngine.getGameStatus().GAME_TITLE);
-        context.put("gameVersion", mPlayerEngine.getGameStatus().GAME_VERSION);
+        context.put("gameTitle", mPlayerEngine.getGameStatus().gameTitle);
+        context.put("gameVersion", mPlayerEngine.getGameStatus().gameVersion);
         context.put("enginePowerBy", QspConstants.ENGINE_POWER_BY);
         context.put("engineTitle", QspConstants.ENGINE_TITLE);
         context.put("engineVersion", QspConstants.ENGINE_VERSION);
 
 
         StringWriter writer = new StringWriter();
-        if (mPlayerEngine.getGameStatus().IS_SOB_GAME) {
+        if (mPlayerEngine.getGameStatus().isSobGame) {
             indexSobTemplate.merge(context, writer);
         } else {
-            if (mPlayerEngine.getGameStatus().IS_BIG_KUYASH) {
+            if (mPlayerEngine.getGameStatus().isBigKuyash) {
                 indexBigKuyashTemplate.merge(context, writer);
             } else {
                 indexTemplate.merge(context, writer);
