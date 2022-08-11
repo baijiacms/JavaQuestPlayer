@@ -10,13 +10,15 @@ Module introduction:
 
 1.BaseQspEngine: Kernel for running QSP games.
 
-2.QspJavaFxPlayer: Use JavaFX operation mode (imperfect).
+2.QspJavaWebPlayer: the running mode of the local browser, ie is not recommended,  chrome support is the best (perfect).
 
-3.QspJavaWebPlayer: The running mode of local browser does not support the lower version of IE. Chrome is the best(perfect).
+3.QspJavaFxPlayer: JavaFX running mode (incomplete).
 
-4.QspJavaBrowserPlayer: Use the built-in Java browser (imperfect).
+4.QspJavaBrowserPlayer: another Java built-in browser running mode (incomplete).
 
-5.QspGames: QSP Game file folder
+5.QspGames: QSP game directory.
+
+
 
 Features:
 1. Run QSP games.
@@ -33,17 +35,14 @@ Features:
 7. 
 more
 
+AboutL release version:
+Environment:
+Windows 7 x64 and later (x64)
+Oracle JDK 1.8 x64
 
-StartQsp(JavaFX).bat  is JavaFX mode,Similar applications run.
+The local 19870 port will be used for startup.If you need to modify the default port, just add the port number in the bat of the startup command(.bat).
 
-StartQsp(Web browser).bat is web browser mode, this will automatically open the default browser of the operating system after running If it is not opened, you can access the browser by yourself http://127.0.0.1:19870 Address can also start the game.
-
-
-
-The web browser mode uses jetty technology. By default, an HTTP port 19870 will be opened locally for browsers to access. 
-
-If you want to modify the port, just change "StartQsp(JavaFX).bat" file
-source
+For example, the original file:
 
 jre\bin\java.exe -jar -Dfile.encoding=utf-8 QspJavaFxPlayer.jar
 
