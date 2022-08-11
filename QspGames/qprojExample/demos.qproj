@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <QGen-project version="4.0.0 beta 1">
   <Structure>
-    <Location name="start"/>
-    <Location name="scene1"/>
-    <Folder name="demo">
-      <Location name="df"/>
+	<Location name="start"/>
+	<Folder name="demo">
+		<Location name="history"/>
+		<Location name="gameover"/>
     </Folder>
   </Structure>
 </QGen-project>

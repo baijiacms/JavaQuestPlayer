@@ -1,73 +1,27 @@
 # start
 
-killall
-close all
-usehtml = 1
-debug = 1
-showstat 0
-showobjs 0
-showinput 0
-disablescroll = 1
-$ongload = 'loadg'
-$ongsave = 'saveg'
-$onnewloc = 'LOCA'
-$onobjsel = 'onobjsel'
-$counter = 'counter'
-$usercom = 'inputProcessing'
-$fname = 'Tahoma'
-fsize = 12
-gs 'saveg'
-gs 'addbuilddate'
-$version = '<<version_major>>.<<version_minor>>.<<version_revision>>.<<version_patch>> built on <<$builddate>> for "The finally got the uni started version."'
-opPRE = 1
-
 *nl
-'<center>Version <b><<$version>></b></center>'
-'<center><font color="red"><b>Children under 18 years are strictly forbidden to play</b></font>'
+'<center>Version <b>V1.0.0 beta</b></center>'
 *nl
-'<center><img <<$set_imgh>> src="images/system/1_openings/splashes/splash' + rand(1,14) + '.jpg" ></center>'
-'<center>Based on the Russian game ЭТО by DeGross.</center>'
+'<center><font color="red"><b>If you are willing to use your QSP game as an example of an engine, tell me: 258514030@qq.com 。</b></font>'
 *nl
-'This game is about the simulated life of a woman containing elements of RPG, strategy, porn and magical combat.'
-'You may choose what kind of life the character will live according to your play style, conscience or even personal beliefs.'
-'There are many choices to make in this game, will you be a saint or a sinner?'
-
 *nl
-'All characters in this game are fictional and any similarities to any persons living or dead are purely coincidental.'
-'All explicit images are performed by consenting adults aged 18 or older. Images are for illustrative purposes only.'
+'Quest Soft player for JavaSE.'
+'Features:'
+'1.Run QSP games.'
+'2.Development tool: it supports compiling qsrc source code in memory and playing games. Compiling and testing QSP games is faster.'
+'3.Browser Mode: the built-in browser running mode can directly use the translation function of chrome and other browsers.'
+'4.Export QSP to TXT file. The encrypted QSP file needs to know the password to export.'
+'5.Export qsrc source code file list to QSP file.'
 *nl
-'<b><a href="exec:gt ''version''">Change log</a> and <a href="exec:gt ''history''">Game history</a></b>'
+'<center><img src="images/demo.png"></center>'
+'<b> <a href="exec:gt ''history''">history</a></b>'
 *nl
-'<b>* Wiki hosted by Google sites available <a href="https://sites.google.com/view/girllifewiki/home">here</a> (External link) *</center></b>'
-'<center>Feel free to contribute.</center>'
-
-gs 'themes', 'indoors'
-act '<center><b>Start</b></center>':
+act '<center><b>history</b></center>':gt 'history'
+act '<center><b>gameover</b></center>':
 	cla
-	if music_on = 0:
-		music_on = 1
-		$track_loop = 'sound/suki.mp3'
-		volume = 100
-		music_loop = 1
-	end
-	gt 'begin','warning'
+	gt 'gameover'
 end
-
-act '<center><b>LOAD</b></center>':OPENGAME
-act '<center>Load <b>QuickSave</b></center>':OPENGAME 'quicksave.sav'
-act '<center>Load Autosave for <b>original</b> start game</center>':OPENGAME 'autosave.sav'
-act '<center>Load Autosave for <b>schoolgirl</b> start game</center>':OPENGAME 'autosave_alt.sav'
-act '<center>Test video</center>':
-	cls
-	'<center><video autoplay loop src="images/system/test_video.mp4"></video></center>'
-	*nl
-	'<center><b>Video should be playing here, there may be a short delay for on this first video.</b></center>'
-	act 'Return': gt 'start'
-end
-
-
-! WD: Set variable to store Image needed HTML code
-set $ImageNeededPlacholder = '<center><img src="images/system/image_needed.png"></center>'
 
 --- start ---------------------------------
 

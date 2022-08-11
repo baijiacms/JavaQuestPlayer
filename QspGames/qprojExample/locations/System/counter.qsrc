@@ -1,6 +1,0 @@
-# counter
-
-if music_loop = 1 and $track_loop ! '': play $track_loop, volume
-
---- counter ---------------------------------
-

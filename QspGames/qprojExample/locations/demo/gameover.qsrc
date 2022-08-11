@@ -1,0 +1,11 @@
+# gameover
+
+*nl
+'<center><b><font color="maroon">GAME OVER</font></b></center>'
+
+
+act 'Return': gt 'start'
+
+
+--- gameover ---------------------------------
+
