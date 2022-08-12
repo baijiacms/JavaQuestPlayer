@@ -113,22 +113,12 @@ public class PlayerEngine implements GameInterface {
     public void showPicture(String path) {
         // logger.info("gameDirUri:"+libQspProxy.getGameState().gameDir.getAbsolutePath());
         logger.info("imagePath:" + path);
-        String newPath = path.toLowerCase();
         if (new File(path).exists() == false) {
             String testPath = Uri.getFilePath(gameStatus.gameResourcePath, path);
             if (new File(testPath).exists()) {
                 path = testPath;
             }
         }
-//        if (newStr.endsWith("webm") || newStr.endsWith("mp4") || newStr.endsWith("mp3")) {
-        if (newPath.startsWith("file://") == false) {
-            path = path.replace(gameStatus.urlReplaceUrl, "");
-            if (path.startsWith("/") == false) {
-                path = "/" + path;
-            }
-            path = gameStatus.urlBaseUrl + path;
-        }
-//        }
         this.viewInterface.showPicture(path);
     }
 
