@@ -25,14 +25,11 @@ public class GameStatus {
     public String gameId = "default";
     public String gameTitle = "default";
     public String gameVersion = "1.0.0";
-    public String urlBaseUrl;
-    public String urlReplaceUrl;
 
     private void setGameResource(String gameId) {
         this.gameId = gameId;
         this.gameResourcePath = Uri.getFolderPath(QspConstants.GAME_DATA_PATH) + this.gameId;
-        this.urlBaseUrl = "file:///" + Uri.getFolderPath(this.gameResourcePath);
-        this.urlReplaceUrl = QspConstants.HTTP_LOCAL_URL;
+
 //        if(this.isProxy) {
 //            URI.BASE_URL= "file:///"+ this.GAME_RESOURCE_PATH;
 //            URI.REPLACE_URL=LOCAL_URL;
