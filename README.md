@@ -32,7 +32,6 @@ Features:
 5. Export qsrc source code file list to QSP file.
 
 6. Game list.
-7. 
 more
 
 AboutL release version:
