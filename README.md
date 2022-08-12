@@ -1,4 +1,4 @@
-Quest Soft player for JavaSE.
+## JAVA Quest Soft Player
 
 It is developed in Java language, libqsp version is v5.7.0 base from Quest Player by seedhartha V2.3.1.
 
@@ -6,7 +6,7 @@ The application is still in the beta stage. At present,can run on the windows x6
 
 the official site:  [the official site](https://baijiacms.github.io/)
 
-Module introduction:
+### Module:
 
 1.BaseQspEngine: Kernel for running QSP games.
 
@@ -20,7 +20,7 @@ Module introduction:
 
 
 
-Features:
+### Features:
 1. Run QSP games.
 
 2. Development tool: it supports compiling qsrc source code in memory and playing games. Compiling and testing QSP games is faster.
@@ -34,11 +34,11 @@ Features:
 6. Game list.
 more
 
-AboutL release version:
-Environment:
+### Environment:
 Windows 7 x64 and later (x64)
 Oracle JDK 1.8 x64
 
+### Tip:
 The local 19870 port will be used for startup.If you need to modify the default port, just add the port number in the bat of the startup command(.bat).
 
 For example, the original file:
