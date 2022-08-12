@@ -4,7 +4,6 @@ It is developed in JavaSE language, libqsp version is v5.7.0 base from Quest Pla
 
 The application is still in the beta stage. At present,can run on the windows x64 version.. 
 
-the official site:  [the official site](https://baijiacms.github.io/)
 
 ### Module:
 
