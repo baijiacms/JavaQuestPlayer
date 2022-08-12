@@ -1,6 +1,6 @@
 ## Java Quest Soft Player
 
-It is developed in Java language, libqsp version is v5.7.0 base from Quest Player by seedhartha V2.3.1.
+It is developed in JavaSE language, libqsp version is v5.7.0 base from Quest Player by seedhartha V2.3.1.
 
 The application is still in the beta stage. At present,can run on the windows x64 version.. 
 
