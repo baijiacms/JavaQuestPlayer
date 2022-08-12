@@ -1,4 +1,4 @@
-## JAVA Quest Soft Player
+## Java Quest Soft Player
 
 It is developed in Java language, libqsp version is v5.7.0 base from Quest Player by seedhartha V2.3.1.
 
