@@ -136,7 +136,7 @@ public final class FileUtil {
         File file = new File(path);
         try (FileInputStream in = new FileInputStream(file)) {
             try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-                StreamUtil.copy(in, out);
+                IoUtil.copy(in, out);
                 return out.toByteArray();
             }
         } catch (IOException ex) {

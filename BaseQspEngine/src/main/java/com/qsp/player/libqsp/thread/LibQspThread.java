@@ -6,7 +6,7 @@ import com.qsp.player.libqsp.LibQspProxyImpl;
 import com.qsp.player.libqsp.dto.*;
 import com.qsp.player.libqsp.service.HtmlProcessor;
 import com.qsp.player.libqsp.util.DevUtils;
-import com.qsp.player.util.StreamUtil;
+import com.qsp.player.util.IoUtil;
 import com.qsp.player.util.Uri;
 import com.qsp.webengine.vo.GameVo;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ public class LibQspThread extends Thread {
         this.threadName = "ThreadName@" + userId;
         this.libQspProxyImpl = libQspProxyImpl;
         devUtils = new DevUtils();
-        libQspThreadObject.userId=userId;
+        libQspThreadObject.userId = userId;
     }
 
     @Override
@@ -160,7 +160,7 @@ public class LibQspThread extends Thread {
             return;
         }
 
-        try (OutputStream out = StreamUtil.openOutputStream(uri, "w")) {
+        try (OutputStream out = IoUtil.openOutputStream(uri)) {
             out.write(gameData);
         } catch (IOException ex) {
             logger.error("Failed to save the game state", ex);
@@ -192,7 +192,7 @@ public class LibQspThread extends Thread {
         } else {
             try (FileInputStream in = new FileInputStream(gameObject.gameFile)) {
                 try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-                    StreamUtil.copy(in, out);
+                    IoUtil.copy(in, out);
                     gameData = out.toByteArray();
                 }
             } catch (IOException ex) {
@@ -409,9 +409,9 @@ public class LibQspThread extends Thread {
         logger.info("command:loadGameState");
         final byte[] gameData;
 
-        try (InputStream in = StreamUtil.openInputStream(uri)) {
+        try (InputStream in = IoUtil.openInputStream(uri)) {
             try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-                StreamUtil.copy(in, out);
+                IoUtil.copy(in, out);
                 gameData = out.toByteArray();
             }
         } catch (IOException ex) {

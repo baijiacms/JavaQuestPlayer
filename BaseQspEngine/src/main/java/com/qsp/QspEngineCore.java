@@ -15,18 +15,19 @@ public class QspEngineCore {
     private ViewInterface javaFxViewImpl;
     private AudioInterface javaFxMediaPlayer;
     private String userId;
+
     public QspEngineCore(String userId) {
-        this(userId,new JavaFxViewImpl(), new JavaFxMediaPlayer());
+        this(userId, new JavaFxViewImpl(), new JavaFxMediaPlayer());
     }
 
-    public QspEngineCore(String userId,ViewInterface qspViewImpl, AudioInterface audioInterfaceImp) {
-        this.userId=userId;
+    public QspEngineCore(String userId, ViewInterface qspViewImpl, AudioInterface audioInterfaceImp) {
+        this.userId = userId;
         javaFxViewImpl = qspViewImpl;
         javaFxMediaPlayer = audioInterfaceImp;
         htmlEngine = new HtmlEngine(userId, this);
     }
 
-    public ResponseVo getInputStream( URL url, String target) throws IOException {
+    public ResponseVo getInputStream(URL url, String target) throws IOException {
 
         return htmlEngine.getInputStream(url, target);
     }

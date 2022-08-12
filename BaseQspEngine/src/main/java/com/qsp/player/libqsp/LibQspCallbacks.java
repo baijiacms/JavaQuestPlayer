@@ -1,7 +1,7 @@
 package com.qsp.player.libqsp;
 
 /**
- * DLL回调类
+ * libqsp call
  */
 public interface LibQspCallbacks {
     void RefreshInt();

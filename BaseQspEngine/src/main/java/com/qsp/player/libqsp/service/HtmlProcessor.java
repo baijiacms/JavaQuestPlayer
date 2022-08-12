@@ -4,6 +4,7 @@ package com.qsp.player.libqsp.service;
 import com.qsp.player.PlayerEngine;
 import com.qsp.player.util.Base64Util;
 import com.qsp.player.util.StringUtil;
+import com.qsp.player.util.Uri;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,7 +22,7 @@ import java.util.regex.Pattern;
 public class HtmlProcessor {
 
     private static final Logger logger = LoggerFactory.getLogger(HtmlProcessor.class);
-    private  final Pattern execPattern = Pattern.compile("href=\"exec:([\\s\\S]*?)\"", Pattern.CASE_INSENSITIVE);
+    private final Pattern execPattern = Pattern.compile("href=\"exec:([\\s\\S]*?)\"", Pattern.CASE_INSENSITIVE);
 
     private final GameContentResolver gameContentResolver;
 
@@ -144,7 +145,7 @@ public class HtmlProcessor {
         if (relPath.startsWith("/") == false) {
             relPath = "/" + relPath;
         }
-        File imagFile = new File(playerEngine.getGameStatus().gameResourcePath + relPath);
+        File imagFile = Uri.getFile(playerEngine.getGameStatus().gameResourcePath, relPath);
         if (imagFile.exists() == false) {
             return false;
         }

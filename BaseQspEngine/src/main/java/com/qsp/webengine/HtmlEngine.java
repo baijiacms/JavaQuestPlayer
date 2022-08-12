@@ -3,13 +3,13 @@ package com.qsp.webengine;
 import com.qsp.QspEngineCore;
 import com.qsp.player.PlayerEngine;
 import com.qsp.player.common.QspConstants;
+import com.qsp.player.util.IoUtil;
+import com.qsp.player.util.SteamUtils;
 import com.qsp.player.vi.AudioInterface;
 import com.qsp.player.vi.ViewInterface;
 import com.qsp.webengine.handler.MyQspHandler;
 import com.qsp.webengine.template.*;
 import com.qsp.webengine.util.MyUrlRequest;
-import com.qsp.webengine.util.SteamUtils;
-import com.qsp.webengine.util.Utils;
 import com.qsp.webengine.util.mime.MyMediaTypeFactory;
 import com.qsp.webengine.vo.ResponseVo;
 import org.apache.commons.lang3.StringUtils;
@@ -89,57 +89,57 @@ public class HtmlEngine {
         switch (target) {
             case "/engine/isNeedRefresh":
                 htmlCode = "{\"actionschanged\":" + (mPlayerEngine.getGameStatus().isActionschanged() ? "true" : "false") + ",\"objectschanged\":" + (mPlayerEngine.getGameStatus().isObjectschanged() ? "true" : "false") + ",\"varsdescchanged\":" + (mPlayerEngine.getGameStatus().isVarsdescchanged() ? "true" : "false") + ",\"maindescchanged\":" + (mPlayerEngine.getGameStatus().isMaindescchanged(false) ? "true" : "false") + "}";
-                responseStream = Utils.stringToInputStream(htmlCode);
+                responseStream = IoUtil.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/engine/isNeedRefreshHtml":
-                responseStream = Utils.stringToInputStream(mPlayerEngine.getGameStatus().isMaindescchanged(false) ? "1" : "0");
+                responseStream = IoUtil.stringToInputStream(mPlayerEngine.getGameStatus().isMaindescchanged(false) ? "1" : "0");
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/engine/isNeedRefreshAction":
-                responseStream = Utils.stringToInputStream(mPlayerEngine.getGameStatus().isActionschanged() ? "1" : "0");
+                responseStream = IoUtil.stringToInputStream(mPlayerEngine.getGameStatus().isActionschanged() ? "1" : "0");
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/engine/isNeedRefreshUser":
-                responseStream = Utils.stringToInputStream(mPlayerEngine.getGameStatus().isVarsdescchanged() ? "1" : "0");
+                responseStream = IoUtil.stringToInputStream(mPlayerEngine.getGameStatus().isVarsdescchanged() ? "1" : "0");
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/engine/isNeedRefreshConsole":
-                responseStream = Utils.stringToInputStream(mPlayerEngine.getGameStatus().isObjectschanged() ? "1" : "0");
+                responseStream = IoUtil.stringToInputStream(mPlayerEngine.getGameStatus().isObjectschanged() ? "1" : "0");
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(JSON_CONTENT_TYPE);
                 return responseVo;
             case "/favicon.ico":
-                responseStream = Utils.blankInputStream();
+                responseStream = IoUtil.blankInputStream();
                 responseVo.setResponseStream(responseStream);
 
                 responseVo.setContentType(MyMediaTypeFactory.getContentType(target));
                 return responseVo;
             case "/engineHtmlPage":
                 htmlCode = htmlTemplate.getHtmlHtml();
-                responseStream = Utils.stringToInputStream(htmlCode);
+                responseStream = IoUtil.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engineUserPage":
                 htmlCode = userTemplate.getUserHtml();
-                responseStream = Utils.stringToInputStream(htmlCode);
+                responseStream = IoUtil.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engineConsolePage":
                 htmlCode = consoleTemplate.getConsoleHtml();
-                responseStream = Utils.stringToInputStream(htmlCode);
+                responseStream = IoUtil.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engineActionPage":
                 htmlCode = actionTemplate.getActionHtml();
-                responseStream = Utils.stringToInputStream(htmlCode);
+                responseStream = IoUtil.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
@@ -193,21 +193,21 @@ public class HtmlEngine {
             case "/engine/openSaveWindow":
                 mPlayerEngine.getGameStatus().isOpenSaveWindow = true;
                 mPlayerEngine.getGameStatus().refreshAll();
-                responseStream = Utils.blankInputStream();
+                responseStream = IoUtil.blankInputStream();
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/closeSaveWindow":
                 mPlayerEngine.getGameStatus().isOpenSaveWindow = false;
                 mPlayerEngine.getGameStatus().refreshAll();
-                responseStream = Utils.blankInputStream();
+                responseStream = IoUtil.blankInputStream();
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/deleteGameSave":
                 actionScript = request.getParameter("actionScript").trim();
                 if (StringUtils.isEmpty(actionScript)) {
-                    responseStream = Utils.blankInputStream();
+                    responseStream = IoUtil.blankInputStream();
                     responseVo.setResponseStream(responseStream);
                     responseVo.setContentType(HTML_CONTENT_TYPE);
                     return responseVo;
@@ -219,7 +219,7 @@ public class HtmlEngine {
             case "/engine/GameSave":
                 actionScript = request.getParameter("actionScript").trim();
                 if (StringUtils.isEmpty(actionScript)) {
-                    responseStream = Utils.blankInputStream();
+                    responseStream = IoUtil.blankInputStream();
                     responseVo.setResponseStream(responseStream);
                     responseVo.setContentType(HTML_CONTENT_TYPE);
                     return responseVo;
@@ -232,7 +232,7 @@ public class HtmlEngine {
             case "/engine/LoadGameSave":
                 actionScript = request.getParameter("actionScript").trim();
                 if (StringUtils.isEmpty(actionScript)) {
-                    responseStream = Utils.blankInputStream();
+                    responseStream = IoUtil.blankInputStream();
                     responseVo.setResponseStream(responseStream);
                     responseVo.setContentType(HTML_CONTENT_TYPE);
                     return responseVo;
@@ -253,7 +253,7 @@ public class HtmlEngine {
                 return responseVo;
             case "/engine/gameIndex"://游戏主界面
                 htmlCode = indexTemplate.getIndexHtml();
-                responseStream = Utils.stringToInputStream(htmlCode);
+                responseStream = IoUtil.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
@@ -261,13 +261,13 @@ public class HtmlEngine {
             case "/engine.html"://游戏选择界面
                 mPlayerEngine.getGameStatus().isStart = false;
                 htmlCode = gameSelectTemplate.getHtml();
-                responseStream = Utils.stringToInputStream(htmlCode);
+                responseStream = IoUtil.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;
             case "/engine/loadingPage":
                 htmlCode = loadingTemplate.getHtml();
-                responseStream = Utils.stringToInputStream(htmlCode);
+                responseStream = IoUtil.stringToInputStream(htmlCode);
                 responseVo.setResponseStream(responseStream);
                 responseVo.setContentType(HTML_CONTENT_TYPE);
                 return responseVo;

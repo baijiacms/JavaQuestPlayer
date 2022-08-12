@@ -2,7 +2,7 @@ package com.qsp.webengine.template;
 
 import com.qsp.player.PlayerEngine;
 import com.qsp.player.libqsp.dto.QspListItem;
-import com.qsp.webengine.util.Utils;
+import com.qsp.player.util.IoUtil;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -45,11 +45,11 @@ public class ConsoleTemplate {
         StringBuffer response = new StringBuffer();
         mPlayerEngine.getGameStatus().setObjectschanged(false);
         if (mPlayerEngine.getGameStatus().isOpenSaveWindow) {
-            return Utils.blankInputStream();
+            return IoUtil.blankInputStream();
         }
         ArrayList<QspListItem> list = mPlayerEngine.refreshObjects();
         response.append(getConsoleActionHtml(list));
-        return Utils.stringToInputStream(response.toString());
+        return IoUtil.stringToInputStream(response.toString());
     }
 
     private String getConsoleActionHtml(ArrayList<QspListItem> list) {
@@ -69,6 +69,6 @@ public class ConsoleTemplate {
         // Looper.loop();
 
         mPlayerEngine.getGameStatus().setObjectschanged(true);
-        return Utils.blankInputStream();
+        return IoUtil.blankInputStream();
     }
 }

@@ -23,11 +23,9 @@ public class MyUrlRequest {
 //        } catch (UnsupportedEncodingException e) {
 //            e.printStackTrace();
 //        }
-        // System.out.println(url);
     }
 
     public String getParameter(String key) {
-        //   System.out.println("请求参数返回:"+param.get(key));
         return param.get(key);
     }
 

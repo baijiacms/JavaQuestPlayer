@@ -1,6 +1,7 @@
 package com.qsp.player;
 
 import com.qsp.player.common.QspConstants;
+import com.qsp.player.util.Uri;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -29,25 +30,27 @@ public class GameStatus {
 
     private void setGameResource(String gameId) {
         this.gameId = gameId;
-        this.gameResourcePath = QspConstants.GAME_DATA_PATH + this.gameId;
-        urlBaseUrl = "file:///" + this.gameResourcePath;
-        urlReplaceUrl = QspConstants.HTTP_LOCAL_URL;
+        this.gameResourcePath = Uri.getFolderPath(QspConstants.GAME_DATA_PATH) + this.gameId;
+        this.urlBaseUrl = "file:///" + Uri.getFolderPath(this.gameResourcePath);
+        this.urlReplaceUrl = QspConstants.HTTP_LOCAL_URL;
 //        if(this.isProxy) {
 //            URI.BASE_URL= "file:///"+ this.GAME_RESOURCE_PATH;
 //            URI.REPLACE_URL=LOCAL_URL;
 //        }
-        gameFile = gameResourcePath + "/game.qsp";
+
+        gameFile = Uri.getFilePath(gameResourcePath, "game.qsp");
+        ;
     }
 
     public String getSaveFolder() {
         String saveFolder = this.gameResourcePath + "/saves/";
-        new File(saveFolder).mkdir();
+        Uri.getFolderFile(saveFolder).mkdir();
         return saveFolder;
     }
 
     public void setGamePathById(String gameId) {
         setGameResource(gameId);
-        String gameFolder = this.gameResourcePath + "/";
+        String gameFolder = Uri.getFolderPath(this.gameResourcePath);
         File[] files = new File(gameFolder).listFiles();
         for (File f : files) {
             if (f.isDirectory()) {

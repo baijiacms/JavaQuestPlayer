@@ -36,11 +36,12 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     public static final String QUICK_SAVE_NAME = "quickSave";
     private NativeMethods nativeMethods;
     private String userId;
+
     public LibQspProxyImpl(String userId, GameStatus gameStatus,
                            GameContentResolver gameContentResolver,
                            HtmlProcessor htmlProcessor,
                            AudioPlayer audioPlayer) {
-        this.userId=userId;
+        this.userId = userId;
         this.gameStatus = gameStatus;
         this.gameContentResolver = gameContentResolver;
         this.htmlProcessor = htmlProcessor;
@@ -62,37 +63,19 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     @Override
     public void stop() {
 
-//        if (libQspThread == null) {
-//            return;
-//        }
 
-//        if (libQspThreadInited) {
-////            Handler handler = libQspHandler;
-////            if (handler != null) {
-////                handler.getLooper().quitSafely();
-////            }
-//            libQspThreadInited = false;
-//        } else {
-//            logger.warn("libqsp thread has been started, but not initialized");
-//        }
-//        libQspThread = null;
     }
 
     @Override
     public void runGame(final String id, final String title, final File dir, final File file) {
 
         logger.info("command:runGame");
-//        runOnQspThread(() -> doRunGame(id, title, dir, file));
         doRunGame(id, title, dir, file);
     }
 
     private void doRunGame(final String id, final String title, final File dir, final File file) {
 
         logger.info("doRunGame Thread:" + Thread.currentThread().getName());
-
-//        gameInterface.doWithCounterDisabled(() -> {
-
-        //            audioPlayer.closeAllFiles();
 
 
         gameContentResolver.setGameDir(dir);
@@ -109,17 +92,15 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
         gameStatus.lastMsCountCallTime = 0;
 
 
-//        });
     }
 
     @Override
     public void restartGame() {
 
         logger.info("command:restartGame");
-//        runOnQspThread(() -> {
         GameObject state = gameObject;
         doRunGame(state.gameId, state.gameTitle, state.gameDir, state.gameFile);
-//        });
+
     }
 
     @Override
@@ -135,10 +116,6 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
 
             logger.info("command:saveGameStateuri:" + uri.getmFile());
         }
-        //if (!isSameThread(libQspHandler.getLooper().getThread())) {
-        //    runOnQspThread(() -> saveGameState(uri));
-        //    return;
-        //}
         this.libQspThread.qspSaveGameAsData(gameInterface, uri);
     }
 
@@ -146,28 +123,22 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     public void onActionSelected(final int index) {
 
         logger.info("command:onActionSelected");
-//        runOnQspThread(() -> {
 
         this.libQspThread.qspSetSelActionIndex(index, gameInterface);
-//        });
     }
 
     @Override
     public void onActionClicked(final int index) {
 
         logger.info("command:onActionClicked");
-//      runOnQspThread(() -> {
         this.libQspThread.qspExecuteSelActionCode(index, gameInterface);
-//       });
     }
 
     @Override
     public void onObjectSelected(final int index) {
 
         logger.info("command:onObjectSelected");
-//        runOnQspThread(() -> {
         this.libQspThread.qspSetSelObjectIndex(index, gameInterface);
-//        });
     }
 
     @Override
@@ -179,10 +150,8 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
             return;
         }
 
-//        runOnQspThread(() -> {
         String input = inter.showInputBox("userInput");
         this.libQspThread.qspSetInputStrText(input, gameInterface);
-//        });
     }
 
     @Override
@@ -196,9 +165,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
                 return;
             }
         }
-//        runOnQspThread(() -> {
         this.libQspThread.qspExecString(code, gameInterface);
-//        });
     }
 
     @Override
@@ -209,15 +176,12 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
             return;
         }
 
-//        runOnQspThread(() -> {
         this.libQspThread.qspExecCounter(this.gameInterface);
-//        });
     }
 
     @Override
     public GameObject getGameObject() {
         //刷新
-        // logger.info("command:getGameState:");
         return gameObject;
     }
 
@@ -228,9 +192,6 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
         gameInterface = view;
     }
 
-    // endregion LibQspProxy
-
-    // region LibQspCallbacks
 
     @Override
     public void RefreshInt() {
@@ -276,7 +237,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     public void PlayFile(String path, int volume) {
         logger.info("command:PlayFile");
         if (isNotEmpty(path)) {
-            audioPlayer.playFile(path, volume);
+            audioPlayer.playFile(gameStatus, path, volume);
         }
     }
 
@@ -318,12 +279,12 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
         File saveFile = findFileOrDirectory(savesDir, filename);
         gameStatus.refreshAll();
         if (saveFile == null || saveFile.exists() == false) {
-            logger.error("Save file not found: " + savesDir + "/" + filename);
+            logger.error("Save file not found: " + gameObject.gameDir + "/" + filename);
             return;
         }
         GameInterface inter = gameInterface;
         if (inter != null) {
-            loadGameState(Uri.fromFile(saveFile));
+            loadGameState(Uri.toUri(saveFile));
         }
     }
 
@@ -412,7 +373,6 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     @Override
     public void ShowWindow(int type, boolean isShow) {
 
-//        logger.info("command:ShowWindow");
         GameInterface inter = gameInterface;
         if (inter != null) {
             WindowType windowType = WindowType.values()[type];
@@ -459,5 +419,4 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     public NativeMethods getNativeMethods() {
         return nativeMethods;
     }
-// endregion LibQspCallbacks
 }

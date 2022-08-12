@@ -1,7 +1,7 @@
 package com.qsp.webengine.template;
 
 import com.qsp.player.PlayerEngine;
-import com.qsp.webengine.util.Utils;
+import com.qsp.player.util.IoUtil;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -46,7 +46,7 @@ public class HtmlTemplate {
         } else {
             html = gameSaveTemplate.getHtml();
         }
-        return Utils.stringToInputStream(html);
+        return IoUtil.stringToInputStream(html);
     }
 
     public InputStream execHtml(PlayerEngine mPlayerEngine, String command) {
@@ -54,7 +54,7 @@ public class HtmlTemplate {
         mPlayerEngine.shouldOverrideUrlLoading(command);
         mPlayerEngine.getGameStatus().refreshAll();
 
-        return Utils.blankInputStream();
+        return IoUtil.blankInputStream();
     }
 
 }

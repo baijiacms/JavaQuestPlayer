@@ -1,7 +1,7 @@
 package com.qsp.webengine.template;
 
 import com.qsp.player.PlayerEngine;
-import com.qsp.webengine.util.Utils;
+import com.qsp.player.util.IoUtil;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -42,10 +42,10 @@ public class UserTemplate {
     public InputStream getUser(PlayerEngine mPlayerEngine) {
         mPlayerEngine.getGameStatus().setVarsdescchanged(false);
         if (mPlayerEngine.getGameStatus().isOpenSaveWindow) {
-            return Utils.blankInputStream();
+            return IoUtil.blankInputStream();
         }
         String html = mPlayerEngine.refreshVarsDesc();
-        return Utils.stringToInputStream(html);
+        return IoUtil.stringToInputStream(html);
     }
 
     public InputStream execUser(PlayerEngine mPlayerEngine, String command) {
@@ -55,6 +55,6 @@ public class UserTemplate {
 
 
         mPlayerEngine.getGameStatus().setVarsdescchanged(true);
-        return Utils.blankInputStream();
+        return IoUtil.blankInputStream();
     }
 }

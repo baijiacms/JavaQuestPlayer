@@ -5,15 +5,18 @@ import org.apache.commons.io.FileUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
 
 /**
- * 开发工具实现类
+ * dev tools
  */
 public class DevUtils {
 
+    private static final Logger logger = LoggerFactory.getLogger(DevUtils.class);
     private final NativeDevMethods nativeDevMethods = new NativeDevMethods();
 
     public void qspFileToText(String fromFile, String toFile, String password) {
@@ -22,28 +25,28 @@ public class DevUtils {
     }
 
     /**
-     * 文件夹合并成txt文件
+     * qprojPath to one txt file
      */
     public void outputGameOneTxt(String srcFolder, String qprojPath, String outputTxtPath) {
         this.nativeDevMethods.outputFileOneText(srcFolder, qprojPath, outputTxtPath);
     }
 
     /**
-     * 文件夹合 转 gem 二进制
+     * qproj srcFolder to gem
      */
     public byte[] getGemDate(String srcFolder, String qprojPath) {
         return this.nativeDevMethods.getQspByteDate(srcFolder, qprojPath);
     }
 
     /**
-     * 文件夹合 转 qsp文件
+     * qproj srcFolder to qsp
      */
     public void toGemFile(String srcFolder, String qprojPath, String toGemFile) {
         this.nativeDevMethods.toQspFile(srcFolder, qprojPath, toGemFile);
     }
 
     /**
-     * 文件夹 整理
+     * folder arrange (usefull)
      */
     public void arrangeData(String srcFolder, String desFolder, String qprojPath) throws Exception {
 
@@ -61,11 +64,11 @@ public class DevUtils {
                 file = file.replace("#", "_");
                 file = file.replace("$", "_");
                 FileUtils.copyFile(new File(srcFolder + file + ".qsrc"), new File(desFolder + file + ".qsrc"));
-                System.out.println("Location:" + file);
+                logger.info("Location:" + file);
             }
             if ("Folder".equals(element.getName())) {
                 String folder = element.attribute("name").getValue();
-                System.out.println("Folder:" + folder);
+                logger.info("Folder:" + folder);
                 new File(desFolder + folder + "/").mkdir();
                 for (Element element2 : element.elements()) {
                     String file2 = element2.attribute("name").getValue();
@@ -73,11 +76,11 @@ public class DevUtils {
                     file2 = file2.replace("$", "_");
                     FileUtils.copyFile(new File(srcFolder + file2 + ".qsrc"), new File(desFolder + folder + "/" + file2 + ".qsrc"));
 
-                    System.out.println("Location2:" + file2);
+                    logger.info("Location2:" + file2);
                 }
             }
         }
 
-        System.out.println("整理完成");
+        logger.info("整理完成");
     }
 }

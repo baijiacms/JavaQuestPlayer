@@ -18,25 +18,26 @@ import java.util.Map;
  * 开发工具DLL
  */
 public class NativeDevMethods {
-    private  void dirFolder(File folder,String folderName, Map<String,String> qsrcMap) {
+    private void dirFolder(File folder, String folderName, Map<String, String> qsrcMap) {
         File[] files = folder.listFiles();
         for (File f : files) {
             if (f.isDirectory()) {
-                dirFolder(f,"/"+f.getName()+"/", qsrcMap);
+                dirFolder(f, "/" + f.getName() + "/", qsrcMap);
             } else {
                 if (f.isFile() && f.getPath().endsWith(".qsrc")) {
-                    qsrcMap.put(folderName+f.getName(),f.getPath());
+                    qsrcMap.put(folderName + f.getName(), f.getPath());
                 }
             }
         }
     }
 
     static {
-         System.load(QspConstants.QSP_DEV_DLL_PATH);
+        System.load(QspConstants.QSP_DEV_DLL_PATH);
     }
 
     /**
      * 输入游戏text获取qsp二进制数据
+     *
      * @param data
      * @param dataSize
      * @param fileName
@@ -46,32 +47,33 @@ public class NativeDevMethods {
 
     /**
      * 传入qsp文件地址，输出txt文件（含密码才能验证）
+     *
      * @param fromFile
      * @param toFile
      * @param password
      * @return
      */
-    public native boolean QspToTxt(String fromFile, String toFile,String password);
+    public native boolean QspToTxt(String fromFile, String toFile, String password);
 
     /**
      * qsp转txt
+     *
      * @param fromFile
      * @param toFile
      * @param password
      */
-    public void qspFileToText(String fromFile, String toFile,String password)
-    {
-        QspToTxt( fromFile,  toFile,password);
+    public void qspFileToText(String fromFile, String toFile, String password) {
+        QspToTxt(fromFile, toFile, password);
     }
 
     /**
      * 获取qsrc列表
+     *
      * @param qprojPath
      * @return
      */
-    private List<String> getQsrcListFromQproj(String qprojPath)
-    {
-        List<String> list=new LinkedList<>();
+    private List<String> getQsrcListFromQproj(String qprojPath) {
+        List<String> list = new LinkedList<>();
         try {
             //1.创建Reader对象
             SAXReader saxReader = new SAXReader();
@@ -80,34 +82,30 @@ public class NativeDevMethods {
             //3.获取根节点
             Element rootElement = document.getRootElement();
             // rootElement.elements()获取根节点下所有的节点，
-            List<Element> elements =null;
-            Element  structure= rootElement.element("Structure");
-            if(structure!=null) {
+            List<Element> elements = null;
+            Element structure = rootElement.element("Structure");
+            if (structure != null) {
                 elements = structure.elements();
-            }else
-            {
-                elements=rootElement.elements();
+            } else {
+                elements = rootElement.elements();
             }
             for (Element element : elements) {
-                if("Location".equals(element.getName()))
-                {
-                    String file=element.attribute("name").getValue();
-                    file=file.replace("#","_");
-                    file=file.replace("$","_");
-                    file= file+".qsrc";
-                    list.add("/"+file);
+                if ("Location".equals(element.getName())) {
+                    String file = element.attribute("name").getValue();
+                    file = file.replace("#", "_");
+                    file = file.replace("$", "_");
+                    file = file + ".qsrc";
+                    list.add("/" + file);
                 }
-                if("Folder".equals(element.getName()))
-                {
-                    String folder=element.attribute("name").getValue();
-//                    System.out.println("Folder:"+folder);
+                if ("Folder".equals(element.getName())) {
+                    String folder = element.attribute("name").getValue();
 
                     for (Element element2 : element.elements()) {
-                        String file2=element2.attribute("name").getValue();
-                        file2=file2.replace("#","_");
-                        file2=file2.replace("$","_");
+                        String file2 = element2.attribute("name").getValue();
+                        file2 = file2.replace("#", "_");
+                        file2 = file2.replace("$", "_");
 
-                        list.add("/"+folder+"/"+file2+".qsrc");
+                        list.add("/" + folder + "/" + file2 + ".qsrc");
                     }
                 }
             }
@@ -119,20 +117,20 @@ public class NativeDevMethods {
 
     /**
      * 读取文件夹的所有qsrc目录
+     *
      * @param srcFolder
      * @param qprojPath
      * @return
      */
-    private byte[] readQrcFolder(String srcFolder,String qprojPath) {
+    private byte[] readQrcFolder(String srcFolder, String qprojPath) {
 
         StringBuilder result = new StringBuilder();
         List<String> qsrcList = new LinkedList<>();
-        Map<String,String> qsrcMap=new HashMap<>();
-        dirFolder(new File(srcFolder),"/", qsrcMap);
-        List<String> qprojList= getQsrcListFromQproj( qprojPath);
-        for(String name:qprojList)
-        {
-            if(qsrcMap.get(name)!=null) {
+        Map<String, String> qsrcMap = new HashMap<>();
+        dirFolder(new File(srcFolder), "/", qsrcMap);
+        List<String> qprojList = getQsrcListFromQproj(qprojPath);
+        for (String name : qprojList) {
+            if (qsrcMap.get(name) != null) {
                 qsrcList.add(qsrcMap.get(name));
             }
         }
@@ -167,14 +165,15 @@ public class NativeDevMethods {
     }
 
     /**
-     * 把qsrc输出成一个txt文件
+     * qsrc to one txt
+     *
      * @param srcFolder
      * @param qprojPath
      * @param outputTxtPath
      */
-    public void outputFileOneText(String srcFolder,String qprojPath, String outputTxtPath) {
+    public void outputFileOneText(String srcFolder, String qprojPath, String outputTxtPath) {
 
-        byte[] data = readQrcFolder(srcFolder,qprojPath);
+        byte[] data = readQrcFolder(srcFolder, qprojPath);
 
         try {
             FileOutputStream fileOutputStream2 = new FileOutputStream(new File(outputTxtPath));
@@ -190,13 +189,14 @@ public class NativeDevMethods {
     }
 
     /**
-     * 获取qsp二进制数据
+     * get qsp ByteDate
+     *
      * @param srcFolder
      * @param qprojPath
      * @return
      */
     public byte[] getQspByteDate(String srcFolder, String qprojPath) {
-        byte[] utf16lemessage = readQrcFolder(srcFolder,qprojPath);
+        byte[] utf16lemessage = readQrcFolder(srcFolder, qprojPath);
 
 
         byte[] data = GetQspDate(utf16lemessage, utf16lemessage.length, "");
@@ -207,13 +207,14 @@ public class NativeDevMethods {
 
     /**
      * 输出qsp文件
+     *
      * @param srcFolder
      * @param qprojPath
      * @param toGemFile
      */
     public void toQspFile(String srcFolder, String qprojPath, String toGemFile) {
 
-        byte[] data = getQspByteDate(srcFolder,qprojPath);
+        byte[] data = getQspByteDate(srcFolder, qprojPath);
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(new File(toGemFile));
 

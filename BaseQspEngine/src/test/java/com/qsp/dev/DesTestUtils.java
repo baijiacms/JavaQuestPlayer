@@ -25,14 +25,14 @@ public class DesTestUtils {
         // 3.用加密工具类对象对明文进行加密
         byte[] encipherByte = cipher.doFinal(plainText.getBytes());
         // 防止乱码，使用Base64编码
-        String encode =   Base64.getEncoder().encodeToString(encipherByte);
+        String encode = Base64.getEncoder().encodeToString(encipherByte);
         System.out.println("加密：" + encode);
 
         // 解密
         // 2.对工具类对象进行初始化
         cipher.init(Cipher.DECRYPT_MODE, key);
         // 3.用加密工具类对象对密文进行解密
-        byte[] decode =  Base64.getDecoder().decode(encode);
+        byte[] decode = Base64.getDecoder().decode(encode);
         byte[] decipherByte = cipher.doFinal(decode);
         String decipherText = new String(decipherByte);
         System.out.println("解密：" + decipherText);

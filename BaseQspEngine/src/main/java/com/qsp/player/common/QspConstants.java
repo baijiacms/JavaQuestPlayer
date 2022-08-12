@@ -1,5 +1,7 @@
 package com.qsp.player.common;
 
+import com.qsp.player.util.Uri;
+
 import java.io.File;
 
 /**
@@ -12,7 +14,7 @@ public class QspConstants {
     public static String HTTP_LOCAL_URL = "http://127.0.0.1:" + HTTP_PORT;
     public static final String ENGINE_TITLE = "JavaQuestPlayer";
     public static final String ENGINE_POWER_BY = "https://github.com/baijiacms/";
-    public static final String ENGINE_VERSION = "20220810";
+    public static final String ENGINE_VERSION = "20220812";
     public static final int MIN_WIDTH = 1280;
     public static final int MIN_HEIGHT = 960;
 
@@ -24,19 +26,12 @@ public class QspConstants {
     //设置基础路径
     public static void setBaseFoler(String jarPath) {
 //        jarPath="D:/javaproject/";
-        if (jarPath.endsWith("/") == false) {
-            jarPath = jarPath + "/";
-        }
+        jarPath = Uri.getFolderPath(jarPath);
         ENGINE_RESOURCE_PATH = jarPath + "resources";
 
         QSP_DLL_PATH = ENGINE_RESOURCE_PATH + "/engine/engine.dll";
         QSP_DEV_DLL_PATH = ENGINE_RESOURCE_PATH + "/engine/devtools.dll";
-        String localJarPath = jarPath;
-        String parentJarPath = localJarPath;
-        if (parentJarPath.endsWith("/") == false) {
-            parentJarPath = parentJarPath + "/";
-        }
-        String path = parentJarPath;
+        String path = jarPath;
         for (int i = 0; i < 3; i++) {
             path = new File(path).getParent();
             if (path != null) {
@@ -44,14 +39,12 @@ public class QspConstants {
                     path = path + "/";
                 }
                 if (new File(path + "QspGames/").exists()) {
-                    parentJarPath = path;
                     break;
                 }
             }
 
         }
-        GAME_DATA_PATH = parentJarPath + "QspGames/";
-        System.out.println("GAME_DATA_PATH=" + GAME_DATA_PATH);
+        GAME_DATA_PATH = Uri.getFolderPath(path) + "QspGames/";
 //        GAME_DATA_PATH="D:/javaproject/game/";
 //        setGameResource(GAME_ID);
     }

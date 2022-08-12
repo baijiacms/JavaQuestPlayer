@@ -1,7 +1,7 @@
 package com.qsp.webengine.template;
 
 import com.qsp.player.PlayerEngine;
-import com.qsp.webengine.util.Utils;
+import com.qsp.player.util.IoUtil;
 import com.qsp.webengine.vo.SaveGameVo;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -78,24 +78,24 @@ public class GameSaveTemplate {
     public InputStream deleteGameSave(PlayerEngine mPlayerEngine, String fileName) {
         mPlayerEngine.deleteSaveGame(fileName);
 
-        return Utils.stringToInputStream("1");
+        return IoUtil.stringToInputStream("1");
     }
 
     public InputStream saveGame(PlayerEngine mPlayerEngine, String fileName) {
         if (mPlayerEngine.getGameStatus().isStart == false) {
-            return Utils.blankInputStream();
+            return IoUtil.blankInputStream();
         }
         mPlayerEngine.saveGame(fileName);
 
-        return Utils.stringToInputStream("1");
+        return IoUtil.stringToInputStream("1");
     }
 
     public InputStream loadSaveGame(PlayerEngine mPlayerEngine, String fileName) {
         if (mPlayerEngine.getGameStatus().isStart == false) {
-            return Utils.blankInputStream();
+            return IoUtil.blankInputStream();
         }
         String resp = mPlayerEngine.loadSaveGame(fileName);
         mPlayerEngine.getGameStatus().isOpenSaveWindow = false;
-        return Utils.stringToInputStream(resp);
+        return IoUtil.stringToInputStream(resp);
     }
 }

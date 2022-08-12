@@ -26,7 +26,6 @@ public class MyQspHandler extends URLStreamHandler {
 //        URL resourceUrl = classLoader.getResource(u.getPath());
 //        if(resourceUrl == null)
 //            throw new IOException("Resource not found: " + u);
-//        System.out.println(u.getPath());
 
         return new MyQspURLConnection(u, htmlEngine);
     }

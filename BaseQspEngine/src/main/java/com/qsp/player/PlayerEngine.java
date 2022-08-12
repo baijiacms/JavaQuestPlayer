@@ -113,25 +113,31 @@ public class PlayerEngine implements GameInterface {
     public void showPicture(String path) {
         // logger.info("gameDirUri:"+libQspProxy.getGameState().gameDir.getAbsolutePath());
         logger.info("imagePath:" + path);
-        String newStr = path.toLowerCase();
-        if (newStr.endsWith("webm") || newStr.endsWith("mp4") || newStr.endsWith("mp3")) {
-            if (newStr.startsWith("file://") == false) {
-                path = path.replace(gameStatus.urlReplaceUrl, "");
-                if (path.startsWith("/") == false) {
-                    path = "/" + path;
-                }
-                path = gameStatus.urlBaseUrl + path;
+        String newPath = path.toLowerCase();
+        if (new File(path).exists() == false) {
+            String testPath = Uri.getFilePath(gameStatus.gameResourcePath, path);
+            if (new File(testPath).exists()) {
+                path = testPath;
             }
         }
+//        if (newStr.endsWith("webm") || newStr.endsWith("mp4") || newStr.endsWith("mp3")) {
+        if (newPath.startsWith("file://") == false) {
+            path = path.replace(gameStatus.urlReplaceUrl, "");
+            if (path.startsWith("/") == false) {
+                path = "/" + path;
+            }
+            path = gameStatus.urlBaseUrl + path;
+        }
+//        }
         this.viewInterface.showPicture(path);
     }
 
     @Override
     public void showMessage(String message) {
-        String processedMsg = htmlProcessor.removeHtmlTags(message);
-        if (processedMsg == null) {
-            processedMsg = "";
-        }
+//        String processedMsg = htmlProcessor.removeHtmlTags(message);
+//        if (processedMsg == null) {
+//            processedMsg = "";
+//        }
         this.viewInterface.showMessageBox(message);
     }
 
@@ -165,11 +171,11 @@ public class PlayerEngine implements GameInterface {
             filename = filename + ".sav";
         }
         String saveFolder = gameStatus.getSaveFolder();
-        File saveFile = new File(saveFolder + filename);
+        File saveFile = Uri.getFile(saveFolder, filename);
         if (saveFile.exists() == false) {
             return "0";
         }
-        libQspProxy.loadGameState(Uri.fromFile(saveFile));
+        libQspProxy.loadGameState(Uri.toUri(saveFile));
         gameStatus.refreshAll();
         return "1";
     }
@@ -185,7 +191,11 @@ public class PlayerEngine implements GameInterface {
         }
         String saveFolder = gameStatus.getSaveFolder();
         logger.info(saveFolder + filename);
-        new File(saveFolder + filename).delete();
+
+        File file = Uri.getFile(saveFolder, filename);
+        if (file.exists() && file.isFile()) {
+            file.delete();
+        }
         gameStatus.refreshAll();
     }
 
@@ -199,7 +209,7 @@ public class PlayerEngine implements GameInterface {
             filename = filename + ".sav";
         }
         String saveFolder = gameStatus.getSaveFolder();
-        libQspProxy.saveGameState(Uri.fromFile(new File(saveFolder + filename)));
+        libQspProxy.saveGameState(Uri.toUri(Uri.getFile(saveFolder, filename)));
         gameStatus.refreshAll();
     }
 

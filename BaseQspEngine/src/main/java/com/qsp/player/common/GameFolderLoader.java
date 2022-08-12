@@ -60,7 +60,7 @@ public class GameFolderLoader {
 
     private static void dirFolder(List<GameVo> list, File file, String gameId) {
         if ("".equals(gameId) == false) {
-            String gameFolder = QspConstants.GAME_DATA_PATH + "" + gameId + "/";
+            String gameFolder = QspConstants.GAME_DATA_PATH + gameId + "/";
             boolean isDev = false;
             if (file.getPath().endsWith(".qproj")) {
                 isDev = true;
@@ -115,7 +115,7 @@ public class GameFolderLoader {
             if (isReadConfig == false) {
                 GameVo gameVo = new GameVo();
                 gameVo.setGameFile(file.getPath());
-                gameVo.setGameDesc("无描述");
+                gameVo.setGameDesc("blank");
                 gameVo.setGameId(gameId);
                 gameVo.setGameFolder(gameFolder);
                 gameVo.setGameName(gameId);
@@ -129,7 +129,6 @@ public class GameFolderLoader {
                 gameVo.setGameQproj(file.getPath());
                 list.add(gameVo);
                 GAME_FOLDER_MAP.put(gameId, gameVo);
-                // System.out.println(f.getPath());
             }
 
         }

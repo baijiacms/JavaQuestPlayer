@@ -1,11 +1,13 @@
 package com.qsp.player.javafx;
 
+import com.qsp.player.GameStatus;
+import com.qsp.player.util.Uri;
 import com.qsp.player.vi.AudioInterface;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 /**
- * 音乐播放器
+ * audio player
  */
 public class JavaFxMediaPlayer implements AudioInterface {
 
@@ -15,14 +17,16 @@ public class JavaFxMediaPlayer implements AudioInterface {
 
     }
 
-    private JavaFxMediaPlayer(String path) {
-        this.mediaPlayer = new MediaPlayer(new Media(path));
-        mediaPlayer.play();
+    private JavaFxMediaPlayer(GameStatus gameStatus, String path) {
+        if (gameStatus != null) {
+            this.mediaPlayer = new MediaPlayer(new Media(Uri.getFilePath(gameStatus.gameResourcePath, path)));
+            mediaPlayer.play();
+        }
     }
 
     @Override
-    public AudioInterface createNewPlayer(String fileName) {
-        return new JavaFxMediaPlayer(fileName);
+    public AudioInterface createNewPlayer(GameStatus gameStatus, String fileName) {
+        return new JavaFxMediaPlayer(gameStatus, fileName);
     }
 
     @Override
