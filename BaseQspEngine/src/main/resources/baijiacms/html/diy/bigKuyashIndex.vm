@@ -72,7 +72,7 @@ return;
 }
 isClickExec=true;
 $.get("/engine/htmlCall?actionScript="+encodeURIComponent(script),function(result){
-    index=0;
+    index=0;isNeedRefresh();
 });
 
 }

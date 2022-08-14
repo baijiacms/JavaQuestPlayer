@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -146,11 +147,17 @@ public class HtmlProcessor {
             relPath = "/" + relPath;
         }
         File imagFile = Uri.getFile(playerEngine.getGameStatus().gameResourcePath, relPath);
-        if (imagFile.exists() == false) {
+        if (imagFile==null||imagFile.exists() == false) {
             return false;
         }
         try {
-            return ImageIO.read(imagFile).getWidth() > 400;
+            BufferedImage bufferedImage=  ImageIO.read(imagFile);
+            if(bufferedImage==null)
+            {
+                logger.warn(imagFile.getPath()+" image is null");
+                return false;
+            }
+           return bufferedImage.getWidth() > 400;
         } catch (IOException e) {
             return false;
         }
