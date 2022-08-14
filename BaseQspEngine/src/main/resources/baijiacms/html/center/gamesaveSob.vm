@@ -1,0 +1,35 @@
+<div style="background-color: white;width: 100%;min-height: 300px;">
+<table width="100%" border="1">
+              <tbody><tr>
+                <td><p><h1 style="font-weight: bold;">GAME SAVE LIST</h1></p></td>
+              </tr>
+            </tbody></table>
+
+<table width="100%" border="1">
+              <tr>
+                <td>SaveFileName：
+                  <label>
+                  <input type="text" name="saveFileName" id="saveFileName" value="$randomId" />
+                  <input type="button" name="Submit" value="SaveGame" onClick="saveGame()" />
+                  &nbsp;&nbsp;&nbsp;
+                  <input type="button" name="Submit" value="ReturnGame" style="padding-left:10px;background-color: red;color: #fff;" onClick="closeSaveWindow()" />
+                </label></td>
+              </tr>
+            </table>
+            <table width="100%" height="123" border="1">
+              <tr>
+                <td width="35%" height="38">SaveName</td>
+                <td width="35%">CreateTime</td>
+                <td width="65%">operation</td>
+              </tr>
+            #foreach($gsave in $gsaveList)
+              <tr>
+                <td >$gsave.fileName</td>
+                <td>$gsave.fileTimeStr</td>
+                <td>&nbsp;<a href="javascript:;"  onClick="loadGame('$gsave.fileName')"  style="text-decoration: none;">Load</a>
+                &nbsp;<a href="javascript:;"  onClick="delGame('$gsave.fileName')"  style="padding-left:10px;text-decoration: none;">Delete</a></td>
+              </tr>
+
+                #end
+</table>
+</div>

@@ -3,6 +3,9 @@ package com.qsp.player.javafx;
 import com.qsp.player.GameStatus;
 import com.qsp.player.util.Uri;
 import com.qsp.player.vi.AudioInterface;
+import com.sun.javafx.tk.Toolkit;
+import javafx.application.Application;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -14,49 +17,66 @@ public class JavaFxMediaPlayer implements AudioInterface {
     private MediaPlayer mediaPlayer;
 
     public JavaFxMediaPlayer() {
-
+        new JFXPanel();
     }
 
-    private JavaFxMediaPlayer(GameStatus gameStatus, String path) {
+    private JavaFxMediaPlayer(GameStatus gameStatus, String path,double volume) {
         if (gameStatus != null) {
-            this.mediaPlayer = new MediaPlayer(new Media(Uri.getFilePath(gameStatus.gameResourcePath, path)));
+            this.mediaPlayer = new MediaPlayer(new Media("file:///"+Uri.getFilePath(gameStatus.gameResourcePath, path)));
+            if(volume>0) {
+                mediaPlayer.setVolume(volume);
+            }
             mediaPlayer.play();
         }
     }
 
     @Override
-    public AudioInterface createNewPlayer(GameStatus gameStatus, String fileName) {
-        return new JavaFxMediaPlayer(gameStatus, fileName);
+    public AudioInterface createNewPlayer(GameStatus gameStatus, String fileName,double volume) {
+        stop();
+        return new JavaFxMediaPlayer(gameStatus, fileName,volume);
     }
 
     @Override
     public void stop() {
-        mediaPlayer.stop();
+        if(mediaPlayer!=null) {
+            mediaPlayer.stop();
+        }
     }
 
     @Override
     public void release() {
-        mediaPlayer.stop();
+        stop();
         mediaPlayer = null;
     }
 
     @Override
     public void pause() {
-        mediaPlayer.pause();
+        if(mediaPlayer!=null) {
+            mediaPlayer.pause();
+        }
     }
 
     @Override
     public void start() {
-        mediaPlayer.play();
+        if(mediaPlayer!=null) {
+            mediaPlayer.play();
+        }
     }
 
     @Override
     public boolean isPlaying() {
-        return mediaPlayer.isAutoPlay();
+        if(mediaPlayer!=null) {
+            return mediaPlayer.isAutoPlay();
+        }else
+        {
+            return false;
+        }
     }
 
     @Override
     public void setVolume(float sysVolume) {
-        mediaPlayer.setVolume(sysVolume);
+        if(mediaPlayer!=null) {
+            mediaPlayer.setVolume(sysVolume);
+        }
     }
 }

@@ -25,7 +25,6 @@ public class QspConstants {
 
     //设置基础路径
     public static void setBaseFoler(String jarPath) {
-//        jarPath="D:/javaproject/";
         jarPath = Uri.getFolderPath(jarPath);
         ENGINE_RESOURCE_PATH = jarPath + "resources";
 

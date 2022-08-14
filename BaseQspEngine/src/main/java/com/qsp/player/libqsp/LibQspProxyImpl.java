@@ -261,12 +261,9 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     @Override
     public void OpenGame(String filename) {
         logger.info("command:OpenGame");
-        if (gameStatus.isBigKuyash) {
-            if (StringUtils.isEmpty(filename)) {
-
-                gameStatus.isOpenSaveWindow = true;
-                return;
-            }
+        if (StringUtils.isEmpty(filename)) {
+             gameStatus.isOpenSaveWindow = true;
+             return;
         }
         File savesDir = getOrCreateDirectory(gameObject.gameDir, "saves");
         if (StringUtils.isEmpty(filename)) {
@@ -291,14 +288,10 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     @Override
     public void SaveGame(String filename) {
         logger.info("command:SaveGame:" + filename);
-
-        if (gameStatus.isBigKuyash) {
-            if (StringUtils.isEmpty(filename)) {
-
-                gameStatus.isOpenSaveWindow = true;
-                return;
-            }
-        }
+         if (StringUtils.isEmpty(filename)) {
+            gameStatus.isOpenSaveWindow = true;
+            return;
+         }
         GameInterface inter = gameInterface;
         gameStatus.refreshAll();
         if (inter != null) {

@@ -53,7 +53,7 @@ try{
     }catch{
     }
 }
-setInterval(isNeedRefresh,500);
+setInterval(isNeedRefresh,300);
 
 function loadHtml()
 {
@@ -73,10 +73,85 @@ return;
 }
 isClickExec=true;
 $.get("/engine/htmlCall?actionScript="+encodeURIComponent(script),function(result){
-
+isNeedRefresh();
 });
 }
 
+
+
+
+function Trim(str) { return str.replace(/(^\s*)|(\s*$)/g,""); }
+var csGame=false;
+function saveGame()
+{
+    if(clGame==false)
+    {
+       csGame=true;
+     var saveFileName= document.getElementById("saveFileName").value;
+     saveFileName=Trim(saveFileName);
+     if(saveFileName=="")
+     {
+          csGame=false;
+           alert("Please enter a file name");
+     return;
+     }
+$.get("/engine/GameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+             index=0;
+              csGame=false;
+           if("1"==data||1==data)
+           {
+           alert("save Success");
+           }else
+           {
+           alert("save error");
+           }
+       });
+   }
+}
+var clGame=false;
+function loadGame(saveFileName)
+{
+    if(clGame==false)
+    {
+       clGame=true;
+$.get("/engine/LoadGameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+        index=0;    clGame=false;
+       if("1"==data||1==data)
+              {
+         alert("读取成功");
+         closeSaveWindow();
+          }else
+            {
+                  alert("读取失败");
+          }
+       });
+   }
+}
+
+var dlGame=false;
+function delGame(saveFileName)
+{
+    if(dlGame==false)
+    {
+       dlGame=true;
+$.get("/engine/deleteGameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+          index=0;  dlGame=false;
+       if("1"==data||1==data)
+              {
+         alert("删除成功");
+          }else
+            {
+                  alert("删除失败");
+          }
+       });
+   }
+}
+function closeSaveWindow()
+{
+  $.get("/engine/closeSaveWindow",function(data,status){
+  index=0;
+       });
+}
 </script>
 </head>
 <body onload="loadHtml();">

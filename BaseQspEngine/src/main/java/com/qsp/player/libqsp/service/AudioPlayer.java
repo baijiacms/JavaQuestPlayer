@@ -14,7 +14,7 @@ public class AudioPlayer {
 
     public void playFile(GameStatus gameStatus, String path, int volume) {
         closeAllFiles();
-        audioInterface = audioFactory.createNewPlayer(gameStatus, path);
+        audioInterface = audioFactory.createNewPlayer(gameStatus, path,Double.parseDouble(String.valueOf(volume)));
         audioInterface.setVolume(volume);
         audioInterface.start();
     }

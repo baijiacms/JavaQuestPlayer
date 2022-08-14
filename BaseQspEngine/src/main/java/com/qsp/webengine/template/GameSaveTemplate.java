@@ -22,6 +22,7 @@ import java.util.*;
 public class GameSaveTemplate {
     private Template htmlTemplate;
     private Template htmlTemplateKuyash;
+    private Template htmlTemplateSob;
 
     private PlayerEngine mPlayerEngine;
 
@@ -30,6 +31,7 @@ public class GameSaveTemplate {
 
         htmlTemplate = ve.getTemplate("baijiacms/html/center/gamesave.vm", "utf-8");
         htmlTemplateKuyash = ve.getTemplate("baijiacms/html/center/gamesaveKuyash.vm", "utf-8");
+        htmlTemplateSob = ve.getTemplate("baijiacms/html/center/gamesaveSob.vm", "utf-8");
     }
 
     public String getHtml() {
@@ -45,9 +47,13 @@ public class GameSaveTemplate {
 
         if (mPlayerEngine.getGameStatus().isBigKuyash) {
             htmlTemplateKuyash.merge(context, writer);
-
         } else {
-            htmlTemplate.merge(context, writer);
+            if (mPlayerEngine.getGameStatus().isSobGame) {
+                htmlTemplateSob.merge(context, writer);
+            }else
+            {
+                htmlTemplate.merge(context, writer);
+            }
         }
         writer.flush();
         try {
