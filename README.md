@@ -2,7 +2,8 @@
 
 It is developed in JavaSE language, libqsp version is v5.7.0 base from Quest Player by seedhartha V2.3.1.
 
-Environment:
+
+### Environment:
 
 Windows 7(later) or Linux
 
@@ -36,11 +37,6 @@ Oracle JDK 1.8
 
 6. Game list.
 more
-
-### Environment:
-Windows 7 x64 and later (x64)
-
-Oracle JDK 1.8 x64
 
 ### Tip:
 The local 19870 port will be used for startup.If you need to modify the default port, just add the port number in the bat of the startup command(.bat).
