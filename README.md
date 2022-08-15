@@ -36,7 +36,7 @@ Oracle JDK 1.8
 5. Export qsrc source code file list to QSP file.
 
 6. Game list.
-more
+
 
 ### Tip:
 The local 19870 port will be used for startup.If you need to modify the default port, just add the port number in the bat of the startup command(.bat).
