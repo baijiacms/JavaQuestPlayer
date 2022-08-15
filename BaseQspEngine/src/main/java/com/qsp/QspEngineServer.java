@@ -49,7 +49,7 @@ public class QspEngineServer {
         server = new Server(port);
         server.setHandler(jettyHandler);
         server.start();
-        System.out.println("Use browser to:" + httpUrl);
+     //   System.out.println("Use browser to:" + httpUrl);
     }
 
     public void join() throws InterruptedException {

@@ -22,14 +22,23 @@ public class QspConstants {
     public static String QSP_DLL_PATH;
     public static String QSP_DEV_DLL_PATH;
     public static String GAME_DATA_PATH;
-
+    private static boolean isLinux() {
+        return System.getProperty("os.name").toLowerCase().contains("linux");
+    }
     //设置基础路径
     public static void setBaseFoler(String jarPath) {
         jarPath = Uri.getFolderPath(jarPath);
         ENGINE_RESOURCE_PATH = jarPath + "resources";
+        if(isLinux())
+        {
+            QSP_DLL_PATH = ENGINE_RESOURCE_PATH + "/engine/libqsp.so";
+            QSP_DEV_DLL_PATH = ENGINE_RESOURCE_PATH + "/engine/libdev.so";
 
-        QSP_DLL_PATH = ENGINE_RESOURCE_PATH + "/engine/engine.dll";
-        QSP_DEV_DLL_PATH = ENGINE_RESOURCE_PATH + "/engine/devtools.dll";
+        }else
+        {
+            QSP_DLL_PATH = ENGINE_RESOURCE_PATH + "/engine/libqsp.dll";
+            QSP_DEV_DLL_PATH = ENGINE_RESOURCE_PATH + "/engine/libdev.dll";
+        }
         String path = jarPath;
         for (int i = 0; i < 3; i++) {
             path = new File(path).getParent();

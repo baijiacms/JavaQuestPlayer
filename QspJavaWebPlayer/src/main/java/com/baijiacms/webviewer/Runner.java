@@ -21,6 +21,7 @@ public class Runner {
         }
         QspEngineServer qspEngineServer=new QspEngineServer(port);
         qspEngineServer.start();
+        System.out.println("Use browser to:" + qspEngineServer.getHttpUrl());
         System.out.println("使用浏览器访问地址:"+qspEngineServer.getHttpUrl());
         JOptionPane.showMessageDialog(null, "Use browser to(使用浏览器访问地址):"+qspEngineServer.getHttpUrl(), "提示", JOptionPane.DEFAULT_OPTION);
         qspEngineServer.join(); //这个是阻断器

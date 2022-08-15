@@ -208,8 +208,8 @@ public class LibQspThread extends Thread {
         }
         this.libQspProxyImpl.getGameStatus().gameStartTime = System.currentTimeMillis();
         this.libQspProxyImpl.getGameStatus().lastMsCountCallTime = 0;
-//        QSPRestartGame(gameInterface);
-        qspRestartGame();
+        qspRestartGame(gameInterface);
+
 
         return;
     }

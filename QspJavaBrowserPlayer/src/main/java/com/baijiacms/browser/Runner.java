@@ -42,7 +42,7 @@ public class Runner {
         }
         QspEngineServer qspEngineServer=new QspEngineServer(port);
         qspEngineServer.start();
-
+        System.out.println("Loading....");
 
         final Browser browser = new Browser();
         BrowserView view = new BrowserView(browser);

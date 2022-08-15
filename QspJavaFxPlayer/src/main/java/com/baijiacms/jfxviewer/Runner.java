@@ -70,6 +70,7 @@ public class Runner extends Application {
         QspEngineServer qspEngineServer=new QspEngineServer(port);
         qspEngineServer.start();
 
+        System.out.println("Loading....");
         //继承了Application，launch是Application类的方法。英文意思是发射/发动的意思。
         launch(args);
     }
