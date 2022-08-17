@@ -82,6 +82,8 @@ public class MediaPlayer implements AudioInterface {
 
     @Override
     public void setVolume(float sysVolume) {
-        mediaPlayer.getVolumeControl().setValue(sysVolume);
+        if(mediaPlayer!=null&&mediaPlayer.getVolumeControl()!=null) {
+            mediaPlayer.getVolumeControl().setValue(sysVolume);
+        }
     }
 }

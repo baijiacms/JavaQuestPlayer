@@ -134,21 +134,27 @@ public class NativeDevMethods {
                 qsrcList.add(qsrcMap.get(name));
             }
         }
-
+        String newLine=System.getProperty("line.separator");
+        newLine="\r\n";
         try {
             BufferedReader br = null;
             for (String qsrc : qsrcList) {
-                br = new BufferedReader(new FileReader(new File(qsrc)));
+                File file= new File(qsrc);
+                br = new BufferedReader(new FileReader(file));
                 String s = "";
                 while ((s = br.readLine()) != null) {
-                    result.append(s + "\r\n");
+                    result.append(s);
+                    result.append(newLine);
                 }
-                result.append("\r\n");
+                result.append(newLine);
             }
-            result.append("#addbuilddate\r\n");
-            result.append("$builddate = 'July 01, 2022'\r\n");
+            result.append("# addbuilddate");
+            result.append(newLine);
+            result.append("$builddate = 'July 01, 2022'");
+            result.append(newLine);
             result.append("--- addbuilddate ---------------------------------");
-
+            result.append(newLine);
+            result.append(newLine);
             byte[] textdata = result.toString().getBytes("UTF-16LE");
 
             byte[] utf16lemessage = new byte[2 + textdata.length];
