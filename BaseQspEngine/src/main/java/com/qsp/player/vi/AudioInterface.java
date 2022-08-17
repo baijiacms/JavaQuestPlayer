@@ -6,7 +6,7 @@ import com.qsp.player.GameStatus;
  * 音乐播放器的接口类
  */
 public interface AudioInterface {
-    AudioInterface createNewPlayer(GameStatus gameStatus, String fileName,double volume);
+    AudioInterface createNewPlayer(GameStatus gameStatus, String fileName,float volume);
 
     public void stop();
 

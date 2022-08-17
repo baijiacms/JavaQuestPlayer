@@ -16,7 +16,7 @@
 
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <swagger.version>2.9.2</swagger.version>
         <mysql.version>8.0.22</mysql.version>
         <user-agent.version>1.20</user-agent.version>
@@ -32,14 +32,19 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.teamdev.jxbrowser</groupId>
+            <groupId>jxbrowser</groupId>
             <artifactId>jxbrowser</artifactId>
-            <version>6.24.3</version>
+            <version>6.1.1</version>
         </dependency>
         <dependency>
-            <groupId>com.teamdev.jxbrowser</groupId>
-            <artifactId>jxbrowser-win64</artifactId>
-            <version>6.24.3</version>
+            <groupId>jxbrowser</groupId>
+            <artifactId>jxbrowser-win</artifactId>
+            <version>6.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>jxbrowser</groupId>
+            <artifactId>jxbrowser-linux</artifactId>
+            <version>6.1.1</version>
         </dependency>
     </dependencies>
 

@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Main-Class: com.baijiacms.jfxviewer.Runner
+Main-Class: com.baijiacms.jfxviewer.JavaFxApplication
 Class-Path: jsoup-1.7.2.jar commons-io-2.8.0.jar jetty-server-9.4.41.v20
  210516.jar jetty-io-9.4.41.v20210516.jar commons-lang3-3.9.jar commons-
  codec-1.11.jar fastjson-1.2.73.jar stax-1.2.0.jar velocity-engine-core-

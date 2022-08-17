@@ -1,4 +1,4 @@
-package com.qsp.player.javafx;
+package com.qsp.player.vi.impl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.net.URL;
 /**
  * @author cxy
  */
-public class JavaFxUtils {
+public class SwingUtils {
     private static final Frame FRAME = new Frame() {{
         this.setAlwaysOnTop(true);
     }};

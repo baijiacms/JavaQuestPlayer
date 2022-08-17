@@ -1,7 +1,7 @@
 package com.qsp;
 
-import com.qsp.player.javafx.JavaFxMediaPlayer;
-import com.qsp.player.javafx.JavaFxViewImpl;
+import com.qsp.player.vi.impl.MediaPlayer;
+import com.qsp.player.vi.impl.SwingViewImpl;
 import com.qsp.player.vi.AudioInterface;
 import com.qsp.player.vi.ViewInterface;
 import com.qsp.webengine.HtmlEngine;
@@ -17,7 +17,7 @@ public class QspEngineCore {
     private String userId;
 
     public QspEngineCore(String userId) {
-        this(userId, new JavaFxViewImpl(), new JavaFxMediaPlayer());
+        this(userId, new SwingViewImpl(), new MediaPlayer());
     }
 
     public QspEngineCore(String userId, ViewInterface qspViewImpl, AudioInterface audioInterfaceImp) {

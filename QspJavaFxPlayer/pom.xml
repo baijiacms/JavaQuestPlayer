@@ -15,12 +15,13 @@
 
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <swagger.version>2.9.2</swagger.version>
         <mysql.version>8.0.22</mysql.version>
         <user-agent.version>1.20</user-agent.version>
-        <start-class>com.baijiacms.jfxviewer.Runner</start-class>
+        <start-class>com.baijiacms.jfxviewer.JavaFxApplication</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <openjfx.version>11</openjfx.version>
     </properties>
 
     <dependencies>
@@ -30,11 +31,96 @@
             <artifactId>BaseQspEngine</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+
+        <!--JavaFX相关依赖-->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${openjfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>${openjfx.version}</version>
+            <classifier>win</classifier>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx-media</artifactId>-->
+<!--            <version>${openjfx.version}</version>-->
+<!--            <classifier>mac</classifier>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>${openjfx.version}</version>
+            <classifier>linux</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${openjfx.version}</version>
+            <classifier>win</classifier>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx-graphics</artifactId>-->
+<!--            <version>${openjfx.version}</version>-->
+<!--            <classifier>mac</classifier>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${openjfx.version}</version>
+            <classifier>linux</classifier>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx-fxml</artifactId>-->
+<!--            <version>${openjfx.version}</version>-->
+<!--        </dependency>-->
+
+
+<!--        <dependency>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx-web</artifactId>-->
+<!--            <version>${openjfx.version}</version>-->
+<!--            <classifier>mac</classifier>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>${openjfx.version}</version>
+            <classifier>linux</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>${openjfx.version}</version>
+            <classifier>win</classifier>
+        </dependency>
     </dependencies>
 
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>com.baijiacms.jfxviewer.JavaFxApplication</mainClass>
+                </configuration>
+            </plugin>
             <!-- 跳过单元测试 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

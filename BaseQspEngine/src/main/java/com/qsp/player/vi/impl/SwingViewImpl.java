@@ -1,8 +1,8 @@
-package com.qsp.player.javafx;
+package com.qsp.player.vi.impl;
 
 import com.qsp.player.vi.ViewInterface;
 
-public class JavaFxViewImpl implements ViewInterface {
+public class SwingViewImpl implements ViewInterface {
     /**
      * 消息输入
      *
@@ -11,7 +11,7 @@ public class JavaFxViewImpl implements ViewInterface {
      */
     @Override
     public String getInputStr(String prompt) {
-        return JavaFxUtils.showTextInputDialog(prompt);
+        return SwingUtils.showTextInputDialog(prompt);
     }
 
     /**
@@ -21,17 +21,17 @@ public class JavaFxViewImpl implements ViewInterface {
      */
     @Override
     public void showMessageBox(String prompt) {
-        JavaFxUtils.showAlertDialog(prompt);
+        SwingUtils.showAlertDialog(prompt);
     }
 
     @Override
     public void showErrorBox(String prompt) {
-        JavaFxUtils.showErrorialog(prompt);
+        SwingUtils.showErrorialog(prompt);
     }
 
     @Override
     public void showPicture(String imagePath) {
-        JavaFxUtils.showPicture(imagePath);
+        SwingUtils.showPicture(imagePath);
     }
 }
 
