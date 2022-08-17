@@ -7,7 +7,7 @@ It is developed in JavaSE language, libqsp version is v5.7.0 base from Quest Pla
 
 Windows 7(later) or Linux
 
-Oracle JDK 1.8
+OpenJDK JDK 11 and later
 
 
 ### Module:
@@ -16,7 +16,7 @@ Oracle JDK 1.8
 
 2.QspJavaWebPlayer: the running mode of the local browser, ie is not recommended,  chrome support is the best (perfect).
 
-3.QspJavaFxPlayer: JavaFX running mode (incomplete).
+3.QspJavaFxPlayer: OpenJFX running mode (incomplete).
 
 4.QspJavaBrowserPlayer: another Java built-in browser running mode (incomplete).
 
