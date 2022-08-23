@@ -3,6 +3,10 @@ package com.qsp;
 import com.qsp.jetty.JettyHandler;
 import com.qsp.player.common.QspConstants;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.session.HashSessionIdManager;
+import org.eclipse.jetty.server.session.HashSessionManager;
+import org.eclipse.jetty.server.session.SessionHandler;
 
 import java.net.Socket;
 
@@ -47,7 +51,29 @@ public class QspEngineServer {
 
         int port = checkPort();
         server = new Server(port);
-        server.setHandler(jettyHandler);
+
+        HashSessionIdManager idmanager = new HashSessionIdManager();
+
+        server.setSessionIdManager(idmanager);
+
+// Sessions are bound to a context.
+
+        ContextHandler context = new ContextHandler("/");
+
+        server.setHandler(context);
+
+// Create the SessionHandler (wrapper) to handle the sessions
+
+        HashSessionManager manager = new HashSessionManager();
+
+        SessionHandler sessions = new SessionHandler(manager);
+
+        context.setHandler(sessions);
+
+// Put jettyHandler inside of SessionHandler
+
+        sessions.setHandler(jettyHandler);
+
         server.start();
      //   System.out.println("Use browser to:" + httpUrl);
     }

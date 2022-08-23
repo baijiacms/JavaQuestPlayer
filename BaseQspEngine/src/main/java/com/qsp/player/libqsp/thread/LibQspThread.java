@@ -203,6 +203,7 @@ public class LibQspThread extends Thread {
         String fileName = gameObject.gameFile.getAbsolutePath();
 
         if (!this.libQspProxyImpl.getNativeMethods().QSPLoadGameWorldFromData(gameData, gameData.length, fileName)) {
+
             showLastQspError(gameInterface);
             return;
         }

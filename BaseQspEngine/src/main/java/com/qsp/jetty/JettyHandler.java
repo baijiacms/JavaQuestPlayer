@@ -6,7 +6,7 @@ import com.qsp.player.util.IoUtil;
 import com.qsp.webengine.vo.ResponseVo;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jetty.server.Request;
-
+import org.eclipse.jetty.server.handler.AbstractHandler;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,13 +14,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-public class JettyHandler extends MyFileHandler {
+public class JettyHandler extends AbstractHandler {
     private QspEngineCore qspEngineCore;
 
     public JettyHandler() {
         super();
         qspEngineCore = new QspEngineCore(QspConstants.DEFAULT_USER);
-
     }
 
     @Override
@@ -45,7 +44,7 @@ public class JettyHandler extends MyFileHandler {
             e.printStackTrace();
         }
 
-        super.handle(target, baseRequest, request, response);
+//        super.handle(target, baseRequest, request, response);
     }
 
 
