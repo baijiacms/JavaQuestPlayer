@@ -43,6 +43,7 @@ public class NativeDevMethods implements LibDevMethods {
      * @param fileName
      * @return
      */
+    @Override
     public native byte[] GetQspDate(byte data[], int dataSize, String fileName);
 
     /**
@@ -53,6 +54,7 @@ public class NativeDevMethods implements LibDevMethods {
      * @param password
      * @return
      */
+    @Override
     public native boolean QspToTxt(String fromFile, String toFile, String password);
 
     /**
@@ -62,6 +64,7 @@ public class NativeDevMethods implements LibDevMethods {
      * @param toFile
      * @param password
      */
+    @Override
     public void qspFileToText(String fromFile, String toFile, String password) {
         QspToTxt(fromFile, toFile, password);
     }
@@ -177,6 +180,7 @@ public class NativeDevMethods implements LibDevMethods {
      * @param qprojPath
      * @param outputTxtPath
      */
+    @Override
     public void outputFileOneText(String srcFolder, String qprojPath, String outputTxtPath) {
 
         byte[] data = readQrcFolder(srcFolder, qprojPath);
@@ -201,6 +205,7 @@ public class NativeDevMethods implements LibDevMethods {
      * @param qprojPath
      * @return
      */
+    @Override
     public byte[] getQspByteDate(String srcFolder, String qprojPath) {
         byte[] utf16lemessage = readQrcFolder(srcFolder, qprojPath);
 
@@ -218,6 +223,7 @@ public class NativeDevMethods implements LibDevMethods {
      * @param qprojPath
      * @param toGemFile
      */
+    @Override
     public void toQspFile(String srcFolder, String qprojPath, String toGemFile) {
 
         byte[] data = getQspByteDate(srcFolder, qprojPath);
