@@ -6,7 +6,6 @@ import java.util.Objects;
 
 /**
  * dll调用核心类
- * Методы данного класса определены в <code>androidqspwrapper.c</code>.
  */
 public class NativeMethods {
     private final LibQspCallbacks callbacks;

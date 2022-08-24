@@ -11,7 +11,7 @@
 
     <modules>
         <module>BaseQspEngine</module>
-        <module>QspJavaBrowserPlayer</module>
+        <module>QspJxBrowserPlayer</module>
         <module>QspJavaFxPlayer</module>
         <module>QspJavaWebPlayer</module>
     </modules>

@@ -20,6 +20,7 @@ public class QspConstants {
 
     public static String ENGINE_RESOURCE_PATH;
     public static String QSP_DLL_PATH;
+    public static String QSP_WEBDLL_PATH;
     public static String QSP_DEV_DLL_PATH;
     public static String GAME_DATA_PATH;
     private static boolean isLinux() {

@@ -39,16 +39,16 @@ public class HtmlEngine {
     private final String HTML_CONTENT_TYPE = "text/html;charset=utf-8";
     private final String JSON_CONTENT_TYPE = "application/json;charset=utf-8";
 
-    public HtmlEngine(String userId, QspEngineCore qspEngineCore) {
-        this(userId, qspEngineCore.getJavaFxViewImpl(), qspEngineCore.getJavaFxMediaPlayer());
+    public HtmlEngine(QspEngineCore qspEngineCore) {
+        this(qspEngineCore.getJavaFxViewImpl(), qspEngineCore.getJavaFxMediaPlayer());
     }
 
-    private HtmlEngine(String userId, ViewInterface qspViewImpl, AudioInterface audioInterfaceImp) {
+    private HtmlEngine(ViewInterface qspViewImpl, AudioInterface audioInterfaceImp) {
         VelocityEngine ve = new VelocityEngine();
         ve.setProperty(Velocity.RESOURCE_LOADER, Velocity.RESOURCE_LOADER_CLASS);
         ve.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         ve.init();
-        this.mPlayerEngine = new PlayerEngine(userId, this.getClass(), qspViewImpl, audioInterfaceImp);
+        this.mPlayerEngine = new PlayerEngine(this.getClass(), qspViewImpl, audioInterfaceImp);
         this.userTemplate = new UserTemplate(ve);
         this.actionTemplate = new ActionTemplate(ve);
         this.consoleTemplate = new ConsoleTemplate(ve);

@@ -1,6 +1,7 @@
 package com.qsp.player.libqsp;
 
 import com.qsp.player.GameStatus;
+import com.qsp.player.common.QspConstants;
 import com.qsp.player.common.WindowType;
 import com.qsp.player.libqsp.dto.GameObject;
 import com.qsp.player.libqsp.dto.QspMenuItem;
@@ -35,13 +36,11 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     private GameStatus gameStatus;
     public static final String QUICK_SAVE_NAME = "quickSave";
     private NativeMethods nativeMethods;
-    private String userId;
 
-    public LibQspProxyImpl(String userId, GameStatus gameStatus,
+    public LibQspProxyImpl( GameStatus gameStatus,
                            GameContentResolver gameContentResolver,
                            HtmlProcessor htmlProcessor,
                            AudioPlayer audioPlayer) {
-        this.userId = userId;
         this.gameStatus = gameStatus;
         this.gameContentResolver = gameContentResolver;
         this.htmlProcessor = htmlProcessor;
@@ -55,7 +54,7 @@ public class LibQspProxyImpl implements LibQspProxy, LibQspCallbacks {
     public void start() {
         logger.info("command:start");
         nativeMethods = new NativeMethods(this);
-        this.libQspThread = new LibQspThread(userId, this);
+        this.libQspThread = new LibQspThread(QspConstants.DEFAULT_USER, this);
         this.libQspThread.start();
         this.libQspThread.qspStart(gameInterface);
     }

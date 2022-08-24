@@ -19,7 +19,7 @@ public class JettyHandler extends AbstractHandler {
 
     public JettyHandler() {
         super();
-        qspEngineCore = new QspEngineCore(QspConstants.DEFAULT_USER);
+        qspEngineCore = new QspEngineCore();
     }
 
     @Override

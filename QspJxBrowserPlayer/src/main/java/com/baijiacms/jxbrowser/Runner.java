@@ -1,4 +1,4 @@
-package com.baijiacms.browser;
+package com.baijiacms.jxbrowser;
 
 import com.qsp.QspEngineServer;
 import com.qsp.player.common.QspConstants;
@@ -14,18 +14,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigInteger;
 
-/**
- * 弹出菜单被遮住
- * 解决：JPopupMenu.setDefaultLightWeightPopupEnabled(false);//弹出菜单重量级
- *
- * 设置当前的焦点控件
- * 应用皮肤beautyeye后有问题
- * 因为应用了 BeautyEyeLNFHelper.FrameBorderStyle.translucencySmallShadow
- * 改成：BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated; 就可以了
- *
- * 默认不出现右键
- * 需要注册browser.setDialogHandler(new DefaultDialogHandler(view));
- */
+
 public class Runner {
     public static void main(String[] args) throws Exception {
         int port=QspConstants.HTTP_PORT;

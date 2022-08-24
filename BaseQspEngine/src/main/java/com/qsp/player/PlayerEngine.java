@@ -33,7 +33,7 @@ public class PlayerEngine implements GameInterface {
     private AudioPlayer audioPlayer;
     private GameStatus gameStatus;
 
-    public PlayerEngine(String userId, Class runnerClass, ViewInterface viewInterface, AudioInterface audioInterface) {
+    public PlayerEngine(Class runnerClass, ViewInterface viewInterface, AudioInterface audioInterface) {
         this.viewInterface = viewInterface;
         gameStatus = new GameStatus();
         gameContentResolver = new GameContentResolver();
@@ -41,7 +41,7 @@ public class PlayerEngine implements GameInterface {
 
         audioPlayer = new AudioPlayer(audioInterface);
         QspConstants.setBaseFoler(JarUtil.getJarPath(runnerClass));
-        libQspProxy = new LibQspProxyImpl(userId, gameStatus, gameContentResolver, htmlProcessor, audioPlayer);
+        libQspProxy = new LibQspProxyImpl(gameStatus, gameContentResolver, htmlProcessor, audioPlayer);
 
         libQspProxy.setGameInterface(this);
         libQspProxy.start();

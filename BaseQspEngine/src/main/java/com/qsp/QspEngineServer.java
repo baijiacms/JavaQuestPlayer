@@ -51,29 +51,7 @@ public class QspEngineServer {
 
         int port = checkPort();
         server = new Server(port);
-
-        HashSessionIdManager idmanager = new HashSessionIdManager();
-
-        server.setSessionIdManager(idmanager);
-
-// Sessions are bound to a context.
-
-        ContextHandler context = new ContextHandler("/");
-
-        server.setHandler(context);
-
-// Create the SessionHandler (wrapper) to handle the sessions
-
-        HashSessionManager manager = new HashSessionManager();
-
-        SessionHandler sessions = new SessionHandler(manager);
-
-        context.setHandler(sessions);
-
-// Put jettyHandler inside of SessionHandler
-
-        sessions.setHandler(jettyHandler);
-
+        server.setHandler(jettyHandler);
         server.start();
      //   System.out.println("Use browser to:" + httpUrl);
     }
