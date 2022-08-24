@@ -1,6 +1,6 @@
 package com.qsp.player.libqsp;
 
-import com.qsp.player.common.QspConstants;
+import com.baijiacms.qsp.common.QspConstants;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * 开发工具DLL
  */
-public class NativeDevMethods {
+public class NativeDevMethods implements LibDevMethods {
     private void dirFolder(File folder, String folderName, Map<String, String> qsrcMap) {
         File[] files = folder.listFiles();
         for (File f : files) {
@@ -134,12 +134,12 @@ public class NativeDevMethods {
                 qsrcList.add(qsrcMap.get(name));
             }
         }
-        String newLine=System.getProperty("line.separator");
-        newLine="\r\n";
+        String newLine = System.getProperty("line.separator");
+        newLine = "\r\n";
         try {
             BufferedReader br = null;
             for (String qsrc : qsrcList) {
-                File file= new File(qsrc);
+                File file = new File(qsrc);
                 br = new BufferedReader(new FileReader(file));
                 String s = "";
                 while ((s = br.readLine()) != null) {

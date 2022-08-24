@@ -1,5 +1,6 @@
 package com.qsp.player.libqsp.util;
 
+import com.qsp.player.libqsp.LibDevMethods;
 import com.qsp.player.libqsp.NativeDevMethods;
 import org.apache.commons.io.FileUtils;
 import org.dom4j.Document;
@@ -17,7 +18,7 @@ import java.util.List;
 public class DevUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(DevUtils.class);
-    private final NativeDevMethods nativeDevMethods = new NativeDevMethods();
+    private final LibDevMethods nativeDevMethods = new NativeDevMethods();
 
     public void qspFileToText(String fromFile, String toFile, String password) {
 

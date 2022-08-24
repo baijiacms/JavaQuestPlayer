@@ -1,8 +1,8 @@
 package com.qsp.player.libqsp;
 
-import com.qsp.player.libqsp.dto.GameObject;
-import com.qsp.player.util.Uri;
-import com.qsp.webengine.vo.GameVo;
+import com.baijiacms.qsp.dto.GameObject;
+import com.baijiacms.qsp.util.Uri;
+import com.baijiacms.qsp.vo.GameVo;
 
 import java.io.File;
 
@@ -32,8 +32,6 @@ public interface LibQspProxy {
     void executeCounter();
 
     GameObject getGameObject();
-
-    void setGameInterface(GameInterface view);
 
 
     public void qspFileToText(GameVo gameVo, String toFile);

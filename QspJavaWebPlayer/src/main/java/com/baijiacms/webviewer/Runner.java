@@ -1,9 +1,12 @@
 package com.baijiacms.webviewer;
 
-import com.qsp.QspEngineServer;
-import com.qsp.player.common.QspConstants;
+import com.baijiacms.qsp.QspEngineServer;
+import com.baijiacms.qsp.common.QspConstants;
 import javax.swing.*;
 
+/**
+ * printf("%s","123")
+ */
 public class Runner {
 
     public  static void main(String[] args) throws Exception {

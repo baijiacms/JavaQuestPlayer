@@ -1,8 +1,7 @@
 package com.baijiacms.jfxviewer;
 
-import com.qsp.QspEngineServer;
-import com.qsp.player.vi.impl.SwingUtils;
-import com.qsp.player.common.QspConstants;
+import com.baijiacms.qsp.vi.SwingUtils;
+import com.baijiacms.qsp.common.QspConstants;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;

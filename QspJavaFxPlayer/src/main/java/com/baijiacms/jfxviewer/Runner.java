@@ -1,7 +1,7 @@
 package com.baijiacms.jfxviewer;
 
-import com.qsp.QspEngineServer;
-import com.qsp.player.common.QspConstants;
+import com.baijiacms.qsp.QspEngineServer;
+import com.baijiacms.qsp.common.QspConstants;
 import javafx.application.Application;
 
 public class Runner {

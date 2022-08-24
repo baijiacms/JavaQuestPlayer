@@ -1,13 +1,14 @@
 package com.qsp.player.libqsp;
 
-import com.qsp.player.common.QspConstants;
+import com.baijiacms.qsp.common.QspConstants;
 
 import java.util.Objects;
 
 /**
  * dll调用核心类
+ * Методы данного класса определены в <code>androidqspwrapper.c</code>.
  */
-public class NativeMethods {
+public class NativeMethods implements LibMethods {
     private final LibQspCallbacks callbacks;
 
     static {
