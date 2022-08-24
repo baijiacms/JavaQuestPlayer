@@ -1,6 +1,10 @@
 ## Java Quest Soft Player
 
-It is developed in JavaSE language, libqsp version is v5.7.0 base from Quest Player by seedhartha V2.3.1.
+It is developed in JavaSE language.
+
+This is a qsp player for single user.
+
+libqsp is v5.7.0 base from Quest Player by seedhartha QuestPlayer V2.3.1:https://github.com/seedhartha/QuestPlayer
 
 
 ### Environment:
@@ -18,7 +22,7 @@ OpenJDK JDK 11 and later
 
 3.QspJavaFxPlayer: OpenJFX running mode (incomplete).
 
-4.QspJavaBrowserPlayer: another Java built-in browser running mode (incomplete).
+4.QspJxBrowserPlayer: another Java built-in browser running mode (incomplete).
 
 5.QspGames: QSP game directory.
 
