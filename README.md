@@ -11,7 +11,7 @@ libqsp is v5.7.0 base from seedhartha QuestPlayer V2.3.1:https://github.com/seed
 
 Windows 7(later) or Linux
 
-OpenJDK JDK 11 and later
+Oracle JDK1.8 or OpenJDK JDK 11(later) 
 
 
 ### Module:
