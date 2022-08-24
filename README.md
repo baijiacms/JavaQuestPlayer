@@ -4,7 +4,7 @@ It is developed in JavaSE language.
 
 This is a qsp player for single user.
 
-libqsp is v5.7.0 base from Quest Player by seedhartha QuestPlayer V2.3.1:https://github.com/seedhartha/QuestPlayer
+libqsp is v5.7.0 base from seedhartha QuestPlayer V2.3.1:https://github.com/seedhartha/QuestPlayer
 
 
 ### Environment:
