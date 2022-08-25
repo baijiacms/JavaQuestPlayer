@@ -7,7 +7,7 @@ import javafx.application.Application;
 public class Runner {
     public static void main(String[] args)  throws Exception {
         int port= QspConstants.HTTP_PORT;
-        if(args!=null&&args.length>1)
+        if(args!=null&&args.length>=1)
         {
             try {
                 port = Integer.parseInt(args[0]);
