@@ -78,7 +78,6 @@ public class LibEngine {
 
         gameStatus.reset();
         gameStatus.setGameRunning(true);
-        libQspProxy.getRefreshInterfaceRequest();
         gameStatus.setGameStartTime(System.currentTimeMillis());
         gameStatus.setLastMsCountCallTime(0);
         gameStatus.gameStartTime = System.currentTimeMillis();
