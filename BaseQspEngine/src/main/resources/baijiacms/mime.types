@@ -1157,7 +1157,7 @@ application/vnd.uoml+xml			uoml
 # application/vnd.uplanet.listcmd
 # application/vnd.uplanet.listcmd-wbxml
 # application/vnd.uplanet.signal
-# application/vnd.uri-map
+# application/vnd.qspUri-map
 # application/vnd.valve.source.material
 application/vnd.vcx				vcx
 # application/vnd.vd-study
@@ -1712,7 +1712,7 @@ text/tab-separated-values			tsv
 text/troff					t tr roff man me ms
 text/turtle					ttl
 # text/ulpfec
-text/uri-list					uri uris urls
+text/qspUri-list					qspUri uris urls
 text/vcard					vcard
 # text/vnd.a
 # text/vnd.abc

@@ -17,11 +17,11 @@ if(isClickAction==true)
 return;
 }
 isClickAction=true;
-$.get("/engine/loadGame?actionScript="+encodeURIComponent(gameId) ,function(result){
+$.get("/engine/index/loadGame?actionScript="+encodeURIComponent(gameId) ,function(result){
 isClickAction=false;
 if(result=="1"||result==1)
 {
-location.href="/engine/loadingPage";
+location.href="/engine/loading/loadingPage";
 }
 
 });
@@ -37,7 +37,7 @@ if(isClickAction2==true)
 return;
 }
 isClickAction2=true;
-$.get("/engine/exportGameToText?actionScript="+encodeURIComponent(gameId) ,function(result){
+$.get("/engine/index/exportGameToText?actionScript="+encodeURIComponent(gameId) ,function(result){
 isClickAction2=false;
 if(result=="1"||result==1)
 {
@@ -58,7 +58,7 @@ if(isClickAction3==true)
 return;
 }
 isClickAction3=true;
-$.get("/engine/exportGameToQsp?actionScript="+encodeURIComponent(gameId) ,function(result){
+$.get("/engine/index/exportGameToQsp?actionScript="+encodeURIComponent(gameId) ,function(result){
 isClickAction3=false;
 if(result=="1"||result==1)
 {

@@ -1,23 +1,22 @@
 package com.qsp.player.libqsp;
 
-import com.baijiacms.qsp.dto.GameObject;
-import com.baijiacms.qsp.util.Uri;
-import com.baijiacms.qsp.vo.GameVo;
+import com.qsp.player.entity.QspGame;
+import com.qsp.player.entity.QspListItem;
+import com.qsp.player.util.QspUri;
 
-import java.io.File;
+import java.util.ArrayList;
 
 public interface LibQspProxy {
+
     void start();
 
     void stop();
 
-    void runGame(String id, String title, File dir, File file);
+    void restartGame(QspGame qspGame);
 
-    void restartGame();
+    void loadGameState(QspUri uri);
 
-    void loadGameState(Uri uri);
-
-    void saveGameState(Uri uri);
+    void saveGameState(QspUri uri);
 
     void onActionSelected(int index);
 
@@ -31,10 +30,17 @@ public interface LibQspProxy {
 
     void executeCounter();
 
-    GameObject getGameObject();
+    public void getRefreshInterfaceRequest();
 
+    public void qspFileToText(QspGame qspGame, String toFile);
 
-    public void qspFileToText(GameVo gameVo, String toFile);
+    public void toGemFile(QspGame qspGame, String toFile);
 
-    public void toGemFile(GameVo gameVo, String toFile);
+    public String refreshMainDesc();
+
+    public String refreshVarsDesc();
+
+    public ArrayList<QspListItem> refreshActions();
+
+    public ArrayList<QspListItem> refreshObjects();
 }

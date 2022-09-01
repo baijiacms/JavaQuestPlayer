@@ -76,7 +76,7 @@
 function isNeedRefresh()
 {
 try{
-   $.get("/engine/isNeedRefreshConsole",function(data,status){
+   $.get("/engine/index/isNeedRefreshConsole",function(data,status){
     if(data==1||data=='1')
     {
 
@@ -95,7 +95,7 @@ loadHtml();
 
 function loadHtml()
 {
-   $.get("/engine/console",function(data){
+   $.get("/engine/console/html",function(data){
 document.getElementById('menu').innerHTML=data;
 });
 }
@@ -103,7 +103,7 @@ document.getElementById('menu').innerHTML=data;
 function consoleTo(script)
 {
 
-$.get("/engine/consoleCall?actionScript="+encodeURIComponent(script) ,function(result){
+$.get("/engine/console/consoleCall?actionScript="+encodeURIComponent(script) ,function(result){
 
 });
 

@@ -3,9 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
- <parent>
-		<groupId>com.baijiacms</groupId>
-		<artifactId>JavaQspPlayer</artifactId>
+    <parent>
+        <groupId>com.baijiacms</groupId>
+        <artifactId>JavaQspPlayer</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <groupId>com.baijiacms</groupId>
@@ -19,7 +19,7 @@
         <swagger.version>2.9.2</swagger.version>
         <mysql.version>8.0.22</mysql.version>
         <user-agent.version>1.20</user-agent.version>
-        <start-class>com.baijiacms.jfxviewer.JavaFxApplication</start-class>
+        <start-class>com.baijiacms.qsp.jfxviewer.JavaFxApplication</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <openjfx.version>11</openjfx.version>
     </properties>
@@ -46,12 +46,12 @@
             <classifier>win</classifier>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.openjfx</groupId>-->
-<!--            <artifactId>javafx-media</artifactId>-->
-<!--            <version>${openjfx.version}</version>-->
-<!--            <classifier>mac</classifier>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.openjfx</groupId>-->
+        <!--            <artifactId>javafx-media</artifactId>-->
+        <!--            <version>${openjfx.version}</version>-->
+        <!--            <classifier>mac</classifier>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -67,12 +67,12 @@
             <classifier>win</classifier>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.openjfx</groupId>-->
-<!--            <artifactId>javafx-graphics</artifactId>-->
-<!--            <version>${openjfx.version}</version>-->
-<!--            <classifier>mac</classifier>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.openjfx</groupId>-->
+        <!--            <artifactId>javafx-graphics</artifactId>-->
+        <!--            <version>${openjfx.version}</version>-->
+        <!--            <classifier>mac</classifier>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -81,19 +81,19 @@
             <classifier>linux</classifier>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.openjfx</groupId>-->
-<!--            <artifactId>javafx-fxml</artifactId>-->
-<!--            <version>${openjfx.version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.openjfx</groupId>-->
+        <!--            <artifactId>javafx-fxml</artifactId>-->
+        <!--            <version>${openjfx.version}</version>-->
+        <!--        </dependency>-->
 
 
-<!--        <dependency>-->
-<!--            <groupId>org.openjfx</groupId>-->
-<!--            <artifactId>javafx-web</artifactId>-->
-<!--            <version>${openjfx.version}</version>-->
-<!--            <classifier>mac</classifier>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.openjfx</groupId>-->
+        <!--            <artifactId>javafx-web</artifactId>-->
+        <!--            <version>${openjfx.version}</version>-->
+        <!--            <classifier>mac</classifier>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -118,7 +118,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>com.baijiacms.jfxviewer.JavaFxApplication</mainClass>
+                    <mainClass>com.baijiacms.qsp.jfxviewer.JavaFxApplication</mainClass>
                 </configuration>
             </plugin>
             <!-- 跳过单元测试 -->

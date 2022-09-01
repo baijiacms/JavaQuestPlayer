@@ -21,7 +21,7 @@ function quickSaveGame()
     if(clGame==false)
     {
        csGame=true;
-       $.get("/engine/QuickSave",function(data,status){
+       $.get("/engine/save/QuickSave",function(data,status){
               csGame=false;
            if("1"==data||1==data)
            {
@@ -39,7 +39,7 @@ function quickLoadGame()
     if(clGame==false)
     {
        clGame=true;
-       $.get("/engine/loadQuickSave",function(data,status){
+       $.get("/engine/save/loadQuickSave",function(data,status){
           clGame=false;
        if("1"==data||1==data)
               {
@@ -55,7 +55,7 @@ function quickLoadGame()
 
 function showSaveWindow()
 {
-  $.get("/engine/openSaveWindow",function(data,status){
+  $.get("/engine/save/openSaveWindow",function(data,status){
        if("1"==data)
               {
 
@@ -82,20 +82,20 @@ function showSaveWindow()
 
 		</div>
 		<div class="center" >
-<iframe id="html" style="border: medium none;"  src="/engineHtmlPage" width="100%" height="100%"></iframe>
+<iframe id="html" style="border: medium none;"  src="/engine/html/engineHtmlPage" width="100%" height="100%"></iframe>
 		</div>
 		<div data-layout='{"type": "grid", "columns": 1, "resize": false}' class="west"  >
-    <iframe name="user" id="user" src="/engineUserPage" width="100%" height="100%"  style="border: medium none;" ></iframe>
+    <iframe name="user" id="user" src="/engine/user/engineUserPage" width="100%" height="100%"  style="border: medium none;" ></iframe>
 		</div>
 		<div class="east"  >
 			<div class="panel" style="height:50%">
 				<!--<div class="ui-state-default" style="padding:4px;">&nbsp;</div>-->
-    <iframe id="console" src="/engineConsolePage" width="100%" height="100%"  style="border: medium none;" ></iframe>
+    <iframe id="console" src="/engine/console/engineConsolePage" width="100%" height="100%"  style="border: medium none;" ></iframe>
 
 			</div>
 			<div class="panel" style="height:50%">
 				<div class="ui-state-default" style="padding:4px;"></div>
-		<iframe id="action"  src="/engineActionPage" width="100%" height="100%"  style="border: medium none;" ></iframe>
+		<iframe id="action"  src="/engine/action/engineActionPage" width="100%" height="100%"  style="border: medium none;" ></iframe>
 			</div>
 	</div>
 		<div class="south">${engineTitle} V${engineVersion} Powered By ${enginePowerBy}</div>

@@ -1,6 +1,6 @@
 package com.qsp.player.libqsp;
 
-import com.baijiacms.qsp.common.QspConstants;
+import com.qsp.player.common.QspConstants;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -32,7 +32,9 @@ public class NativeDevMethods implements LibDevMethods {
     }
 
     static {
-        System.load(QspConstants.QSP_DEV_DLL_PATH);
+
+
+        System.load(QspConstants.getLibDevPath());
     }
 
     /**

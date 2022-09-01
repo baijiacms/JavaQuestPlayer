@@ -13,7 +13,7 @@
 function isNeedRefresh()
 {
 try{
-   $.get("/engine/isNeedRefreshUser",function(data,status){
+   $.get("/engine/index/isNeedRefreshUser",function(data,status){
     if(data==1||data=='1')
     {
 
@@ -32,7 +32,7 @@ loadHtml();
 
 function loadHtml()
 {
-   $.get("/engine/user",function(data){
+   $.get("/engine/user/html",function(data){
 document.body.innerHTML=data;
 isClickExec=false;
 });
@@ -50,7 +50,7 @@ if(isClickExec==true)
 return;
 }
 isClickExec=true;
-$.get("/engine/userCall?actionScript="+encodeURIComponent(script) ,function(result){
+$.get("/engine/user/userCall?actionScript="+encodeURIComponent(script) ,function(result){
 
 });
 

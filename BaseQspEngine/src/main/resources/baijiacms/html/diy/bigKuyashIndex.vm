@@ -31,7 +31,7 @@ function isNeedRefresh()
 {
 try{
 
-   $.get("/engine/isNeedRefreshHtml",function(data,status){
+   $.get("/engine/index/isNeedRefreshHtml",function(data,status){
     if(data==1||data=='1')
     {
         if(index==0)
@@ -55,7 +55,7 @@ function pageInit()
 
 function loadHtml()
 {
-   $.get("/engine/html",function(data){
+   $.get("/engine/html/html",function(data){
 document.body.innerHTML=data;
 isClickExec=false;
 });
@@ -71,7 +71,7 @@ if(isClickExec==true)
 return;
 }
 isClickExec=true;
-$.get("/engine/htmlCall?actionScript="+encodeURIComponent(script),function(result){
+$.get("/engine/html/htmlCall?actionScript="+encodeURIComponent(script),function(result){
     index=0;isNeedRefresh();
 });
 
@@ -95,7 +95,7 @@ function saveGame()
            alert("Please enter a file name");
      return;
      }
-$.get("/engine/GameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+$.get("/engine/save/GameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
              index=0;
               csGame=false;
            if("1"==data||1==data)
@@ -114,7 +114,7 @@ function loadGame(saveFileName)
     if(clGame==false)
     {
        clGame=true;
-$.get("/engine/LoadGameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+$.get("/engine/save/LoadGameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
         index=0;    clGame=false;
        if("1"==data||1==data)
               {
@@ -134,7 +134,7 @@ function delGame(saveFileName)
     if(dlGame==false)
     {
        dlGame=true;
-$.get("/engine/deleteGameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+$.get("/engine/save/deleteGameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
           index=0;  dlGame=false;
        if("1"==data||1==data)
               {
@@ -148,7 +148,7 @@ $.get("/engine/deleteGameSave?actionScript="+encodeURIComponent(saveFileName) ,f
 }
 function closeSaveWindow()
 {
-  $.get("/engine/closeSaveWindow",function(data,status){
+  $.get("/engine/save/closeSaveWindow",function(data,status){
   index=0;
        });
 }

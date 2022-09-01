@@ -36,11 +36,11 @@ var interval = setInterval(function(){
 	var time = parseInt( document.getElementById('wait').innerText);
 	 document.getElementById('wait').innerText=time+1;
 	try{
-   $.getJSON("/engine/isNeedRefresh",function(data,status){
+   $.getJSON("/engine/index/isNeedRefresh",function(data,status){
        if(data.maindescchanged)
         {
            clearInterval(interval);
-           location.href="/engine/gameIndex";
+           location.href="/engine/index/gameIndex";
         }
     });
     }catch{

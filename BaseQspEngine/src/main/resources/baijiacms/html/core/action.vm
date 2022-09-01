@@ -76,7 +76,7 @@
 function isNeedRefresh()
 {
 try{
-   $.get("/engine/isNeedRefreshAction",function(data,status){
+   $.get("/engine/index/isNeedRefreshAction",function(data,status){
     if(data==1||data=='1')
     {
 
@@ -94,7 +94,7 @@ function pageInit()
 
 function loadHtml()
 {
-   $.get("/engine/action",function(data){
+   $.get("/engine/action/html",function(data){
 document.getElementById('menu').innerHTML=data;
 isClickAction=false;
 });
@@ -109,7 +109,7 @@ if(isClickAction==true)
 return;
 }
 isClickAction=true;
-$.get("/engine/actionCall?actionScript="+encodeURIComponent(script), function(result){
+$.get("/engine/action/actionCall?actionScript="+encodeURIComponent(script), function(result){
 
 });
 

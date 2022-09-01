@@ -1,6 +1,7 @@
 package com.qsp.player.libqsp;
 
-import com.baijiacms.qsp.common.QspConstants;
+
+import com.qsp.player.common.QspConstants;
 
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ public class NativeMethods implements LibMethods {
 
     static {
         // System.loadLibrary("ndkqsp");
-        System.load(QspConstants.QSP_DLL_PATH);
+        System.load(QspConstants.getLibQspPath());
     }
 
     public NativeMethods(LibQspCallbacks callbacks) {
