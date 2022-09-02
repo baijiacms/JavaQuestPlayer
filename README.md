@@ -22,7 +22,9 @@ Oracle JDK1.8 or OpenJDK JDK 11(later)
 
 3.QspJavaFxPlayer: OpenJFX running mode (incomplete).
 
-4.QspJxBrowserPlayer: another Java built-in browser running mode (incomplete).
+4.QspJxBrowser6Player: JxBrowser6 running mode (incomplete).
+
+4.QspJxBrowser7Player: JxBrowser7 running mode (perfect).
 
 5.QspGames: QSP game directory.
 
