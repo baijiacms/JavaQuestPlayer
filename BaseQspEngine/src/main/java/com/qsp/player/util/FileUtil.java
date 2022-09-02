@@ -6,7 +6,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URLDecoder;
-
+/**
+ * @author baijiacms
+ */
 public class FileUtil {
     private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 

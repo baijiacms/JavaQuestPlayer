@@ -5,7 +5,9 @@ import com.qsp.player.common.QspConstants;
 
 import java.io.UnsupportedEncodingException;
 
-
+/**
+ * @author baijiacms
+ */
 public final class Base64Util {
 
     public static String encodeBase64(String str) {

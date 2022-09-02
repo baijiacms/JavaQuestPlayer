@@ -34,6 +34,7 @@ public class LoadingTemplate {
                 ResponseUtil.stringWriteToResponse(response, htmlCode);
                 ResponseUtil.setContentType(response, QspConstants.HTML_CONTENT_TYPE);
                 return true;
+            default:;
         }
         return false;
     }

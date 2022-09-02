@@ -9,9 +9,7 @@ import java.io.*;
 import java.net.URLDecoder;
 
 /**
- * 流文件
- *
- * @author cxy
+ * @author baijiacms
  */
 public class StreamUtils {
 

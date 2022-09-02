@@ -5,7 +5,9 @@ import com.qsp.player.entity.QspListItem;
 import com.qsp.player.util.QspUri;
 
 import java.util.ArrayList;
-
+/**
+ * @author baijiacms
+ */
 public interface LibQspProxy {
 
     void start();

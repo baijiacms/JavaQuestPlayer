@@ -1,9 +1,8 @@
 package com.qsp.player.entity;
 
 import lombok.Data;
-
 /**
- * @author cxy
+ * @author baijiacms
  */
 @Data
 public class QspGame {

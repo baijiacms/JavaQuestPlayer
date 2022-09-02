@@ -40,7 +40,6 @@ public class GameSaveTemplate {
         GameStatus gameStatus = libEngine.getGameStatus();
         String htmlCode = null;
         switch (target) {
-
             case UrlContants.GAME_SAVE_URL_ROOT + "openSaveWindow":
                 libEngine.getGameStatus().setOpenSaveWindow(true);
                 gameStatus.refreshAll();
@@ -94,6 +93,7 @@ public class GameSaveTemplate {
                 ResponseUtil.stringWriteToResponse(response, htmlCode);
                 ResponseUtil.setContentType(response, QspConstants.HTML_CONTENT_TYPE);
                 return true;
+            default:;
         }
         return false;
     }

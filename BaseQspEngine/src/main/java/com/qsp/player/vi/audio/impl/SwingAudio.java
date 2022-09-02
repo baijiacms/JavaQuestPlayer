@@ -33,6 +33,7 @@ public class SwingAudio implements QspAudio {
         }
     }
 
+    @Override
     public void playFile(String gameResourcePath, String path, int volume) {
         closeAllFiles();
         audioInterface = new SwingAudio(gameResourcePath, path, Float.parseFloat(String.valueOf(volume)));
@@ -40,18 +41,21 @@ public class SwingAudio implements QspAudio {
         audioInterface.start();
     }
 
+    @Override
     public void closeFile(String path) {
         if (audioInterface != null) {
             audioInterface.release();
         }
     }
 
+    @Override
     public void closeAllFiles() {
         if (audioInterface != null) {
             audioInterface.release();
         }
     }
 
+    @Override
     public boolean isPlayingFile(final String path) {
 
         if (audioInterface != null) {
@@ -61,24 +65,28 @@ public class SwingAudio implements QspAudio {
         }
     }
 
+    @Override
     public void setVolume(float sysVolume) {
         if (mediaPlayer != null && mediaPlayer.getVolumeControl() != null) {
             mediaPlayer.getVolumeControl().setValue(sysVolume);
         }
     }
 
+    @Override
     public void pause() {
         if (mediaPlayer != null) {
             mediaPlayer.pause();
         }
     }
 
+    @Override
     public void start() {
         if (mediaPlayer != null) {
             mediaPlayer.play();
         }
     }
 
+    @Override
     public boolean isPlaying() {
         if (mediaPlayer != null) {
             return mediaPlayer.getPlayerStatus() == MP3Player.STATUS_PLAYING;
@@ -87,10 +95,12 @@ public class SwingAudio implements QspAudio {
         }
     }
 
+    @Override
     public void stop() {
         mediaPlayer.stop();
     }
 
+    @Override
     public void release() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();

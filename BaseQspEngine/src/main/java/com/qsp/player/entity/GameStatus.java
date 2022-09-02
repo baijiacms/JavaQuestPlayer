@@ -4,7 +4,9 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
-
+/**
+ * @author baijiacms
+ */
 @Data
 public class GameStatus {
     private boolean isOpenSaveWindow = false;

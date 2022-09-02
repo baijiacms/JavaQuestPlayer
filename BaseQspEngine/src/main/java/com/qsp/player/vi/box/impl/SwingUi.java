@@ -12,6 +12,7 @@ public class SwingUi implements QspUi {
         this.setAlwaysOnTop(true);
     }};
 
+    @Override
     public String showTextInputDialog(String prompt) {
         String input = JOptionPane.showInputDialog(FRAME, prompt);
         if (input == null) {
@@ -21,6 +22,7 @@ public class SwingUi implements QspUi {
         }
     }
 
+    @Override
     public void showPicture(String imagePath) {
         ImageIcon icon = null;
         try {
@@ -34,10 +36,12 @@ public class SwingUi implements QspUi {
         JOptionPane.showMessageDialog(FRAME, panel, "Course", JOptionPane.DEFAULT_OPTION);
     }
 
+    @Override
     public void showErrorialog(String prompt) {
         JOptionPane.showMessageDialog(FRAME, prompt, "错误", JOptionPane.ERROR_MESSAGE);
     }
 
+    @Override
     public void showAlertDialog(String prompt) {
         JOptionPane.showMessageDialog(FRAME, prompt, "提示", JOptionPane.WARNING_MESSAGE);
     }

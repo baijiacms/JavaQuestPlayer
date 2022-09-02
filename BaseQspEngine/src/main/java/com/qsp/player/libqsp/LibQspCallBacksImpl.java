@@ -12,7 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-
+/**
+ * @author baijiacms
+ */
 public class LibQspCallBacksImpl implements LibQspCallbacks {
     private LibEngine libEngine;
     private HtmlProcessor htmlProcessor = new HtmlProcessor();

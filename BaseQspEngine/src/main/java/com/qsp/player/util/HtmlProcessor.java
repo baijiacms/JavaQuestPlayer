@@ -15,7 +15,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * @author baijiacms
+ */
 public class HtmlProcessor {
 
     private static final Logger logger = LoggerFactory.getLogger(HtmlProcessor.class);

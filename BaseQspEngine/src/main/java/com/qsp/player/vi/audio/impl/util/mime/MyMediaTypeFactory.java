@@ -11,10 +11,10 @@ import java.util.*;
 
 public class MyMediaTypeFactory {
     private static final Map<String, String> FILE_EXTENSION_TO_MEDIA_TYPES = parseMimeTypes();
-    private static final String mediaCharset = ";charset=" + QspConstants.CHARSET_STR;
+    private static final String MEDIA_CHARSET = ";charset=" + QspConstants.CHARSET_STR;
 
     public static String getContentType(String fileName) {
-        return FILE_EXTENSION_TO_MEDIA_TYPES.get(getFilenameExtension(fileName)) + mediaCharset;
+        return FILE_EXTENSION_TO_MEDIA_TYPES.get(getFilenameExtension(fileName)) + MEDIA_CHARSET;
     }
 
     public static Map<String, String> getMediaType() {

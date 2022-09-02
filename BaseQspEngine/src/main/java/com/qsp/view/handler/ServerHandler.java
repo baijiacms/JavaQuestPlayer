@@ -110,6 +110,7 @@ public class ServerHandler extends AbstractHandler {
             case "/favicon.ico":
                 target = UrlContants.GAME_SELECT_URL_ROOT + "blank.html";
                 break;
+            default:;
         }
         if (isMultiple) {
             sessionHandle(request.getSession().getId(), actionScript, target, response);

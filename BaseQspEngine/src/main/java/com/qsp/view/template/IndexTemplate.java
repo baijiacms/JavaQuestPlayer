@@ -33,7 +33,7 @@ public class IndexTemplate {
     }
 
     public boolean handle(LibEngine libEngine, String target, HttpServletResponse response, String actionScript) throws Exception {
-        String result = null;
+        String result;
         switch (target) {
             case UrlContants.INDEX_URL_ROOT + "isNeedRefresh":
                 result = "{\"actionschanged\":" + (libEngine.isActionschanged() ? "true" : "false") + ",\"objectschanged\":" + (libEngine.isObjectschanged() ? "true" : "false") + ",\"varsdescchanged\":" + (libEngine.isVarsdescchanged() ? "true" : "false") + ",\"maindescchanged\":" + (libEngine.isMaindescchanged(false) ? "true" : "false") + "}";
@@ -80,6 +80,7 @@ public class IndexTemplate {
                 ResponseUtil.stringWriteToResponse(response, result);
                 ResponseUtil.setContentType(response, QspConstants.HTML_CONTENT_TYPE);
                 return true;
+            default:;
         }
         return false;
     }

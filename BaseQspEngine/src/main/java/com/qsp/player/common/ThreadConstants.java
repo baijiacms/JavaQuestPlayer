@@ -1,6 +1,8 @@
 package com.qsp.player.common;
 
-
+/**
+ * @author baijiacms
+ */
 public class ThreadConstants {
     public static final int QSP_FILE_TO_TEXT = 1;
     public static final int TO_GEM_FILE = 2;

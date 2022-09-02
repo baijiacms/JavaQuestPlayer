@@ -15,7 +15,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.Locale;
-
+/**
+ * @author baijiacms
+ */
 public class LibQspThread extends Thread {
     private ThreadObject threadObject = new ThreadObject();
     private static final Logger logger = LoggerFactory.getLogger(LibQspThread.class);

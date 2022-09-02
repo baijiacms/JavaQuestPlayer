@@ -12,7 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-
+/**
+ * @author baijiacms
+ */
 public class LibQspProxyImpl implements LibQspProxy {
     private static final Logger logger = LoggerFactory.getLogger(LibQspProxyImpl.class);
     private LibEngine libEngine;
@@ -142,6 +144,7 @@ public class LibQspProxyImpl implements LibQspProxy {
     }
 
 
+    @Override
     public void getRefreshInterfaceRequest() {
         if (this.libMethods.QSPIsMainDescChanged()) {
             libEngine.getGameStatus().mainDesc = this.libMethods.QSPGetMainDesc();
@@ -162,6 +165,7 @@ public class LibQspProxyImpl implements LibQspProxy {
 
     }
 
+    @Override
     public String refreshMainDesc() {
         String mainDesc = getHtml(libEngine.getGameStatus().mainDesc, true);
 
@@ -169,18 +173,21 @@ public class LibQspProxyImpl implements LibQspProxy {
     }
 
 
+    @Override
     public String refreshVarsDesc() {
         String varsDesc = getHtml(libEngine.getGameStatus().varsDesc, false);
 //        logger.info("varsDesc:"+varsDesc);
         return varsDesc;
     }
 
+    @Override
     public ArrayList<QspListItem> refreshActions() {
         ArrayList<QspListItem> actions = libEngine.getGameStatus().actions;
         //logger.info("refreshActions:"+actions.size());
         return actions;
     }
 
+    @Override
     public ArrayList<QspListItem> refreshObjects() {
         ArrayList<QspListItem> objects = libEngine.getGameStatus().objects;
         // logger.info("refreshObjects:"+objects.size());

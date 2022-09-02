@@ -3,6 +3,7 @@ package com.qsp.player.libqsp;
 /**
  * dll调用核心类
  * Методы данного класса определены в <code>androidqspwrapper.c</code>.
+ * @author baijiacms
  */
 public interface LibMethods {
 

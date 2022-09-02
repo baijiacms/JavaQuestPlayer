@@ -1,7 +1,7 @@
 package com.qsp.player.libqsp;
 
 /**
- * 开发工具DLL
+ * @author baijiacms
  */
 public interface LibDevMethods {
 
