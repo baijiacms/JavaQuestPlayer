@@ -1,6 +1,6 @@
-package com.qsp.player.vi.box.impl;
+package com.qsp.view.vi.box;
 
-import com.qsp.player.vi.box.QspUi;
+import com.qsp.player.vi.QspUi;
 
 public class WebUi implements QspUi {
     @Override

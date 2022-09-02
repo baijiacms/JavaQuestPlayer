@@ -1,8 +1,8 @@
 package com.qsp.view.multiple;
 
 
-import com.qsp.player.vi.audio.QspAudio;
-import com.qsp.player.vi.box.QspUi;
+import com.qsp.player.vi.QspAudio;
+import com.qsp.player.vi.QspUi;
 import com.qsp.view.multiple.dto.User;
 import com.qsp.view.multiple.dto.UserId;
 

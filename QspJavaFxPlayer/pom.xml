@@ -19,7 +19,7 @@
         <swagger.version>2.9.2</swagger.version>
         <mysql.version>8.0.22</mysql.version>
         <user-agent.version>1.20</user-agent.version>
-        <start-class>com.baijiacms.qsp.jfxviewer.JavaFxApplication</start-class>
+        <start-class>com.baijiacms.qsp.jfxviewer.Runner</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <openjfx.version>11</openjfx.version>
     </properties>
@@ -118,7 +118,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>com.baijiacms.qsp.jfxviewer.JavaFxApplication</mainClass>
+                    <mainClass>com.baijiacms.qsp.jfxviewer.Runner</mainClass>
                 </configuration>
             </plugin>
             <!-- 跳过单元测试 -->

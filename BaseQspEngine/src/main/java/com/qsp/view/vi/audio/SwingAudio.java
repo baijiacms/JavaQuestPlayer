@@ -1,9 +1,9 @@
-package com.qsp.player.vi.audio.impl;
+package com.qsp.view.vi.audio;
 
 
 import com.qsp.player.util.QspUri;
-import com.qsp.player.vi.audio.QspAudio;
-import com.qsp.player.vi.audio.impl.util.MP3Player;
+import com.qsp.player.vi.QspAudio;
+import com.qsp.view.vi.audio.mp3.MP3Player;
 
 import java.io.File;
 

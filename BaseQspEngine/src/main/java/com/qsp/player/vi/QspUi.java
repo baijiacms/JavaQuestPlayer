@@ -1,4 +1,4 @@
-package com.qsp.player.vi.box;
+package com.qsp.player.vi;
 
 public interface QspUi {
     public String showTextInputDialog(String prompt);

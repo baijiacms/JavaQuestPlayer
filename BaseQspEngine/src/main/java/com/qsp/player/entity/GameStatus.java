@@ -9,6 +9,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 @Data
 public class GameStatus {
+
+
+
     private boolean isOpenSaveWindow = false;
     private boolean isSobGame = false; //sob游戏时候特殊处理
     private boolean isBigKuyash = false; //BIG_KUYASH游戏时候特殊处理

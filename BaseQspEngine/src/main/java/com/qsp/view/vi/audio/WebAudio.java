@@ -1,6 +1,6 @@
-package com.qsp.player.vi.audio.impl;
+package com.qsp.view.vi.audio;
 
-import com.qsp.player.vi.audio.QspAudio;
+import com.qsp.player.vi.QspAudio;
 
 public class WebAudio implements QspAudio {
     @Override

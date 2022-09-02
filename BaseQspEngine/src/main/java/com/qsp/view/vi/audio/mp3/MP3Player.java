@@ -1,4 +1,4 @@
-package com.qsp.player.vi.audio.impl.util;
+package com.qsp.view.vi.audio.mp3;
 
 import javax.sound.sampled.*;
 import java.io.File;

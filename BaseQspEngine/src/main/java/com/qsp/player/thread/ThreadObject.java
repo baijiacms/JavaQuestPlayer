@@ -1,4 +1,4 @@
-package com.qsp.player.thread.dto;
+package com.qsp.player.thread;
 /**
  * @author baijiacms
  */

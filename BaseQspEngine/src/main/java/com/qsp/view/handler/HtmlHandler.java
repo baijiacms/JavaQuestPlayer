@@ -2,7 +2,7 @@ package com.qsp.view.handler;
 
 import com.qsp.player.LibEngine;
 import com.qsp.player.util.StreamUtils;
-import com.qsp.player.vi.audio.impl.util.mime.MyMediaTypeFactory;
+import com.qsp.view.vi.audio.mp3.mime.MyMediaTypeFactory;
 import com.qsp.view.common.UrlContants;
 import com.qsp.view.template.*;
 import com.qsp.view.util.ResponseUtil;

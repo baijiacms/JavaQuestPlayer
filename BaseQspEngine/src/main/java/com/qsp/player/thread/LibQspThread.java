@@ -6,10 +6,9 @@ import com.qsp.player.common.ThreadConstants;
 import com.qsp.player.entity.QspGame;
 import com.qsp.player.libqsp.*;
 import com.qsp.player.libqsp.dto.ErrorData;
-import com.qsp.player.thread.dto.ThreadObject;
 import com.qsp.player.util.QspUri;
 import com.qsp.player.util.StreamUtils;
-import com.qsp.player.vi.box.QspUi;
+import com.qsp.player.vi.QspUi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

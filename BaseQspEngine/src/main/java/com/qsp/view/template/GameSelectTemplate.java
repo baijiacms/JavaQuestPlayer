@@ -4,7 +4,7 @@ import com.qsp.player.LibEngine;
 import com.qsp.player.common.FolderLoader;
 import com.qsp.player.common.QspConstants;
 import com.qsp.player.entity.QspGame;
-import com.qsp.player.vi.audio.impl.util.mime.MyMediaTypeFactory;
+import com.qsp.view.vi.audio.mp3.mime.MyMediaTypeFactory;
 import com.qsp.view.common.UrlContants;
 import com.qsp.view.util.ResponseUtil;
 import org.apache.velocity.Template;

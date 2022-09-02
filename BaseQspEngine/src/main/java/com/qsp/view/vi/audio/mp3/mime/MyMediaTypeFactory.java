@@ -1,4 +1,4 @@
-package com.qsp.player.vi.audio.impl.util.mime;
+package com.qsp.view.vi.audio.mp3.mime;
 
 
 import com.qsp.player.common.QspConstants;

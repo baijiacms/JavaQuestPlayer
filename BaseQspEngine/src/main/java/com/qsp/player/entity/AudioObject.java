@@ -1,6 +1,6 @@
 package com.qsp.player.entity;
 
-import com.qsp.player.vi.audio.QspAudio;
+import com.qsp.player.vi.QspAudio;
 import lombok.Data;
 /**
  * @author baijiacms

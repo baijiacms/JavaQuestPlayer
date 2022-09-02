@@ -1,4 +1,4 @@
-package com.qsp.player.vi.audio;
+package com.qsp.player.vi;
 
 public interface QspAudio {
     void playFile(String gameResourcePath, String path, int volume);
