@@ -1,4 +1,4 @@
-package com.baijiacms.qsp.jxbrowser;
+package com.baijiacms.qsp.jxbrowser6;
 
 import com.qsp.QspEngineServer;
 import com.qsp.player.common.QspConstants;
