@@ -6,5 +6,5 @@ Class-Path: jsoup-1.7.2.jar commons-io-2.8.0.jar jetty-server-9.3.30.v20211001.j
  imple-xml-2.7.1.jar jetty-util-9.3.30.v20211001.jar slf4j-api-1.7.30.ja
  r slf4j-simple-1.7.26.jar jetty-http-9.3.30.v20211001.jar javax.servlet
  -api-3.1.0.jar stax-api-1.0.1.jar hutool-all-5.2.5.jar xpp3-1.1.3.3.jar
-  httpcore-4.4.13.jar jna-3.4.0.jar BaseQspEngine-1.0.0-SNAPSHOT.jar jxbrowser-6.24.3.jar jxbrowser-win32-6.24.3.jar jxbrowser-linux64-6.24.3.jar
+  httpcore-4.4.13.jar jna-3.4.0.jar BaseQspEngine-1.0.0-SNAPSHOT.jar jxbrowser-7.21.jar jxbrowser-win64-7.21.jar jxbrowser-linux64-7.21.jar jxbrowser-swing-7.21.jar
 

@@ -25,6 +25,8 @@ import java.math.BigInteger;
  * <p>
  * 默认不出现右键
  * 需要注册browser.setDialogHandler(new DefaultDialogHandler(view));
+ *
+ * linux need:yum install libXss* -y
  */
 public class Runner {
     static {

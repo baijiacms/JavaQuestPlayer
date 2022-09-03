@@ -8,7 +8,6 @@ import javafx.scene.input.MouseEvent;
 
 /**
  * 禁用右击
- *
  * @author cxy
  */
 public class MyEventDispatcher implements EventDispatcher {

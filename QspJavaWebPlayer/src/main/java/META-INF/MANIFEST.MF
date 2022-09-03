@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Main-Class: com.baijiacms.qsp.webserver.Runner
+Main-Class: com.baijiacms.qsp.webviewer.Runner
 Class-Path: jsoup-1.7.2.jar commons-io-2.8.0.jar jetty-server-9.3.30.v20211001.jar jetty-io-9.3.30.v20211001.jar commons-lang3-3.9.jar commons-
  codec-1.11.jar fastjson-1.2.73.jar stax-1.2.0.jar velocity-engine-core-
  2.3.jar httpclient-4.5.13.jar commons-logging-1.2.jar dom4j-2.1.1.jar s

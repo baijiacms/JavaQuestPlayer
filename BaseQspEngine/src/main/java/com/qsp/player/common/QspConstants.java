@@ -13,7 +13,7 @@ import java.nio.charset.Charset;
  */
 public class QspConstants {
     public static final int DEFAULT_USER = 99;
-    public static final String ENGINE_VERSION = "20220902";
+    public static final String ENGINE_VERSION = "20220903";
     public static int HTTP_PORT = 19870;
     public static String HTTP_LOCAL_URL = "http://127.0.0.1:" + HTTP_PORT;
     public static final String ENGINE_TITLE = "JavaQuestPlayer";
@@ -40,7 +40,8 @@ public class QspConstants {
 
             jarPath = FileUtil.getJarPath(QspConstants.class);
         }
-        return jarPath;
+
+        return FileUtil.getFolderPath(jarPath);
     }
 
     private static String getResourcePath() {
@@ -66,7 +67,7 @@ public class QspConstants {
 
     public static String getEngineResourcePath() {
         if (ENGINE_RESOURCE_PATH == null) {
-            String jarPath = FileUtil.getJarPath(QspConstants.class);
+            String jarPath = getJarPath();
             ENGINE_RESOURCE_PATH = jarPath + "resources/";
 
         }
@@ -91,7 +92,7 @@ public class QspConstants {
 
     public static String getGameBaseFolder() {
         if (GAME_DATA_PATH == null) {
-            jarPath = QspUri.getFolderPath(FileUtil.getJarPath(QspConstants.class));
+            jarPath = QspUri.getFolderPath(getJarPath());
             String path = jarPath;
             for (int i = 0; i < 3; i++) {
                 path = new File(path).getParent();

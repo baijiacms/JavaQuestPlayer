@@ -35,16 +35,22 @@
             <groupId>jxbrowser</groupId>
             <artifactId>jxbrowser</artifactId>
             <version>6.24.3</version>
+            <scope>system</scope>
+            <systemPath>E:/QspProject/lib-jar-all/qsplib/jxbrowser6/jxbrowser-6.24.3.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>jxbrowser</groupId>
             <artifactId>jxbrowser-win</artifactId>
             <version>6.24.3</version>
+            <scope>system</scope>
+            <systemPath>E:/QspProject/lib-jar-all/qsplib/jxbrowser6/jxbrowser-win64-6.24.3.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>jxbrowser</groupId>
             <artifactId>jxbrowser-linux</artifactId>
             <version>6.24.3</version>
+            <scope>system</scope>
+            <systemPath>E:/QspProject/lib-jar-all/qsplib/jxbrowser6/jxbrowser-linux64-6.24.3.jar</systemPath>
         </dependency>
     </dependencies>
 

@@ -57,14 +57,14 @@ public class StreamUtils {
 
     public static InputStream getEngineResourceInputSteam(String fileName) {
         String engineResourcePath = QspUri.getFilePath(QspConstants.getEngineResourcePath(), fileName);
-        if (new File(engineResourcePath).exists()) {
+      //  if (new File(engineResourcePath).exists()) {
             try {
                 return new FileInputStream(engineResourcePath);
             } catch (FileNotFoundException e) {
                 logger.error("Engine resource not found:" + engineResourcePath);
                 // e.printStackTrace();
             }
-        }
+     //   }
         return null;
 //        return Gengine.class.getResourceAsStream(Constants.LUA_SCRIPT_FILE_PATH+luaFileMap.get(fileName));
     }

@@ -35,21 +35,29 @@
             <groupId>jxbrowser</groupId>
             <artifactId>jxbrowser</artifactId>
             <version>7.21</version>
+            <scope>system</scope>
+            <systemPath>E:/QspProject/lib-jar-all/qsplib/jxbrowser7/jxbrowser-7.21.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>jxbrowser</groupId>
             <artifactId>jxbrowser-win</artifactId>
             <version>7.21</version>
+            <scope>system</scope>
+            <systemPath>E:/QspProject/lib-jar-all/qsplib/jxbrowser7/jxbrowser-win64-7.21.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>jxbrowser</groupId>
             <artifactId>jxbrowser-linux</artifactId>
             <version>7.21</version>
+            <scope>system</scope>
+            <systemPath>E:/QspProject/lib-jar-all/qsplib/jxbrowser7/jxbrowser-linux64-7.21.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>jxbrowser</groupId>
             <artifactId>jxbrowser-swing</artifactId>
             <version>7.21</version>
+            <scope>system</scope>
+            <systemPath>E:/QspProject/lib-jar-all/qsplib/jxbrowser7/jxbrowser-swing-7.21.jar</systemPath>
         </dependency>
     </dependencies>
 
