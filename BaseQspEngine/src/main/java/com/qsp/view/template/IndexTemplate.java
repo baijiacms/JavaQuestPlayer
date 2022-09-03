@@ -90,8 +90,12 @@ public class IndexTemplate {
         if (StringUtils.isEmpty(gameId)) {
             return QspConstants.BLANK_STR;
         }
-        libEngine.restartGame(FolderLoader.getFolderMap().get(gameId));
-        return QspConstants.SUCCESS_STR;
+        QspGame qspGame= FolderLoader.getFolderMap().get(gameId);
+        if(qspGame!=null) {
+            libEngine.restartGame(FolderLoader.getFolderMap().get(gameId));
+            return QspConstants.SUCCESS_STR;
+        }
+        return QspConstants.BLANK_STR;
     }
 
     public String exportGameToText(LibEngine libEngine, String gameId) {

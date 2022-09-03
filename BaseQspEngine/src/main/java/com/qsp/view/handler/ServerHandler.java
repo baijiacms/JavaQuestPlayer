@@ -1,7 +1,9 @@
 package com.qsp.view.handler;
 
 import com.qsp.player.LibEngine;
+import com.qsp.player.common.FolderLoader;
 import com.qsp.player.common.QspConstants;
+import com.qsp.player.entity.QspGame;
 import com.qsp.player.util.StreamUtils;
 import com.qsp.player.vi.QspAudio;
 import com.qsp.view.vi.audio.SwingAudio;
@@ -16,6 +18,7 @@ import com.qsp.view.multiple.dto.User;
 import com.qsp.view.multiple.dto.UserId;
 import com.qsp.view.template.*;
 import com.qsp.view.util.ResponseUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.jetty.server.Request;
@@ -48,7 +51,7 @@ public class ServerHandler extends AbstractHandler {
     QspUi qspUi;
     QspAudio qspAudio;
 
-    public ServerHandler(boolean isGUI, boolean isMultiple) {
+    public ServerHandler(boolean isGUI, boolean isMultiple,String gameId) {
         initVelocityEngine();
         this.isMultiple = isMultiple;
         htmlHandler = new HtmlHandler();
@@ -64,7 +67,13 @@ public class ServerHandler extends AbstractHandler {
 
         if (isMultiple == false) {
             singleLibEngine = new LibEngine(QspConstants.DEFAULT_USER, qspUi, qspAudio);
-
+            if(StringUtils.isEmpty(gameId)==false)
+            {
+                QspGame qspGame= FolderLoader.getFolderMap().get(gameId);
+                if(qspGame!=null) {
+                    singleLibEngine.restartGame(qspGame);
+                }
+            }
         }
     }
 

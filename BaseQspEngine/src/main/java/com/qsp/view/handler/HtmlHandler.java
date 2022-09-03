@@ -59,9 +59,31 @@ public class HtmlHandler {
         }
         if (target.startsWith(UrlContants.ENGINE_URL_ROOT + "lib/")) {///engine/lib/"
             InputStream byteResultStream = StreamUtils.getEngineResourceInputSteam(target);
-            StreamUtils.copy(byteResultStream, response.getOutputStream());
-            ResponseUtil.setContentType(response, MyMediaTypeFactory.getContentType(target));
-            return true;
+            if(byteResultStream!=null) {
+                StreamUtils.copy(byteResultStream, response.getOutputStream());
+                ResponseUtil.setContentType(response, MyMediaTypeFactory.getContentType(target));
+                return true;
+            }else
+            {
+                String newTarget=null;
+                if (target.startsWith(UrlContants.SOB_LIB_URL_ROOT)) {
+                    newTarget=target.substring((UrlContants.SOB_LIB_URL_ROOT).length()-1);
+                }
+                if (target.startsWith(UrlContants.BIGKUYASH_LIB_URL_ROOT)) {
+                    newTarget=target.substring((UrlContants.BIGKUYASH_LIB_URL_ROOT).length()-1);
+                }
+                if(newTarget!=null) {
+                    byteResultStream = StreamUtils.getGameResourceInputSteam(libEngine, newTarget);
+                }
+                if(byteResultStream==null) {
+                    byteResultStream=StreamUtils.blankInputStream();
+                }
+                if(byteResultStream!=null) {
+                    StreamUtils.copy(byteResultStream, response.getOutputStream());
+                    ResponseUtil.setContentType(response, MyMediaTypeFactory.getContentType(newTarget));
+                    return true;
+                }
+            }
         }
         return false;
     }

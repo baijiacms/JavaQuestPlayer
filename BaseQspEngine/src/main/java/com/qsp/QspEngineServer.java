@@ -51,11 +51,14 @@ public class QspEngineServer {
     }
 
     public void start() throws Exception {
+        start(null);
+    }
+    public void start(String gameId) throws Exception {
         if (isStart == false) {
             int port = checkPort();
             server = new Server(port);
             if (isMultiple == false) {
-                server.setHandler(new ServerHandler(isGUI, isMultiple));
+                server.setHandler(new ServerHandler(isGUI, isMultiple,gameId));
             } else {
                 HashSessionIdManager idmanager = new HashSessionIdManager();
                 server.setSessionIdManager(idmanager);
@@ -64,7 +67,7 @@ public class QspEngineServer {
                 manager.setMaxInactiveInterval(60);
                 SessionHandler sessions = new SessionHandler(manager);
                 sessions.addEventListener(new SessionListener());
-                context.setHandler(new ServerHandler(isGUI, isMultiple));
+                context.setHandler(new ServerHandler(isGUI, isMultiple,gameId));
                 sessions.setHandler(context);
                 server.setHandler(sessions);
             }

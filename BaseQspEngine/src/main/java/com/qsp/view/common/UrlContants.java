@@ -7,6 +7,8 @@ public class UrlContants {
 
     public static final String ENGINE_URL_ROOT = "/engine/";
     public static final String ENGINE_LIB_URL_ROOT = "/engine/lib/";
+    public static final String SOB_LIB_URL_ROOT = "/engine/lib/sob/";
+    public static final String BIGKUYASH_LIB_URL_ROOT = "/engine/lib/bigKuyash/";
     public static final String ACTION_URL_ROOT = "/engine/action/";
     public static final String CONSOLE_URL_ROOT = "/engine/console/";
     public static final String GAME_SAVE_URL_ROOT = "/engine/save/";

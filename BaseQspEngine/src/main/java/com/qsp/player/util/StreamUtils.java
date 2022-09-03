@@ -65,7 +65,7 @@ public class StreamUtils {
                 // e.printStackTrace();
             }
         }
-        return blankInputStream();
+        return null;
 //        return Gengine.class.getResourceAsStream(Constants.LUA_SCRIPT_FILE_PATH+luaFileMap.get(fileName));
     }
 

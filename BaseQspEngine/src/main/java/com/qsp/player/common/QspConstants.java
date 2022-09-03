@@ -13,7 +13,7 @@ import java.nio.charset.Charset;
  */
 public class QspConstants {
     public static final int DEFAULT_USER = 99;
-    public static final String ENGINE_VERSION = "20220901";
+    public static final String ENGINE_VERSION = "20220902";
     public static int HTTP_PORT = 19870;
     public static String HTTP_LOCAL_URL = "http://127.0.0.1:" + HTTP_PORT;
     public static final String ENGINE_TITLE = "JavaQuestPlayer";
