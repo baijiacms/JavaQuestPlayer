@@ -62,7 +62,7 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
-            <version>9.3.30.v20211001</version>
+            <version>9.4.48.v20220622</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
