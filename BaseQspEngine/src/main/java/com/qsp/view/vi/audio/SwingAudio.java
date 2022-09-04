@@ -25,7 +25,7 @@ public class SwingAudio implements QspAudio {
             try {
                 this.mediaPlayer = new MP3Player(mediaFile);
 
-                mediaPlayer.getVolumeControl().setValue(volume);
+               // mediaPlayer.getVolumeControl().setValue(volume);
                 this.mediaPlayer.play();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -68,7 +68,7 @@ public class SwingAudio implements QspAudio {
     @Override
     public void setVolume(float sysVolume) {
         if (mediaPlayer != null && mediaPlayer.getVolumeControl() != null) {
-            mediaPlayer.getVolumeControl().setValue(sysVolume);
+//            mediaPlayer.getVolumeControl().setValue(sysVolume);
         }
     }
 

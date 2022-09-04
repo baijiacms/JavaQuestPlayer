@@ -7,7 +7,9 @@ import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -44,6 +46,58 @@ public class DevMethodsHelper {
         this.nativeDevMethods.toQspFile(srcFolder, qprojPath, toGemFile);
     }
 
+    public void textToQsrc(String src, String desFolder) throws Exception {
+        BufferedReader br =  new BufferedReader(new InputStreamReader(new FileInputStream(src),"utf-8"));
+            String s = "";
+            List<String> stringList=new LinkedList<>();
+            while ((s = br.readLine()) != null) {
+                stringList.add(s);
+            }
+        System.out.println(stringList.size());
+        List<String> locationsList=new LinkedList<>();
+          for(String txt:stringList)
+          {
+              if(txt.startsWith("--- ")) {
+                  if(txt.endsWith(" ---------------------------------"))
+                  {
+                      String location = txt.replace("--- ", "").replace(" ---------------------------------", "");
+                      locationsList.add(location);
+                  }
+              }
+          }
+        System.out.println(locationsList.size());
+        int x=0;
+        for(int i=0;i<locationsList.size();i++)
+        {
+            String location=locationsList.get(i);
+            for(;x<stringList.size();x++)
+            {
+                String txt=stringList.get(x);
+                String stext=("# "+location);
+                if(txt.compareTo(stext)==0) {
+                    String newLocation=desFolder+location+".qsrc";
+                    System.out.println(newLocation);
+                    if(new File(newLocation).exists())
+                    {
+                        newLocation=newLocation+"2";
+                    }
+                    FileWriter fw = new FileWriter(newLocation);
+                    for(int y=x;y<stringList.size();y++)
+                    {
+                        String txt2=stringList.get(y);
+                        fw.write(txt2);
+                        fw.write("\r\n");
+                        if(txt2.compareTo(("--- "+location+" ---------------------------------"))==0) {
+                            fw.flush();
+                            fw.close();
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
     /**
      * folder arrange (usefull)
      */
@@ -57,13 +111,13 @@ public class DevMethodsHelper {
         //3.获取根节点
         Element rootElement = document.getRootElement();
         // rootElement.elements()获取根节点下所有的节点，
-        List<Element> elements = rootElement.element("QGen-project").elements();
+        List<Element> elements = rootElement.elements();
         for (Element element : elements) {
             if ("Location".equals(element.getName())) {
                 String file = element.attribute("name").getValue();
                 file = file.replace("#", "_");
                 file = file.replace("$", "_");
-                FileUtils.copyFile(new File(srcFolder + file + ".qsrc"), new File(desFolder + file + ".qsrc"));
+                FileUtils.moveFile(new File(srcFolder + file + ".qsrc"), new File(desFolder + file + ".qsrc"));
                 logger.info("Location:" + file);
             }
             if ("Folder".equals(element.getName())) {
@@ -74,7 +128,7 @@ public class DevMethodsHelper {
                     String file2 = element2.attribute("name").getValue();
                     file2 = file2.replace("#", "_");
                     file2 = file2.replace("$", "_");
-                    FileUtils.copyFile(new File(srcFolder + file2 + ".qsrc"), new File(desFolder + folder + "/" + file2 + ".qsrc"));
+                    FileUtils.moveFile(new File(srcFolder + file2 + ".qsrc"), new File(desFolder + folder + "/" + file2 + ".qsrc"));
 
                     logger.info("Location2:" + file2);
                 }
