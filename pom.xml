@@ -41,7 +41,12 @@
             <artifactId>simple-xml</artifactId>
             <version>2.7.1</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/com.googlecode.soundlibs/mp3spi -->
+        <dependency>
+            <groupId>com.googlecode.soundlibs</groupId>
+            <artifactId>mp3spi</artifactId>
+            <version>1.9.5.4</version>
+        </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>
