@@ -13,9 +13,6 @@ import com.qsp.player.vi.QspUi;
 import com.qsp.view.vi.box.SwingUi;
 import com.qsp.view.vi.box.WebUi;
 import com.qsp.view.common.UrlContants;
-import com.qsp.view.multiple.UserManager;
-import com.qsp.view.multiple.dto.User;
-import com.qsp.view.multiple.dto.UserId;
 import com.qsp.view.template.*;
 import com.qsp.view.util.ResponseUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -47,13 +44,11 @@ public class ServerHandler extends AbstractHandler {
 
     private LibEngine singleLibEngine;
 
-    private boolean isMultiple;
     QspUi qspUi;
     QspAudio qspAudio;
 
-    public ServerHandler(boolean isGUI, boolean isMultiple,String gameId) {
+    public ServerHandler(boolean isGUI, String gameId) {
         initVelocityEngine();
-        this.isMultiple = isMultiple;
         htmlHandler = new HtmlHandler();
 
         if (isGUI) {
@@ -63,16 +58,11 @@ public class ServerHandler extends AbstractHandler {
             qspUi = new WebUi();
             qspAudio = new WebAudio();
         }
-
-
-        if (isMultiple == false) {
-            singleLibEngine = new LibEngine(QspConstants.DEFAULT_USER, qspUi, qspAudio);
-            if(StringUtils.isEmpty(gameId)==false)
-            {
-                QspGame qspGame= FolderLoader.getFolderMap().get(gameId);
-                if(qspGame!=null) {
-                    singleLibEngine.restartGame(qspGame);
-                }
+        singleLibEngine = new LibEngine(QspConstants.DEFAULT_USER, qspUi, qspAudio);
+        if (StringUtils.isEmpty(gameId) == false) {
+            QspGame qspGame = FolderLoader.getFolderMap().get(gameId);
+            if (qspGame != null) {
+                singleLibEngine.restartGame(qspGame);
             }
         }
     }
@@ -119,15 +109,12 @@ public class ServerHandler extends AbstractHandler {
             case "/favicon.ico":
                 target = UrlContants.GAME_SELECT_URL_ROOT + "blank.html";
                 break;
-            default:;
+            default:
+                ;
         }
-        if (isMultiple) {
-            sessionHandle(request.getSession().getId(), actionScript, target, response);
 
-        } else {
-            singleHandle(actionScript, target, response);
+        singleHandle(actionScript, target, response);
 
-        }
 
     }
 
@@ -159,54 +146,5 @@ public class ServerHandler extends AbstractHandler {
         return;
     }
 
-    public void sessionHandle(String sessionId, String actionScript, String target, HttpServletResponse response) throws IOException, ServletException {
-        int isSession = UrlContants.isSessionPath(target);
-        boolean hasResult = false;
-        UserId userId = UserManager.INSTANCE.getUserIdBySessionId(sessionId);
-        User user = null;
-        if (userId != null) {
-            user = UserManager.INSTANCE.getUser(userId.getUserId());
-        }
-        if (isSession == UrlContants.IS_SESSION || isSession == UrlContants.IS_NEW_SESSION) {
 
-            if (user == null && isSession == UrlContants.IS_NEW_SESSION) {
-                user = UserManager.INSTANCE.getOrNewUserBySessionId(sessionId, qspUi, qspAudio);
-            }
-            if (user != null) {
-                try {
-                    hasResult = htmlHandler.sessionHandle(user.getLibEngine(), actionScript, target, response);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                ResponseUtil.stringWriteToResponse(response, QspConstants.BLANK_STR);
-                ResponseUtil.setContentType(response, QspConstants.HTML_CONTENT_TYPE);
-                return;
-            }
-
-        } else {
-            if (isSession == UrlContants.IS_NOT_SESSION) {
-                try {
-                    hasResult = htmlHandler.requestHandle(user != null ? user.getLibEngine() : null, actionScript, target, response);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        if (hasResult == false) {
-            if (user != null && user.getLibEngine() != null) {
-                InputStream byteResultStream = StreamUtils.getGameResourceInputSteam(user.getLibEngine(), target);
-                StreamUtils.copy(byteResultStream, response.getOutputStream());
-                ResponseUtil.setContentType(response, MyMediaTypeFactory.getContentType(target));
-                return;
-            } else {
-
-                ResponseUtil.stringWriteToResponse(response, QspConstants.BLANK_STR);
-                ResponseUtil.setContentType(response, QspConstants.HTML_CONTENT_TYPE);
-                return;
-            }
-        }
-
-    }
 }

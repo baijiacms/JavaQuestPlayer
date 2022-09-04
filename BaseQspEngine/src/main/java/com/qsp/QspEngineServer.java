@@ -2,12 +2,7 @@ package com.qsp;
 
 import com.qsp.player.common.QspConstants;
 import com.qsp.view.handler.ServerHandler;
-import com.qsp.view.multiple.SessionListener;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.server.session.HashSessionIdManager;
-import org.eclipse.jetty.server.session.HashSessionManager;
-import org.eclipse.jetty.server.session.SessionHandler;
 
 import java.net.Socket;
 
@@ -21,11 +16,9 @@ public class QspEngineServer {
     private int localPort;
     private boolean isStart = false;
     private boolean isGUI;
-    private boolean isMultiple;
 
     public QspEngineServer(int port) {
         this.localPort = port;
-        this.isMultiple = false;
         this.isGUI = true;
     }
 
@@ -57,20 +50,7 @@ public class QspEngineServer {
         if (isStart == false) {
             int port = checkPort();
             server = new Server(port);
-            if (isMultiple == false) {
-                server.setHandler(new ServerHandler(isGUI, isMultiple,gameId));
-            } else {
-                HashSessionIdManager idmanager = new HashSessionIdManager();
-                server.setSessionIdManager(idmanager);
-                ContextHandler context = new ContextHandler("/");
-                HashSessionManager manager = new HashSessionManager();
-                manager.setMaxInactiveInterval(60);
-                SessionHandler sessions = new SessionHandler(manager);
-                sessions.addEventListener(new SessionListener());
-                context.setHandler(new ServerHandler(isGUI, isMultiple,gameId));
-                sessions.setHandler(context);
-                server.setHandler(sessions);
-            }
+            server.setHandler(new ServerHandler(isGUI,gameId));
             server.start();
             isStart = true;
         }
