@@ -89,9 +89,9 @@ public class HtmlHandler {
     }
 
     public boolean sessionHandle(LibEngine libEngine, String actionScript, String target, HttpServletResponse response) throws Exception {
-        String loadGameUrl = UrlContants.INDEX_URL_ROOT + "loadGame";
+
         if (target.startsWith(UrlContants.ENGINE_URL_ROOT)) {
-            if (loadGameUrl.equals(target) || libEngine.getGameStatus().isGameRunning()) {
+            if (UrlContants.EXCLUDE_INDEX_URL.contains(target) || libEngine.getGameStatus().isGameRunning()) {
                 if (target.startsWith(UrlContants.GAME_SAVE_URL_ROOT)) {
                     boolean result = gameSaveTemplate.handle(libEngine, target, response, actionScript);
                     return result;

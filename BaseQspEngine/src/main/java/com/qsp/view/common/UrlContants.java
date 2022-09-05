@@ -1,10 +1,13 @@
 package com.qsp.view.common;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author baijiacms
  */
 public class UrlContants {
-
     public static final String ENGINE_URL_ROOT = "/engine/";
     public static final String ENGINE_LIB_URL_ROOT = "/engine/lib/";
     public static final String SOB_LIB_URL_ROOT = "/engine/lib/sob/";
@@ -17,6 +20,7 @@ public class UrlContants {
     public static final String INDEX_URL_ROOT = "/engine/index/";
     public static final String LOADING_URL_ROOT = "/engine/loading/";
     public static final String USER_URL_ROOT = "/engine/user/";
+    public static final List<String> EXCLUDE_INDEX_URL= Arrays.asList(new String[]{INDEX_URL_ROOT + "exportGameToText",INDEX_URL_ROOT + "exportGameToQsp",INDEX_URL_ROOT + "loadGame"});
     public static final int IS_SESSION = 1;
     public static final int IS_NEW_SESSION = 2;
     public static final int IS_NOT_SESSION = 0;

@@ -21,7 +21,7 @@
         <user-agent.version>1.20</user-agent.version>
         <start-class>com.baijiacms.qsp.jfxviewer.Runner</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <openjfx.version>11</openjfx.version>
+        <openjfx.version>11.0.2</openjfx.version>
     </properties>
 
     <dependencies>
@@ -33,10 +33,30 @@
         </dependency>
 
         <!--JavaFX相关依赖-->
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${openjfx.version}</version>
+            <classifier>win</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${openjfx.version}</version>
+            <classifier>linux</classifier>
+        </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>${openjfx.version}</version>
+            <classifier>win</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${openjfx.version}</version>
+            <classifier>linux</classifier>
         </dependency>
 
         <dependency>
