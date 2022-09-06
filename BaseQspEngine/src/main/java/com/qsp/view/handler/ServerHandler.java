@@ -44,8 +44,8 @@ public class ServerHandler extends AbstractHandler {
 
     private LibEngine singleLibEngine;
 
-    QspUi qspUi;
-    QspAudio qspAudio;
+    private QspUi qspUi;
+    private QspAudio qspAudio;
 
     public ServerHandler(boolean isGUI, String gameId) {
         initVelocityEngine();
@@ -122,7 +122,7 @@ public class ServerHandler extends AbstractHandler {
         LibEngine libEngine = singleLibEngine;
         int isSession = UrlContants.isSessionPath(target);
         boolean hasResult = false;
-        if (isSession == UrlContants.IS_SESSION || isSession == UrlContants.IS_NEW_SESSION) {
+        if (isSession == UrlContants.IS_SESSION) {
             try {
                 hasResult = htmlHandler.sessionHandle(libEngine, actionScript, target, response);
             } catch (Exception e) {

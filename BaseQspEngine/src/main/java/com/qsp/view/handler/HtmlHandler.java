@@ -57,7 +57,7 @@ public class HtmlHandler {
                 return result;
             }
         }
-        if (target.startsWith(UrlContants.ENGINE_URL_ROOT + "lib/")) {///engine/lib/"
+        if (target.startsWith(UrlContants.ENGINE_URL_ROOT + "lib/")) {///engine/lib/
             InputStream byteResultStream = StreamUtils.getEngineResourceInputSteam(target);
             if(byteResultStream!=null) {
                 StreamUtils.copy(byteResultStream, response.getOutputStream());
@@ -91,7 +91,7 @@ public class HtmlHandler {
     public boolean sessionHandle(LibEngine libEngine, String actionScript, String target, HttpServletResponse response) throws Exception {
 
         if (target.startsWith(UrlContants.ENGINE_URL_ROOT)) {
-            if (UrlContants.EXCLUDE_INDEX_URL.contains(target) || libEngine.getGameStatus().isGameRunning()) {
+            if (libEngine.getGameStatus().isGameRunning()) {
                 if (target.startsWith(UrlContants.GAME_SAVE_URL_ROOT)) {
                     boolean result = gameSaveTemplate.handle(libEngine, target, response, actionScript);
                     return result;

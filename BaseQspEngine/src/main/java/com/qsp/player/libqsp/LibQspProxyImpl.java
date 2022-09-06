@@ -134,17 +134,6 @@ public class LibQspProxyImpl implements LibQspProxy {
     }
 
     @Override
-    public void qspFileToText(QspGame qspGame, String toFile) {
-        this.libQspThread.qspFileToText(qspGame, toFile);
-    }
-
-    @Override
-    public void toGemFile(QspGame qspGame, String toFile) {
-        this.libQspThread.toGemFile(qspGame, toFile);
-    }
-
-
-    @Override
     public void getRefreshInterfaceRequest() {
         if (this.libMethods.QSPIsMainDescChanged()) {
             libEngine.getGameStatus().mainDesc = this.libMethods.QSPGetMainDesc();

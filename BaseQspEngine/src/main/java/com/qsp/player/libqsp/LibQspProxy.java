@@ -34,10 +34,6 @@ public interface LibQspProxy {
 
     public void getRefreshInterfaceRequest();
 
-    public void qspFileToText(QspGame qspGame, String toFile);
-
-    public void toGemFile(QspGame qspGame, String toFile);
-
     public String refreshMainDesc();
 
     public String refreshVarsDesc();

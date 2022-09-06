@@ -57,14 +57,14 @@ public class StreamUtils {
 
     public static InputStream getEngineResourceInputSteam(String fileName) {
         String engineResourcePath = QspUri.getFilePath(QspConstants.getEngineResourcePath(), fileName);
-      //  if (new File(engineResourcePath).exists()) {
-            try {
-                return new FileInputStream(engineResourcePath);
-            } catch (FileNotFoundException e) {
-                logger.error("Engine resource not found:" + engineResourcePath);
-                // e.printStackTrace();
-            }
-     //   }
+        //  if (new File(engineResourcePath).exists()) {
+        try {
+            return new FileInputStream(engineResourcePath);
+        } catch (FileNotFoundException e) {
+            logger.error("Engine resource not found:" + engineResourcePath);
+            // e.printStackTrace();
+        }
+        //   }
         return null;
 //        return Gengine.class.getResourceAsStream(Constants.LUA_SCRIPT_FILE_PATH+luaFileMap.get(fileName));
     }
@@ -85,33 +85,53 @@ public class StreamUtils {
         boolean gameIsStart = libEngine.getGameStatus().isGameRunning();
         if (gameIsStart) {
             gameResourcePath = QspUri.getFilePath(libEngine.getQspGame().getGameFolder(), fileName);
-        }
-        if (libEngine.getQspGame() != null && new File(gameDataPath).exists() == false && (gameIsStart && new File(gameResourcePath).exists() == false)) {
-            try {
-                fileName = URLDecoder.decode(fileName, QspConstants.CHARSET_STR);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+            if (new File(gameResourcePath).exists()) {
+                try {
+                    return new FileInputStream(gameResourcePath);
+                } catch (Exception e) {
+                    logger.error("Game resource not found:" + gameResourcePath);
+                    // e.printStackTrace();
+                }
+            } else {
+                String tFileName = fileName;
+                try {
+                    tFileName = URLDecoder.decode(fileName, QspConstants.CHARSET_STR);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                gameResourcePath = QspUri.getFilePath(libEngine.getQspGame().getGameFolder(), tFileName);
+                if (new File(gameResourcePath).exists()) {
+                    try {
+                        return new FileInputStream(gameResourcePath);
+                    } catch (Exception e) {
+                        logger.error("Game resource not found:" + gameResourcePath);
+                        // e.printStackTrace();
+                    }
+                }
             }
-            gameDataPath = libEngine.getQspGame().getGameFolder() + fileName;
-            gameResourcePath = QspUri.getFilePath(libEngine.getQspGame().getGameFolder(), fileName);
         }
 
-        if (gameIsStart) {
-//        fileName=fileName.replaceAll("%20"," ");
+        if (new File(gameDataPath).exists() == false) {
+            if(libEngine.getQspGame()!=null) {
+                try {
+                    fileName = URLDecoder.decode(fileName, QspConstants.CHARSET_STR);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                gameDataPath = libEngine.getQspGame().getGameFolder() + fileName;
+            }
+        }
+        if (new File(gameDataPath).exists())
+        {
+            //未开始情况下需要传游戏id才能找到资源
             try {
-                return new FileInputStream(gameResourcePath);
+                return new FileInputStream(gameDataPath);
             } catch (Exception e) {
-                logger.error("Game resource not found:" + gameResourcePath);
+                logger.error("System resource not found:" + gameDataPath);
                 // e.printStackTrace();
             }
         }
-        //未开始情况下需要传游戏id才能找到资源
-        try {
-            return new FileInputStream(gameDataPath);
-        } catch (Exception e) {
-            logger.error("System resource not found:" + gameDataPath);
-            // e.printStackTrace();
-        }
+
         return blankInputStream();
     }
 }

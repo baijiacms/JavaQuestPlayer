@@ -21,7 +21,6 @@ public class LibQspThread extends Thread {
     private ThreadObject threadObject = new ThreadObject();
     private static final Logger logger = LoggerFactory.getLogger(LibQspThread.class);
     private String threadName;
-    private final DevMethodsHelper devMethodsHelper = QspConstants.DEV_UTILS;
     private QspUi qspUI;
 
     private LibMethods libMethods;
@@ -86,12 +85,6 @@ public class LibQspThread extends Thread {
     private void toDo() {
 //        synchronized (threadObject) {
         switch (threadObject.method) {
-            case ThreadConstants.QSP_FILE_TO_TEXT:
-                qspFileToText();
-                break;
-            case ThreadConstants.TO_GEM_FILE:
-                toGemFile();
-                break;
             case ThreadConstants.QSP_SELECT_MENU_ITEM:
                 qspSelectMenuItem();
                 break;
@@ -137,7 +130,6 @@ public class LibQspThread extends Thread {
 
 
     private QspGame qspGame;
-    private String toFile;
     private int result;
     private QspUri uri;
     private String code;
@@ -190,7 +182,7 @@ public class LibQspThread extends Thread {
         byte[] gameData;
         if (qspGame.getIsDevProject() == 1) {
 //            devUtils.toGemFile(gameVo.getGameDevFolder(),gameVo.getGameQproj(),"D:/1.qsp");
-            gameData = this.devMethodsHelper.getGemDate(qspGame.getGameDevFolder(), qspGame.getGameQproj());
+            gameData = QspConstants.DEV_UTILS.getGemDate(qspGame.getGameDevFolder(), qspGame.getGameQproj());
         } else {
             try (FileInputStream in = new FileInputStream(qspGame.getGameFile())) {
                 try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
@@ -432,30 +424,6 @@ public class LibQspThread extends Thread {
         this.libMethods.QSPSelectMenuItem(result);
     }
 
-    public void qspFileToText(QspGame qspGame, String toFile) {
-        this.qspGame = qspGame;
-        this.toFile = toFile;
-        qspFileToText();
-    }
-
-    private void qspFileToText() {
-        if (qspGame.getIsDevProject() == 0) {
-            this.devMethodsHelper.qspFileToText(qspGame.getGameFile(), toFile, qspGame.getQspPassword());
-        }
-    }
-
-    public void toGemFile(QspGame qspGame, String toFile) {
-        this.qspGame = qspGame;
-        this.toFile = toFile;
-
-        toGemFile();
-    }
-
-    private void toGemFile() {
-        if (qspGame.getIsDevProject() == 1) {
-            devMethodsHelper.toGemFile(qspGame.getGameDevFolder(), qspGame.getGameQproj(), toFile);
-        }
-    }
 
     private void showLastQspError() {
         ErrorData errorData = (ErrorData) this.libMethods.QSPGetLastErrorData();

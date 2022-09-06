@@ -17,7 +17,7 @@ if(isClickAction==true)
 return;
 }
 isClickAction=true;
-$.get("/engine/index/loadGame?actionScript="+encodeURIComponent(gameId) ,function(result){
+$.get("/engine/main/loadGame?actionScript="+encodeURIComponent(gameId) ,function(result){
 isClickAction=false;
 if(result=="1"||result==1)
 {
@@ -37,7 +37,7 @@ if(isClickAction2==true)
 return;
 }
 isClickAction2=true;
-$.get("/engine/index/exportGameToText?actionScript="+encodeURIComponent(gameId) ,function(result){
+$.get("/engine/main/exportGameToText?actionScript="+encodeURIComponent(gameId) ,function(result){
 isClickAction2=false;
 if(result=="1"||result==1)
 {
@@ -58,7 +58,7 @@ if(isClickAction3==true)
 return;
 }
 isClickAction3=true;
-$.get("/engine/index/exportGameToQsp?actionScript="+encodeURIComponent(gameId) ,function(result){
+$.get("/engine/main/exportGameToQsp?actionScript="+encodeURIComponent(gameId) ,function(result){
 isClickAction3=false;
 if(result=="1"||result==1)
 {

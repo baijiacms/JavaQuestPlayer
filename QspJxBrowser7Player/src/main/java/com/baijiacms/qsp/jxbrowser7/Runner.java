@@ -20,8 +20,8 @@ import java.lang.reflect.Modifier;
 import java.math.BigInteger;
 
 public class Runner {
-    private static final String license1="6P835FT5HAPTB03TPIEFPGU5ECGJN8GMGDD79MD7Y52NVP0K0IV6FHYZVQI25H0MLGI2";
-    private static final String license2="6P835FT5HAV2EG8VQ5ZBIC76PR2YH2T40MCSXZ361FBESJ24DO3U9RRANTA2PFUWI2NP";
+    private static final String LICENSE_1="6P835FT5HAPTB03TPIEFPGU5ECGJN8GMGDD79MD7Y52NVP0K0IV6FHYZVQI25H0MLGI2";
+    private static final String LICENSE_2="6P835FT5HAV2EG8VQ5ZBIC76PR2YH2T40MCSXZ361FBESJ24DO3U9RRANTA2PFUWI2NP";
 
     public static void main(String[] args) throws Exception {
         int port = QspConstants.HTTP_PORT;
@@ -38,12 +38,12 @@ public class Runner {
         qspEngineServer.start();
         System.out.println("Loading....");
 
-        System.setProperty("jxbrowser.license.key", license1);
+        System.setProperty("jxbrowser.license.key", LICENSE_1);
         Engine engine = Engine.newInstance(
                 EngineOptions.newBuilder(RenderingMode.HARDWARE_ACCELERATED)
                         .enableProprietaryFeature(ProprietaryFeature.AAC)
                         .enableProprietaryFeature(ProprietaryFeature.H_264)
-                        .licenseKey(license1).build());
+                        .licenseKey(LICENSE_1).build());
         Browser browser = engine.newBrowser();
 
 
