@@ -4,10 +4,9 @@ Class-Path: javafx-base-11.0.2.jar javafx-base-11.0.2-win.jar javafx-base-11.0.2
             javafx-controls-11.0.2.jar javafx-controls-11.0.2-win.jar javafx-controls-11.0.2-linux.jar
             javafx-media-11.0.2.jar javafx-media-11.0.2-win.jar javafx-media-11.0.2-linux.jar
             javafx-graphics-11.0.2.jar javafx-graphics-11.0.2-win.jar javafx-graphics-11.0.2-linux.jar javafx-web-11.0.2-win.jar javafx-web-11.0.2-linux.jar
-            hutool-all-5.2.5.jar  stax-api-1.0.1.jar slf4j-api-1.7.30.jar slf4j-simple-1.7.26.jar xpp3-1.1.3.3.jar simple-xml-2.7.1.jar
-            velocity-engine-core-2.3.jar stax-1.2.0.jar httpcore-4.4.13.jar commons-io-2.8.0.jar commons-logging-1.2.jar
-            javax.servlet-api-3.1.0.jar dom4j-2.1.1.jar tritonus-share-0.3.7.4.jar fastjson-1.2.73.jar   junit-3.8.2.jar  jlayer-1.0.1.4.jar
-            httpclient-4.5.13.jar mp3spi-1.9.5.4.jar  jsoup-1.7.2.jar commons-codec-1.11.jar commons-lang3-3.9.jar
+            commons-io-2.8.0.jar commons-lang3-3.9.jar dom4j-2.1.3.jar fastjson-1.2.83.jar javax.servlet-api-3.1.0.jar
+            jlayer-1.0.1.4.jar jsoup-1.7.2.jar junit-3.8.2.jar lombok-1.18.12.jar mp3spi-1.9.5.4.jar slf4j-api-1.7.30.jar
+            slf4j-simple-1.7.36.jar tritonus-share-0.3.7.4.jar velocity-engine-core-2.3.jar
             jetty-server-9.4.48.v20220622.jar jetty-util-9.4.48.v20220622.jar jetty-io-9.4.48.v20220622.jar jetty-http-9.4.48.v20220622.jar
             BaseQspEngine-1.0.0-SNAPSHOT.jar
 
