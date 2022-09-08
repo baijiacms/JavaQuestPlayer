@@ -33,22 +33,12 @@ import java.io.InputStream;
 public class ServerHandler extends AbstractHandler {
     private HtmlHandler htmlHandler;
 
-    private UserTemplate userTemplate;
-    private ConsoleTemplate consoleTemplate;
-    private ActionTemplate actionTemplate;
-    private HtmlTemplate htmlTemplate;
-    private IndexTemplate indexTemplate;
-    private GameSelectTemplate gameSelectTemplate;
-    private LoadingTemplate loadingTemplate;
-    private GameSaveTemplate gameSaveTemplate;
-
     private LibEngine singleLibEngine;
 
     private QspUi qspUi;
     private QspAudio qspAudio;
 
     public ServerHandler(boolean isGUI, String gameId) {
-        initVelocityEngine();
         htmlHandler = new HtmlHandler();
 
         if (isGUI) {
@@ -66,22 +56,6 @@ public class ServerHandler extends AbstractHandler {
             }
         }
     }
-
-    private void initVelocityEngine() {
-        VelocityEngine ve = new VelocityEngine();
-        ve.setProperty(Velocity.RESOURCE_LOADER, Velocity.RESOURCE_LOADER_CLASS);
-        ve.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        ve.init();
-        this.userTemplate = new UserTemplate(ve);
-        this.actionTemplate = new ActionTemplate(ve);
-        this.consoleTemplate = new ConsoleTemplate(ve);
-        this.gameSaveTemplate = new GameSaveTemplate(ve);
-        this.htmlTemplate = new HtmlTemplate(ve, gameSaveTemplate);
-        this.indexTemplate = new IndexTemplate(ve);
-        this.gameSelectTemplate = new GameSelectTemplate(ve);
-        this.loadingTemplate = new LoadingTemplate(ve);
-    }
-
     @Override
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_OK);
