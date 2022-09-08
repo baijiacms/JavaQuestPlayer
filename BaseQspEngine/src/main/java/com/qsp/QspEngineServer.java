@@ -1,8 +1,8 @@
 package com.qsp;
 
 import com.qsp.player.common.QspConstants;
-import com.qsp.view.handler.ServerHandler;
-import org.eclipse.jetty.server.Server;
+import com.qsp.view.http.WebServer;
+import com.qsp.view.http.nanohttpd.util.ServerRunner;
 
 import java.net.Socket;
 
@@ -11,7 +11,7 @@ import java.net.Socket;
  * @version V1.0.0
  */
 public class QspEngineServer {
-    private Server server;
+    //    private Server server;
     private String httpUrl;
     private int localPort;
     private boolean isStart = false;
@@ -46,18 +46,21 @@ public class QspEngineServer {
     public void start() throws Exception {
         start(null);
     }
+
     public void start(String gameId) throws Exception {
         if (isStart == false) {
             int port = checkPort();
-            server = new Server(port);
-            server.setHandler(new ServerHandler(isGUI,gameId));
-            server.start();
+
+            ServerRunner.executeInstance(new WebServer(port, isGUI, gameId));
+//            server = new Server(port);
+//            server.setHandler(new ServerHandler(isGUI,gameId));
+//            server.start();
             isStart = true;
         }
     }
 
     public void join() throws InterruptedException {
-        server.join();
+//        server.join();
     }
 
     public int getLocalPort() {

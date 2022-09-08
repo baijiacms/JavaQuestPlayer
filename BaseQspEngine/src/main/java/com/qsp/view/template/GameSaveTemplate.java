@@ -4,6 +4,7 @@ import com.qsp.player.LibEngine;
 import com.qsp.player.common.QspConstants;
 import com.qsp.player.entity.GameStatus;
 import com.qsp.view.common.UrlContants;
+import com.qsp.view.http.dto.QspHttpResponse;
 import com.qsp.view.template.vo.SaveGameVo;
 import com.qsp.view.util.ResponseUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -11,7 +12,6 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -36,7 +36,7 @@ public class GameSaveTemplate {
 
     }
 
-    public boolean handle(LibEngine libEngine, String target, HttpServletResponse response, String actionScript) throws Exception {
+    public boolean handle(LibEngine libEngine, String target, QspHttpResponse response, String actionScript) throws Exception {
         GameStatus gameStatus = libEngine.getGameStatus();
         String htmlCode = null;
         switch (target) {
@@ -93,7 +93,8 @@ public class GameSaveTemplate {
                 ResponseUtil.stringWriteToResponse(response, htmlCode);
                 ResponseUtil.setContentType(response, QspConstants.HTML_CONTENT_TYPE);
                 return true;
-            default:;
+            default:
+                ;
         }
         return false;
     }

@@ -2,6 +2,7 @@ package com.qsp.player.libqsp;
 
 /**
  * libqsp call
+ *
  * @author baijiacms
  */
 public interface LibQspCallbacks {

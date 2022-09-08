@@ -4,12 +4,12 @@ import com.qsp.player.LibEngine;
 import com.qsp.player.common.QspConstants;
 import com.qsp.player.entity.QspListItem;
 import com.qsp.view.common.UrlContants;
+import com.qsp.view.http.dto.QspHttpResponse;
 import com.qsp.view.util.ResponseUtil;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class ConsoleTemplate {
         actionTemplate = ve.getTemplate("baijiacms/html/core/console.vm", QspConstants.CHARSET_STR);
     }
 
-    public boolean handle(LibEngine libEngine, String target, HttpServletResponse response, String actionScript) throws Exception {
+    public boolean handle(LibEngine libEngine, String target, QspHttpResponse response, String actionScript) throws Exception {
         String htmlCode = null;
         switch (target) {
             case UrlContants.CONSOLE_URL_ROOT + "engineConsolePage":
@@ -45,7 +45,8 @@ public class ConsoleTemplate {
                 ResponseUtil.stringWriteToResponse(response, htmlCode);
                 ResponseUtil.setContentType(response, QspConstants.HTML_CONTENT_TYPE);
                 return true;
-            default:;
+            default:
+                ;
         }
         return false;
     }

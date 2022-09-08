@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+
 /**
  * @author baijiacms
  */
@@ -136,19 +137,19 @@ public class LibQspProxyImpl implements LibQspProxy {
     @Override
     public void getRefreshInterfaceRequest() {
         if (this.libMethods.QSPIsMainDescChanged()) {
-            libEngine.getGameStatus().mainDesc = this.libMethods.QSPGetMainDesc();
+            libEngine.getGameStatus().setMainDesc(this.libMethods.QSPGetMainDesc());
             libEngine.getGameStatus().isMaindescchanged(true);
         }
         if (this.libMethods.QSPIsActionsChanged()) {
-            libEngine.getGameStatus().actions = getActions();
+            libEngine.getGameStatus().setActions(getActions());
             libEngine.getGameStatus().setActionschanged(true);
         }
         if (this.libMethods.QSPIsObjectsChanged()) {
-            libEngine.getGameStatus().objects = getObjects();
+            libEngine.getGameStatus().setObjects(getObjects());
             libEngine.getGameStatus().setObjectschanged(true);
         }
         if (this.libMethods.QSPIsVarsDescChanged()) {
-            libEngine.getGameStatus().varsDesc = this.libMethods.QSPGetVarsDesc();
+            libEngine.getGameStatus().setVarsDesc(this.libMethods.QSPGetVarsDesc());
             libEngine.getGameStatus().setVarsdescchanged(true);
         }
 
@@ -156,7 +157,7 @@ public class LibQspProxyImpl implements LibQspProxy {
 
     @Override
     public String refreshMainDesc() {
-        String mainDesc = getHtml(libEngine.getGameStatus().mainDesc, true);
+        String mainDesc = getHtml(libEngine.getGameStatus().getMainDesc(), true);
 
         return mainDesc;
     }
@@ -164,21 +165,21 @@ public class LibQspProxyImpl implements LibQspProxy {
 
     @Override
     public String refreshVarsDesc() {
-        String varsDesc = getHtml(libEngine.getGameStatus().varsDesc, false);
+        String varsDesc = getHtml(libEngine.getGameStatus().getVarsDesc(), false);
 //        logger.info("varsDesc:"+varsDesc);
         return varsDesc;
     }
 
     @Override
     public ArrayList<QspListItem> refreshActions() {
-        ArrayList<QspListItem> actions = libEngine.getGameStatus().actions;
+        ArrayList<QspListItem> actions = libEngine.getGameStatus().getActions();
         //logger.info("refreshActions:"+actions.size());
         return actions;
     }
 
     @Override
     public ArrayList<QspListItem> refreshObjects() {
-        ArrayList<QspListItem> objects = libEngine.getGameStatus().objects;
+        ArrayList<QspListItem> objects = libEngine.getGameStatus().getObjects();
         // logger.info("refreshObjects:"+objects.size());
         return objects;
     }
@@ -212,7 +213,7 @@ public class LibQspProxyImpl implements LibQspProxy {
             ObjectData objectResult = (ObjectData) this.libMethods.QSPGetObjectData(i);
             QspListItem object = new QspListItem();
             object.index = i;
-            object.text = true ? htmlProcessor.removeHtmlTags(objectResult.name) : objectResult.name;
+            object.text = true ? htmlProcessor.removeHtmlTags(objectResult.getName()) : objectResult.getName();
             objects.add(object);
         }
         return objects;

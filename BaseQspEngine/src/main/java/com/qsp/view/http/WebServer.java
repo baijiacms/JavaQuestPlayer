@@ -1,4 +1,4 @@
-package com.qsp.view.handler;
+package com.qsp.view.http;
 
 import com.qsp.player.LibEngine;
 import com.qsp.player.common.FolderLoader;
@@ -6,39 +6,29 @@ import com.qsp.player.common.QspConstants;
 import com.qsp.player.entity.QspGame;
 import com.qsp.player.util.StreamUtils;
 import com.qsp.player.vi.QspAudio;
+import com.qsp.player.vi.QspUi;
+import com.qsp.view.common.UrlContants;
+import com.qsp.view.http.dto.QspHttpResponse;
+import com.qsp.view.http.dto.QspHttpResponseImpl;
+import com.qsp.view.http.handler.HtmlHandler;
+import com.qsp.view.http.nanohttpd.NanoHTTPD;
+import com.qsp.view.util.ResponseUtil;
 import com.qsp.view.vi.audio.SwingAudio;
 import com.qsp.view.vi.audio.WebAudio;
 import com.qsp.view.vi.audio.mp3.mime.MyMediaTypeFactory;
-import com.qsp.player.vi.QspUi;
 import com.qsp.view.vi.box.SwingUi;
 import com.qsp.view.vi.box.WebUi;
-import com.qsp.view.common.UrlContants;
-import com.qsp.view.template.*;
-import com.qsp.view.util.ResponseUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.app.VelocityEngine;
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.AbstractHandler;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 
-/**
- * @author baijiacms
- */
-public class ServerHandler extends AbstractHandler {
-    private HtmlHandler htmlHandler;
+public class WebServer extends NanoHTTPD {
 
-    private LibEngine singleLibEngine;
 
-    private QspUi qspUi;
-    private QspAudio qspAudio;
-
-    public ServerHandler(boolean isGUI, String gameId) {
+    public WebServer(int port, boolean isGUI, String gameId) {
+        super("127.0.0.1", port);
         htmlHandler = new HtmlHandler();
 
         if (isGUI) {
@@ -56,10 +46,44 @@ public class ServerHandler extends AbstractHandler {
             }
         }
     }
+
     @Override
-    public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        response.setStatus(HttpServletResponse.SC_OK);
-        baseRequest.setHandled(true);
+    public Response serve(IHTTPSession session) {
+        Map<String, List<String>> parameters = session.getParameters();
+        List<String> paramList = parameters.get("actionScript");
+        String actionScript = null;
+        if (paramList != null && paramList.size() > 0) {
+            actionScript = paramList.get(0);
+        }
+        String uri = session.getUri();
+        QspHttpResponse qspHttpResponse = new QspHttpResponseImpl();
+        Response response = null;
+        try {
+            handle(uri, actionScript, qspHttpResponse);
+            response = new NanoHTTPD.Response(Response.Status.OK, qspHttpResponse.getContentType(), qspHttpResponse.getInputStream(), qspHttpResponse.getTotalBytes());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = new NanoHTTPD.Response(Response.Status.INTERNAL_ERROR, MIME_PLAINTEXT, null, 0);
+        }
+//        Response response = new NanoHTTPD.Response(Response.Status.OK, MIME_PLAINTEXT, null, qspHttpResponse.getTotalBytes());
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Credentials", "true");
+        response.addHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS,PUT,DELETE,PATCH,HEAD");
+        response.addHeader("Access-Control-Allow-Max-Age", "3600");
+        response.addHeader("Access-Control-Allow-Headers", "*");
+        return response;
+    }
+
+    private HtmlHandler htmlHandler;
+
+    private LibEngine singleLibEngine;
+
+    private QspUi qspUi;
+    private QspAudio qspAudio;
+
+    public void handle(String target, String actionScript, QspHttpResponse qspHttpResponse) throws Exception {
+
         target = target.replace(QspConstants.HTTP_LOCAL_URL, "");
         target = target.replace(QspConstants.getEngineResourcePath(), "");
         if (target.startsWith("/") == false) {
@@ -68,7 +92,6 @@ public class ServerHandler extends AbstractHandler {
         if (target == null) {
             target = "";
         }
-        String actionScript = request.getParameter("actionScript");
         if (actionScript != null) {
             actionScript.trim();
         } else {
@@ -86,13 +109,12 @@ public class ServerHandler extends AbstractHandler {
             default:
                 ;
         }
-
-        singleHandle(actionScript, target, response);
+        singleHandle(actionScript, target, qspHttpResponse);
 
 
     }
 
-    public void singleHandle(String actionScript, String target, HttpServletResponse response) throws IOException, ServletException {
+    public void singleHandle(String actionScript, String target, QspHttpResponse response) throws Exception {
         LibEngine libEngine = singleLibEngine;
         int isSession = UrlContants.isSessionPath(target);
         boolean hasResult = false;
@@ -119,6 +141,4 @@ public class ServerHandler extends AbstractHandler {
         }
         return;
     }
-
-
 }

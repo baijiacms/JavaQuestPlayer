@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+
 /**
  * @author baijiacms
  */
@@ -149,11 +150,11 @@ public class LibQspCallBacksImpl implements LibQspCallbacks {
 
         logger.info("command:GetMSCount");
         long now = System.currentTimeMillis();
-        if (libEngine.getGameStatus().lastMsCountCallTime == 0) {
-            libEngine.getGameStatus().lastMsCountCallTime = libEngine.getGameStatus().gameStartTime;
+        if (libEngine.getGameStatus().getLastMsCountCallTime() == 0) {
+            libEngine.getGameStatus().setLastMsCountCallTime(libEngine.getGameStatus().getGameStartTime());
         }
-        int dt = (int) (now - libEngine.getGameStatus().lastMsCountCallTime);
-        libEngine.getGameStatus().lastMsCountCallTime = now;
+        int dt = (int) (now - libEngine.getGameStatus().getLastMsCountCallTime());
+        libEngine.getGameStatus().setLastMsCountCallTime(now);
 
         return dt;
     }

@@ -1,4 +1,5 @@
 package com.qsp.player.thread;
+
 /**
  * @author baijiacms
  */

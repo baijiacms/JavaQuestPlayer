@@ -1,17 +1,17 @@
-package com.qsp.view.handler;
+package com.qsp.view.http.handler;
 
 import com.qsp.player.LibEngine;
 import com.qsp.player.util.StreamUtils;
-import com.qsp.view.vi.audio.mp3.mime.MyMediaTypeFactory;
 import com.qsp.view.common.UrlContants;
+import com.qsp.view.http.dto.QspHttpResponse;
 import com.qsp.view.template.*;
 import com.qsp.view.util.ResponseUtil;
+import com.qsp.view.vi.audio.mp3.mime.MyMediaTypeFactory;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 
 /**
@@ -46,7 +46,7 @@ public class HtmlHandler {
 
     }
 
-    public boolean requestHandle(LibEngine libEngine, String actionScript, String target, HttpServletResponse response) throws Exception {
+    public boolean requestHandle(LibEngine libEngine, String actionScript, String target, QspHttpResponse response) throws Exception {
         if (target.startsWith(UrlContants.ENGINE_URL_ROOT)) {
             if (target.startsWith(UrlContants.GAME_SELECT_URL_ROOT)) {
                 boolean result = gameSelectTemplate.handle(libEngine, target, response, actionScript);
@@ -59,26 +59,25 @@ public class HtmlHandler {
         }
         if (target.startsWith(UrlContants.ENGINE_URL_ROOT + "lib/")) {///engine/lib/
             InputStream byteResultStream = StreamUtils.getEngineResourceInputSteam(target);
-            if(byteResultStream!=null) {
+            if (byteResultStream != null) {
                 StreamUtils.copy(byteResultStream, response.getOutputStream());
                 ResponseUtil.setContentType(response, MyMediaTypeFactory.getContentType(target));
                 return true;
-            }else
-            {
-                String newTarget=null;
+            } else {
+                String newTarget = null;
                 if (target.startsWith(UrlContants.SOB_LIB_URL_ROOT)) {
-                    newTarget=target.substring((UrlContants.SOB_LIB_URL_ROOT).length()-1);
+                    newTarget = target.substring((UrlContants.SOB_LIB_URL_ROOT).length() - 1);
                 }
                 if (target.startsWith(UrlContants.BIGKUYASH_LIB_URL_ROOT)) {
-                    newTarget=target.substring((UrlContants.BIGKUYASH_LIB_URL_ROOT).length()-1);
+                    newTarget = target.substring((UrlContants.BIGKUYASH_LIB_URL_ROOT).length() - 1);
                 }
-                if(newTarget!=null) {
+                if (newTarget != null) {
                     byteResultStream = StreamUtils.getGameResourceInputSteam(libEngine, newTarget);
                 }
-                if(byteResultStream==null) {
-                    byteResultStream=StreamUtils.blankInputStream();
+                if (byteResultStream == null) {
+                    byteResultStream = StreamUtils.blankInputStream();
                 }
-                if(byteResultStream!=null) {
+                if (byteResultStream != null) {
                     StreamUtils.copy(byteResultStream, response.getOutputStream());
                     ResponseUtil.setContentType(response, MyMediaTypeFactory.getContentType(newTarget));
                     return true;
@@ -88,7 +87,7 @@ public class HtmlHandler {
         return false;
     }
 
-    public boolean sessionHandle(LibEngine libEngine, String actionScript, String target, HttpServletResponse response) throws Exception {
+    public boolean sessionHandle(LibEngine libEngine, String actionScript, String target, QspHttpResponse response) throws Exception {
 
         if (target.startsWith(UrlContants.ENGINE_URL_ROOT)) {
             if (libEngine.getGameStatus().isGameRunning()) {

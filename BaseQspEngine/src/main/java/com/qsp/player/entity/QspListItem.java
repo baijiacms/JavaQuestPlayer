@@ -1,4 +1,5 @@
 package com.qsp.player.entity;
+
 /**
  * @author baijiacms
  */

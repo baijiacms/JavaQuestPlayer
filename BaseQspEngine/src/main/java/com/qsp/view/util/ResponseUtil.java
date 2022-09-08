@@ -1,8 +1,8 @@
 package com.qsp.view.util;
 
 import com.qsp.player.common.QspConstants;
+import com.qsp.view.http.dto.QspHttpResponse;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -12,7 +12,7 @@ import java.io.IOException;
 public final class ResponseUtil {
 
 
-    public static void stringWriteToResponse(HttpServletResponse response, String content) {
+    public static void stringWriteToResponse(QspHttpResponse response, String content) {
         try {
             response.getOutputStream().write(content.getBytes(QspConstants.CHARSET));
         } catch (IOException e) {
@@ -20,8 +20,8 @@ public final class ResponseUtil {
         }
     }
 
-    public static void setContentType(HttpServletResponse response, String contentType) {
+    public static void setContentType(QspHttpResponse response, String contentType) {
         response.setContentType(contentType);
-        response.setHeader("Content-Type", contentType);
+//        response.setHeader("Content-Type", contentType);
     }
 }

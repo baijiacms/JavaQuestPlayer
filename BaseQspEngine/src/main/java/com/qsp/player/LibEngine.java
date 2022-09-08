@@ -75,12 +75,10 @@ public class LibEngine {
     public void restartGame(QspGame qspGame) {
         qspGame.setGameSaveFolder(qspGame.getGameFolder() + "saves/");
         this.qspGame = qspGame;
-
         gameStatus.reset();
         gameStatus.setGameRunning(true);
         gameStatus.setGameStartTime(System.currentTimeMillis());
         gameStatus.setLastMsCountCallTime(0);
-        gameStatus.gameStartTime = System.currentTimeMillis();
         libQspProxy.restartGame(qspGame);
     }
 

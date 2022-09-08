@@ -1,11 +1,9 @@
 package com.qsp.view.template.vo;
 
-import lombok.Data;
 
 /**
  * @author baijiacms
  */
-@Data
 public class SaveGameVo implements Comparable {
     private String fileName;
     private long fileTime;
@@ -25,5 +23,29 @@ public class SaveGameVo implements Comparable {
             }
 
         }
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public long getFileTime() {
+        return fileTime;
+    }
+
+    public void setFileTime(long fileTime) {
+        this.fileTime = fileTime;
+    }
+
+    public String getFileTimeStr() {
+        return fileTimeStr;
+    }
+
+    public void setFileTimeStr(String fileTimeStr) {
+        this.fileTimeStr = fileTimeStr;
     }
 }

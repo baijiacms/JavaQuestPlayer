@@ -112,7 +112,7 @@ public class StreamUtils {
         }
 
         if (new File(gameDataPath).exists() == false) {
-            if(libEngine.getQspGame()!=null) {
+            if (libEngine.getQspGame() != null) {
                 try {
                     fileName = URLDecoder.decode(fileName, QspConstants.CHARSET_STR);
                 } catch (UnsupportedEncodingException e) {
@@ -121,8 +121,7 @@ public class StreamUtils {
                 gameDataPath = libEngine.getQspGame().getGameFolder() + fileName;
             }
         }
-        if (new File(gameDataPath).exists())
-        {
+        if (new File(gameDataPath).exists()) {
             //未开始情况下需要传游戏id才能找到资源
             try {
                 return new FileInputStream(gameDataPath);
