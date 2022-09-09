@@ -31,11 +31,11 @@ function isNeedRefresh()
 {
 try{
 
-   $.get("/engine/index/isNeedRefreshHtml?x="+Date.now(),function(data,status){
+   $.get("/engine/index/isNeedRefreshHtml",function(data,status){
     if(data==1||data=='1')
     {
-        if(index<2)
-        {
+       if(index<2)
+         {
          loadHtml();
          }
     }else
@@ -54,25 +54,32 @@ function pageInit()
 
 function loadHtml()
 {
-   $.get("/engine/html/html?x="+Date.now(),function(data){
+   $.get("/engine/html/html",function(data){
 document.body.innerHTML=data;
-         index=index+1;
-isClickExec=false;
+         index=index+1;isClickExec=false;
+
 });
-isClickExec=false;
+
 }
 
-
+var execIndex=0;
 var isClickExec=false;
 function htmlExecTo(script)
 {
+if(execIndex>=2)
+{
+execIndex=0;
+isClickExec=false;
+}
 if(isClickExec==true)
 {
+execIndex=execIndex+1;
 return;
 }
 isClickExec=true;
 $.get("/engine/html/htmlCall?actionScript="+encodeURIComponent(script),function(result){
-    index=0;isNeedRefresh();
+isClickExec=false;execIndex=0;
+ index=0;isNeedRefresh();
 });
 
 }

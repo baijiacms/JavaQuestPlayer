@@ -33,8 +33,6 @@ package com.qsp.view.http.nanohttpd;
  * #L%
  */
 
-import com.qsp.view.http.nanohttpd.NanoHTTPD.Response.IStatus;
-import com.qsp.view.http.nanohttpd.NanoHTTPD.Response.Status;
 
 import javax.net.ssl.*;
 import java.io.*;
@@ -137,6 +135,7 @@ public abstract class NanoHTTPD {
             safeClose(this.acceptSocket);
         }
 
+        private final long timeCount=120;
         @Override
         public void run() {
             OutputStream outputStream = null;
@@ -145,7 +144,17 @@ public abstract class NanoHTTPD {
                 TempFileManager tempFileManager = NanoHTTPD.this.tempFileManagerFactory.create();
                 HTTPSession session = new HTTPSession(tempFileManager, this.inputStream, outputStream, this.acceptSocket.getInetAddress());
                 while (!this.acceptSocket.isClosed()) {
+                    long timeStart=System.currentTimeMillis();
                     session.execute();
+                    long timeout=timeCount-(System.currentTimeMillis()-timeStart);
+                    if(timeout>0)
+                    {
+                        try {
+                        Thread.sleep(timeout);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             } catch (Exception e) {
                 // When the socket is closed by the client,
@@ -631,9 +640,10 @@ public abstract class NanoHTTPD {
                 int qmi = uri.indexOf('?');
                 if (qmi >= 0) {
                     decodeParms(uri.substring(qmi + 1), parms);
-                    uri = decodePercent(uri.substring(0, qmi));
+                    uri = (uri.substring(0, qmi));
+                //    uri = decodePercent(uri.substring(0, qmi));
                 } else {
-                    uri = decodePercent(uri);
+                //    uri = decodePercent(uri);
                 }
 
                 // If there's another token, its protocol version,
@@ -2117,21 +2127,21 @@ public abstract class NanoHTTPD {
     /**
      * Create a response with unknown length (using HTTP 1.1 chunking).
      */
-    public static Response newChunkedResponse(IStatus status, String mimeType, InputStream data) {
+    public static Response newChunkedResponse(Response.IStatus status, String mimeType, InputStream data) {
         return new Response(status, mimeType, data, -1);
     }
 
     /**
      * Create a response with known length.
      */
-    public static Response newFixedLengthResponse(IStatus status, String mimeType, InputStream data, long totalBytes) {
+    public static Response newFixedLengthResponse(Response.IStatus status, String mimeType, InputStream data, long totalBytes) {
         return new Response(status, mimeType, data, totalBytes);
     }
 
     /**
      * Create a text response with known length.
      */
-    public static Response newFixedLengthResponse(IStatus status, String mimeType, String txt) {
+    public static Response newFixedLengthResponse(Response.IStatus status, String mimeType, String txt) {
         ContentType contentType = new ContentType(mimeType);
         if (txt == null) {
             return newFixedLengthResponse(status, mimeType, new ByteArrayInputStream(new byte[0]), 0);
@@ -2155,7 +2165,7 @@ public abstract class NanoHTTPD {
      * Create a text response with known length.
      */
     public static Response newFixedLengthResponse(String msg) {
-        return newFixedLengthResponse(Status.OK, NanoHTTPD.MIME_HTML, msg);
+        return newFixedLengthResponse(Response.Status.OK, NanoHTTPD.MIME_HTML, msg);
     }
 
     /**
