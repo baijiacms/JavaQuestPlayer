@@ -21,11 +21,13 @@ import java.io.StringWriter;
 public class IndexTemplate {
     private Template indexTemplate;
     private Template indexSobTemplate;
+    private Template indexTowerTemplate;
     private Template indexBigKuyashTemplate;
 
     public IndexTemplate(VelocityEngine ve) {
         indexTemplate = ve.getTemplate("baijiacms/html/core/index.vm", QspConstants.CHARSET_STR);
         indexSobTemplate = ve.getTemplate("baijiacms/html/diy/sobIndex.vm", QspConstants.CHARSET_STR);
+        indexTowerTemplate = ve.getTemplate("baijiacms/html/diy/towerIndex.vm", QspConstants.CHARSET_STR);
         indexBigKuyashTemplate = ve.getTemplate("baijiacms/html/diy/bigKuyashIndex.vm", QspConstants.CHARSET_STR);
     }
 
@@ -97,7 +99,11 @@ public class IndexTemplate {
             if (qspGame.isBigKuyash()) {
                 indexBigKuyashTemplate.merge(context, writer);
             } else {
-                indexTemplate.merge(context, writer);
+                if (qspGame.isTower()) {
+                    indexTowerTemplate.merge(context, writer);
+                } else {
+                    indexTemplate.merge(context, writer);
+                }
             }
         }
         writer.flush();

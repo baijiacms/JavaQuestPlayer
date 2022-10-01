@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>${engineTitle} V${engineVersion} Powered By ${enginePowerBy}</title>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link type="text/css" href="/engine/lib/tower/skins/game.css" rel="stylesheet">
+<script type="text/javascript" src="/engine/lib/tower/qsplib/js/core.js"></script>
+<script type="text/javascript" src="/engine/lib/tower/qsplib/js/coreAwesomium.js"></script>
+<script type="text/javascript" src="/engine/lib/tower/qsplib/js/QspLibAwesomium.js"></script>
+<script type="text/javascript" src="/engine/lib/tower/qsplib/js/api.js"></script>
+<script type="text/javascript" src="/engine/lib/tower/skins/size.js"></script>
+<script type="text/javascript" src="/engine/lib/tower/skins/game.js"></script>
+    <script src="/engine/lib/jquery.min.js"></script>
+
+    <script>
+
+
+function isNeedRefresh()
+{
+try{
+   $.getJSON("/engine/index/isNeedRefresh",function(data,status){
+    var isFresh=false;
+    if(data.varsdescchanged)
+    {
+   // isFresh=true;
+    }
+    if(data.maindescchanged)
+    {
+          isFresh=true;
+    }
+    if(data.actionschanged)
+    {
+       //    isFresh=true;
+    }
+  if(data.objectschanged)
+    {
+        //  isFresh=true;
+    }
+    if( isFresh==true)
+    {
+    loadHtml();
+    }
+
+    });
+    }catch{
+    }
+}
+setInterval(isNeedRefresh,300);
+
+function loadHtml()
+{
+   $.get("/engine/html/html",function(data){
+ document.getElementById('qsp-main').innerHTML=data;
+isClickExec=false;
+});
+isClickExec=false;
+}
+
+var isClickExec=false;
+function htmlExecTo(script)
+{
+if(isClickExec==true)
+{
+return;
+}
+isClickExec=true;
+$.get("/engine/html/htmlCall?actionScript="+encodeURIComponent(script),function(result){
+isNeedRefresh();
+});
+}
+
+
+
+
+function Trim(str) { return str.replace(/(^\s*)|(\s*$)/g,""); }
+var csGame=false;
+function saveGame()
+{
+    if(clGame==false)
+    {
+       csGame=true;
+     var saveFileName= document.getElementById("saveFileName").value;
+     saveFileName=Trim(saveFileName);
+     if(saveFileName=="")
+     {
+          csGame=false;
+           alert("Please enter a file name");
+     return;
+     }
+$.get("/engine/save/GameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+             index=0;
+              csGame=false;
+           if("1"==data||1==data)
+           {
+           alert("save Success");
+           }else
+           {
+           alert("save error");
+           }
+       });
+   }
+}
+var clGame=false;
+function loadGame(saveFileName)
+{
+    if(clGame==false)
+    {
+       clGame=true;
+$.get("/engine/save/LoadGameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+        index=0;    clGame=false;
+       if("1"==data||1==data)
+              {
+         alert("读取成功");
+         closeSaveWindow();
+          }else
+            {
+                  alert("读取失败");
+          }
+       });
+   }
+}
+
+var dlGame=false;
+function delGame(saveFileName)
+{
+    if(dlGame==false)
+    {
+       dlGame=true;
+$.get("/engine/save/deleteGameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+          index=0;  dlGame=false;
+       if("1"==data||1==data)
+              {
+         alert("删除成功");
+          }else
+            {
+                  alert("删除失败");
+          }
+       });
+   }
+}
+function closeSaveWindow()
+{
+  $.get("/engine/save/closeSaveWindow",function(data,status){
+  index=0;
+       });
+}
+</script>
+</head>
+<body onload="loadHtml();">
+<div id="qsp-js-sandbox" style="display:none;"></div><div id="skin-ui-wrapper">	<!-- Описание основное и дополнительное, действия, инвентарь -->	<div id="dialog-overlay"> <div id="skin-page">	 <div id="qsp-main"></div>	 </div>	</div>	<!-- Диалоги --> <!-- Отрисовываются поверх всего, поэтому идут последними -->	 <div id="qsp-dialog-msg" class="skin-dialog" style="display: none; ">	 <div class="skin-dialog-centering">	 <div id="skin-dialog-msg-container">	 <div class="skin-dialog-background"></div>	 <div id="skin-dialog-msg-top-block">	 <div id="skin-dialog-msg-top-container">	 <div id="qsp-wrapper-msg" style="overflow-x: hidden; overflow-y: hidden; ">	 <div id="qsp-scroller-msg" style="-webkit-transition-property: -webkit-transform; -webkit-transform-origin-x: 0px; -webkit-transform-origin-y: 0px; -webkit-transform: translate(0px, 0px) translateZ(0px); -webkit-transition-duration: 0ms; ">	 <div id="qsp-dialog-msg-content">	 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.	 </div>	 </div>	 </div>	 </div>	 </div>	 <div id="skin-dialog-msg-bottom-block">	 <div id="skin-dialog-msg-bottom-wrapper">	 <div class="qsp-button skin-button-ok" onclick="javascript:qspCloseMsg();">OK</div>	 </div>	 </div>	 </div>	 </div>	 <div class="qsp-overlay"></div>	</div>	<div id="qsp-dialog-input" class="skin-dialog" style="display: none; ">	 <div class="skin-dialog-centering">	 <div id="skin-dialog-input-container">	 <div class="skin-dialog-background"></div>	 <div id="skin-dialog-input-top-row">	 <div id="skin-dialog-input-top-wrapper">	 <div id="qsp-dialog-input-content">	 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>	 </div>	 </div>	 </div>	 <div id="skin-dialog-input-middle-row">	 <div id="skin-dialog-input-middle-wrapper">	 <input type="text" name="qsp-dialog-input-text" id="qsp-dialog-input-text">	 </div>	 </div>	 <div id="skin-dialog-input-bottom-row">	 <div id="skin-dialog-input-bottom-wrapper">	 <div id="skin-dialog-input-button-ok" class="qsp-button skin-button-ok" onclick="javascript:qspCloseInput(true);">OK</div>	 </div>	 </div>	 </div>	 </div>	 <div class="qsp-overlay"></div>	</div>	<div id="qsp-dialog-error" class="skin-dialog" style="display: none; ">	 <div class="skin-dialog-centering">	 <div id="skin-dialog-error-container">	 <div class="skin-dialog-background"></div>	 <div id="skin-dialog-error-top-row">	 <div id="qsp-dialog-error-content">	 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>	 </div>	 </div>	 <div id="skin-dialog-error-bottom-row">	 <div id="skin-dialog-error-bottom-wrapper">	 <div class="qsp-button skin-button-ok" onclick="javascript:qspCloseError();">OK</div>	 </div>	 </div>	 </div>	 </div>	 <div class="qsp-overlay"></div>	</div>	<div id="qsp-dialog-save-slots" class="skin-dialog" style="display: none; ">	 <div class="skin-dialog-centering">	 <div id="skin-save-slots-wrapper">	 <div class="skin-dialog-background"></div>	 <div id="qsp-dialog-save-slots-container"></div>	 <div id="autosave-holder">	 <!--<a class="qsp-save-slot-enabled qsp-button" href="exec: OPENGAME 'autosave.sav'">AUTOSAVE</a>-->	 <a class="qsp-save-slot-enabled qsp-button" onclick="javascript:qspCloseSaveSlots(6);">AUTOSAVE</a> </div>	 </div>	 </div>	 <div class="qsp-overlay"></div>	</div></div>
+</body>
+</html>

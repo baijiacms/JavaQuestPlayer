@@ -13,6 +13,7 @@ public class QspGame {
     private String gameFile;
     private String gameDesc;
     private boolean isSob = false;
+    private boolean isTower = false;
     private boolean isBigKuyash = false;
     private String qspPassword;
     private String gameVersion;
@@ -129,5 +130,13 @@ public class QspGame {
 
     public void setIsDev(int isDev) {
         this.isDev = isDev;
+    }
+
+    public boolean isTower() {
+        return isTower;
+    }
+
+    public void setTower(boolean tower) {
+        isTower = tower;
     }
 }

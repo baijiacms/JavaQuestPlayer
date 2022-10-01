@@ -27,12 +27,14 @@ public class GameSaveTemplate {
     private Template htmlTemplate;
     private Template htmlTemplateKuyash;
     private Template htmlTemplateSob;
+    private Template htmlTemplateTower;
 
 
     public GameSaveTemplate(VelocityEngine ve) {
         htmlTemplate = ve.getTemplate("baijiacms/html/center/gamesave.vm", QspConstants.CHARSET_STR);
         htmlTemplateKuyash = ve.getTemplate("baijiacms/html/center/gamesaveKuyash.vm", QspConstants.CHARSET_STR);
         htmlTemplateSob = ve.getTemplate("baijiacms/html/center/gamesaveSob.vm", QspConstants.CHARSET_STR);
+        htmlTemplateTower = ve.getTemplate("baijiacms/html/center/gamesaveSob.vm", QspConstants.CHARSET_STR);
 
     }
 
@@ -120,7 +122,11 @@ public class GameSaveTemplate {
             if (libEngine.getQspGame().isSob()) {
                 htmlTemplateSob.merge(context, writer);
             } else {
-                htmlTemplate.merge(context, writer);
+                if (libEngine.getQspGame().isTower()) {
+                    htmlTemplateTower.merge(context, writer);
+                } else {
+                    htmlTemplate.merge(context, writer);
+                }
             }
         }
         writer.flush();

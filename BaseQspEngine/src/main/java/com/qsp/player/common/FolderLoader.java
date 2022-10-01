@@ -92,6 +92,10 @@ public class FolderLoader {
                         if (StringUtils.isEmpty(gameIsSob) == false) {
                             gameVo.setSob(Boolean.valueOf(gameIsSob));
                         }
+                        String gameIsTowser = properties.getProperty("GAME_IS_TOWSER");
+                        if (StringUtils.isEmpty(gameIsTowser) == false) {
+                            gameVo.setTower(Boolean.valueOf(gameIsTowser));
+                        }
                         String gameIsBigKuyash = properties.getProperty("GAME_IS_BIG_KUYASH");
                         if (StringUtils.isEmpty(gameIsBigKuyash) == false) {
                             gameVo.setBigKuyash(Boolean.valueOf(gameIsBigKuyash));
@@ -123,6 +127,7 @@ public class FolderLoader {
                 gameVo.setGameFolder(gameFolder);
                 gameVo.setGameName(gameId);
                 gameVo.setSob(false);
+                gameVo.setTower(false);
                 gameVo.setBigKuyash(false);
                 gameVo.setGameVersion("1.0.0");
                 gameVo.setIsDev(0);
