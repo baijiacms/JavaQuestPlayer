@@ -1,4 +1,5 @@
 ## Java Quest Soft Player
+The new version is currently in the development stage.You can test.
 
 It is developed in JavaSE language.
 
@@ -14,21 +15,6 @@ Windows 7(later) or Linux
 Oracle JDK1.8 or OpenJDK JDK 11(later) 
 
 
-### Module:
-
-1.BaseQspEngine: Kernel for running QSP games.
-
-2.QspJavaWebPlayer: the running mode of the local browser, ie is not recommended,  chrome support is the best (perfect).
-
-3.QspJavaFxPlayer: OpenJFX running mode (incomplete).
-
-4.QspJxBrowser6Player: JxBrowser6 running mode (incomplete).
-
-4.QspJxBrowser7Player: JxBrowser7 running mode (perfect).
-
-5.QspGames: QSP game directory.
-
-
 
 ### Features:
 1. Run QSP games.
@@ -42,20 +28,6 @@ Oracle JDK1.8 or OpenJDK JDK 11(later)
 5. Export qsrc source code file list to QSP file.
 
 6. Game list.
-
-
-### Tip:
-The local 19870 port will be used for startup.If you need to modify the default port, just add the port number in the bat of the startup command(.bat).
-
-For example, the original file:
-
-jre\bin\java.exe -jar -Dfile.encoding=utf-8 QspJavaFxPlayer.jar
-
-to
-
-jre\bin\java.exe -jar -Dfile.encoding=utf-8 QspJavaFxPlayer.jar 19870   
-
-19870 Change to the port you need
 
 
 This application is mainly used for my self-developed games. 

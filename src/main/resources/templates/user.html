@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>user</title>
+    <script src="/jquery.min.js"></script>
+
+    <script>
+      window.global = window;
+    </script>
+    <script>
+
+function isNeedRefresh()
+{
+try{
+   $.get("/qspGame/isNeedRefreshUser",function(data,status){
+    if(data==1||data=='1')
+    {
+
+         loadHtml();
+    }
+    });
+    }catch{
+    }
+}
+function pageInit()
+{
+loadHtml();
+    setInterval(isNeedRefresh,1000);
+}
+
+
+function loadHtml()
+{
+   $.get("/qspGame/user/user",function(data){
+document.body.innerHTML=data;
+isClickExec=false;
+});
+isClickExec=false;
+}
+
+
+
+
+var isClickExec=false;
+function userExecTo(script)
+{
+if(isClickExec==true)
+{
+return;
+}
+isClickExec=true;
+$.get("/qspGame/user/userCall?actionScript="+encodeURIComponent(script) ,function(result){
+
+});
+
+}
+</script>
+    <style>
+body {
+margin: 0px;
+margin-left: 0px;
+margin-top: 0px;
+margin-right: 0px;
+margin-bottom: 0px;
+}
+</style>
+
+</head>
+
+<body onload="pageInit()">
+</body>
+
+</html>

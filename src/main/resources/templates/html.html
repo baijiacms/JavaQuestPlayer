@@ -1,0 +1,136 @@
+<html>
+<head>
+    <base href="">
+    <meta charset="utf-8" />
+    <title>action</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="/jquery.min.js"></script>
+    <script>
+      window.global = window;
+    </script>
+    <script>
+
+
+function isNeedRefresh()
+{
+try{
+   $.get("/qspGame/isNeedRefreshHtml",function(data,status){
+    if(data==1||data=='1')
+    {
+
+         loadHtml();
+    }
+    });
+    }catch{
+    }
+}
+function pageInit()
+{
+         loadHtml();
+    setInterval(isNeedRefresh,300);
+}
+
+function loadHtml()
+{
+   $.get("/qspGame/html/html",function(data){
+document.body.innerHTML=data;
+isClickExec=false;
+});
+isClickExec=false;
+}
+
+
+var isClickExec=false;
+function htmlExecTo(script)
+{
+if(isClickExec==true)
+{
+return;
+}
+isClickExec=true;
+$.get("/qspGame/html/htmlCall?actionScript="+encodeURIComponent(script),function(result){
+
+});
+
+}
+
+
+
+
+function Trim(str) { return str.replace(/(^\s*)|(\s*$)/g,""); }
+var csGame=false;
+function saveGame()
+{
+    if(clGame==false)
+    {
+       csGame=true;
+     var saveFileName= document.getElementById("saveFileName").value;
+     saveFileName=Trim(saveFileName);
+     if(saveFileName=="")
+     {
+          csGame=false;
+           alert("Please enter a file name");
+     return;
+     }
+$.get("/gameSave/GameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+              csGame=false;
+           if("1"==data||1==data)
+           {
+           alert("save success");
+           }else
+           {
+           alert("save error");
+           }
+       });
+   }
+}
+var clGame=false;
+function loadGame(saveFileName)
+{
+    if(clGame==false)
+    {
+       clGame=true;
+$.get("/gameSave/LoadGameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+          clGame=false;
+       if("1"==data||1==data)
+              {
+         alert("load success");
+         closeSaveWindow();
+          }else
+            {
+                  alert("load error");
+          }
+       });
+   }
+}
+
+var dlGame=false;
+function delGame(saveFileName)
+{
+    if(dlGame==false)
+    {
+       dlGame=true;
+$.get("/gameSave/deleteGameSave?actionScript="+encodeURIComponent(saveFileName) ,function(data,result){
+          dlGame=false;
+       if("1"==data||1==data)
+              {
+         alert("delete success");
+          }else
+            {
+                  alert("delete error");
+          }
+       });
+   }
+}
+function closeSaveWindow()
+{
+  $.get("/gameSave/closeSaveWindow",function(data,status){
+
+       });
+}
+</script>
+</head>
+<body onload="pageInit()">
+</body>
+
+</html>

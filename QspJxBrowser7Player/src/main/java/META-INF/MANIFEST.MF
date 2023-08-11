@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: com.baijiacms.qsp.jxbrowser7.Runner
-Class-Path: commons-io-2.8.0.jar commons-lang3-3.11.jar dom4j-2.1.3.jar fastjson-1.2.83.jar jlayer-1.0.1.4.jar
-            jsoup-1.7.2.jar junit-3.8.2.jar mp3spi-1.9.5.4.jar slf4j-api-1.7.30.jar tritonus-share-0.3.7.4.jar velocity-engine-core-2.3.jar
-            jxbrowser-7.21.jar jxbrowser-swing-7.21.jar jxbrowser-win64-7.21.jar jxbrowser-linux64-7.21.jar
-            BaseQspEngine-1.0.0-SNAPSHOT.jar
-

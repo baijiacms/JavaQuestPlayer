@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <title>测试</title>
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
+          name="viewport">
+    <script src="/vue/vue.min.js" type="text/javascript"></script>
+    <link href="/elementUI/index.css" rel="stylesheet"/>
+    <script src="/elementUI/index.js" type="text/javascript"></script>
+    <script src="/jquery.min.js" type="text/javascript"></script>
+</head>
+<style>
+ body {
+    display: block;
+    margin: 0px;
+}
+  .el-card__body, .el-main {
+    padding: 0px;
+}.el-header {
+    padding: 0 0px;
+}
+ .el-container {
+    padding: 0 0px;
+  }
+
+
+  .el-footer {
+     padding: 0 0px;
+	}
+.icon-list{
+width:100%;
+overflow: hidden;
+    list-style: none;
+    padding: 0!important;
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: middle;margin:0px;
+}
+.icon-list li {
+    display: list-item;
+    float: left;
+    width: 25%;
+	margin: 0px;
+	vertical-align: middle;
+    text-align: center;
+}
+.el-textarea__inner {
+    height: 177px;
+	font-size:23px;
+	color:#000;
+}
+</style>
+</head>
+<body>
+<div id="app" style="height: 620px;width:1300px">
+</div>
+<script>
+let app = new Vue({
+            el: '#app',
+                mounted: function () {
+                window.onresize = () => {
+                var self = this;
+                    if (self.resizeFlag) {
+                        clearTimeout(self.resizeFlag);
+                    }
+                    self.resizeFlag = setTimeout(() => {
+                        self.resizeFlag = null;
+                    }, 10);
+                };
+            },
+            data: function () {
+                return {
+                list:[]
+			  }
+            },
+            created () {
+            const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+
+        var interval = setInterval(function(){
+	try{
+   $.getJSON("/qspGame/isNeedRefresh",function(data,status){
+       if(data.maindescchanged)
+        {
+           loading.close();
+           location.href="/template/gameIndex";
+        }
+    });
+    }catch{
+    }
+}, 1000);
+			},
+			methods: {
+
+			}
+	});
+
+</script>
+</body>

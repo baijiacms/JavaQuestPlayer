@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="/vue/vue.min.js" type="text/javascript"></script>
+    <link href="/elementUI/index.css" rel="stylesheet"/>
+    <script src="/elementUI/index.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/jquery.min.js"></script>
+    <link href="/header.css" rel="stylesheet"/>
+
+</head>
+<body data-layout='{"type": "border", "resize": false, "hgap": 6}'>
+
+<div id="app">
+    <div  class="headerWrapper"><!----><header  class="header">
+        <ul class="nav">
+            <li class="nav-item">
+                <el-button style="margin-left:15px" type="text" @click="quickSaveGame()">快存档</el-button>
+               </li><li class="nav-item">
+            <el-button style="margin-left:15px" type="text" @click="quickLoadGame()">快读取</el-button>
+            </li><li class="nav-item nav-item-theme">
+
+            <el-button style="margin-left:15px" type="text" @click="openSaveWinow()">存档</el-button>
+           </li><li class="nav-item nav-item-theme">
+
+            <el-button style="margin-left:15px" type="text" @click="openLoadWinow()">存档列表</el-button>
+            </li></ul></header></div>
+
+    <el-container>
+        <el-container>
+            <el-main :style="{height:tableHeight,width:tableWidth,overflow:'hidden'}"><iframe id="html" style="border: medium none;"  src="/template/engineHtmlPage" width="100%" height="100%"></iframe></el-main>
+            <el-aside width="350px" style="overflow:hidden">
+                <el-tabs v-model="activeName">
+                    <el-tab-pane label="游戏操作" name="first">
+
+                        <div class="panel" style="height:50%">
+                            <!--<div class="ui-state-default" style="padding:4px;">&nbsp;</div>-->
+                            <iframe id="console" src="/template/engineConsolePage" width="100%"  :height="tableHeight3"  style="border: medium none;" ></iframe>
+
+                        </div>
+                        <div class="panel" style="height:50%">
+                            <div class="ui-state-default" style="padding:4px;"></div>
+                            <iframe id="action"  src="/template/engineActionPage" width="100%"  :height="tableHeight3"  style="border: medium none;" ></iframe>
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="角色信息" name="second">
+                        <iframe name="user" id="user" src="/template/engineUserPage" width="99%" :height="tableHeight2"  style="border: medium none;" ></iframe>
+                    </el-tab-pane>
+                </el-tabs></el-aside>
+        </el-container>
+
+
+
+    </el-container>
+
+    <el-dialog id="loadWindow" title="存档列表" :visible.sync="dialogLoadListVisible">
+        <el-table :data="saveListData"  style="min-height: 300px" max-height="350">
+            <el-table-column label="操作" ali>
+                <template slot-scope="scope"  width="150">
+                    <el-button
+                            size="mini"
+                            type="success"
+                            @click="loadGame(scope.row.fileName)">读取</el-button>
+                    <el-button
+                            size="mini"
+                            type="danger"
+                            @click="deleteSave(scope.row.fileName)">删除</el-button>
+                </template>
+            </el-table-column>
+            <el-table-column property="fileName" label="存档名称" width="200"></el-table-column>
+            <el-table-column property="fileTimeStr" label="存档时间" width="200"></el-table-column>
+        </el-table>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="dialogLoadListVisible = false">关 闭</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog id="saveWindow" title="存档" :visible.sync="dialogSaveVisible">
+        <el-form label-width="80px">   <el-form-item label="存档名称">
+            <el-input v-model="saveFileName"></el-input>
+        </el-form-item>     </el-form>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogSaveVisible = false">取 消</el-button>
+    <el-button type="primary" @click="saveGame()">保 存</el-button>
+  </span>
+    </el-dialog>
+
+</div>
+
+    <script>
+let app = new Vue({
+
+            el: '#app',
+                mounted: function () {
+				var that=this;
+                window.onresize = () => {
+                var self = this;
+                    if (self.resizeFlag) {
+                        clearTimeout(self.resizeFlag);
+                    }
+                    self.resizeFlag = setTimeout(() => {
+					  that.setTableHeight();
+                        self.resizeFlag = null;
+                    }, 10);
+                };
+            },
+            data: function () {
+                return {
+                isSaving:false,
+                dialogLoadListVisible:false,
+                dialogSaveVisible:false,
+                saveFileName:"",
+				tableHeight:"100px",
+				tableHeight2:"100px",
+				tableWidth:"100px",
+				activeName:'first',
+                saveListData:[]
+			  }
+            },
+            created () {      this.setTableHeight();
+			},
+			methods: {
+			loadDataList(){
+            var that=this;
+			    $.get("/gameSave/saveList",function(data,status){
+
+           if(data.code==200)
+           {
+          that.saveListData= data.result;
+           }else
+           {
+
+               that.$message({
+          message: '读取异常！',
+          type: 'error'
+        });
+           }
+       });
+			},
+			    openLoadWinow()
+            {
+            this.loadDataList();
+                this.dialogLoadListVisible=true;
+            },
+            openSaveWinow()
+            {
+                this.saveFileName="";
+                this.dialogSaveVisible=true;
+            },
+			            setTableHeight(){
+                this.tableHeight=(document.documentElement.clientHeight-100)+"px";
+                this.tableWidth=(document.documentElement.clientWidth-350)+"px";
+                this.tableHeight2=(document.documentElement.clientHeight-180)+"px";
+                this.tableHeight3=(document.documentElement.clientHeight-190)/2+"px";
+
+
+ },
+quickSaveGame()
+{
+var that=this;
+    if(that.isSaving==false)
+    {
+       that.isSaving=true;
+       $.get("/gameSave/quickSave",function(data,status){
+              that.isSaving=false;
+     if(data.code==200)
+           {
+            that.dialogSaveVisible=false;
+               that.$message({
+          message: '保存成功！',
+          type: 'success'
+        });
+           }else
+           {
+           that.$message({
+          message: '操作失败！',
+          type: 'success'
+        });
+           }
+       });
+   }
+},
+quickLoadGame()
+{
+var that=this;
+    if(that.isSaving==false)
+    {
+       that.isSaving=true;
+       $.get("/gameSave/loadQuickSave",function(data,status){
+          that.isSaving=false;
+    if(data.code==200)
+              {
+
+               that.$message({
+          message: '读取成功！',
+          type: 'success'
+        });
+          }else
+            {
+           that.$message({
+          message: '操作失败！',
+          type: 'success'
+        });
+          }
+       });
+   }
+},
+saveGame()
+{
+var that=this;
+    if(that.isSaving==false)
+    {
+       that.isSaving=true;
+       var fileName=that.saveFileName;
+       if(fileName=="")
+       {
+       fileName="NONAME";
+       }
+       $.get("/gameSave/gameSave?actionScript="+encodeURIComponent(fileName),function(data,status){
+              that.isSaving=false;
+     if(data.code==200)
+           {
+               that.$message({
+          message: '保存成功！',
+          type: 'success'
+        });
+        that.dialogSaveVisible=false;
+           }else
+           {
+   that.$message({
+          message: '操作失败！',
+          type: 'success'
+        });
+           }
+       });
+   }
+},
+loadGame(fileName)
+{
+var that=this;
+    if(that.isSaving==false)
+    {
+       that.isSaving=true;
+       $.get("/gameSave/loadGameSave?actionScript="+encodeURIComponent(fileName),function(data,status){
+          that.isSaving=false;
+    if(data.code==200)
+              {
+
+               that.$message({
+          message: '载入成功！',
+          type: 'success'
+        });
+        that.dialogLoadListVisible=false;
+          }else
+            {
+
+            that.$message({
+          message: '操作失败！',
+          type: 'success'
+        });
+          }
+       });
+   }
+},
+deleteSave(fileName)
+{
+var that=this;
+    if(that.isSaving==false)
+    {
+       that.isSaving=true;
+       $.get("/gameSave/deleteSave?actionScript="+encodeURIComponent(fileName),function(data,status){
+          that.isSaving=false;
+    if(data.code==200)
+              {
+               that.$message({
+          message: '删除成功！',
+          type: 'success'
+        });
+        that.loadDataList();
+          }else
+            {
+
+               that.$message({
+          message: '操作失败！',
+          type: 'success'
+        });
+          }
+       });
+   }
+}
+
+			}
+				});
+</script>
+
+</body>
+</html>
