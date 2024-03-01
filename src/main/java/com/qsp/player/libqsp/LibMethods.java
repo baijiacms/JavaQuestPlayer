@@ -8,7 +8,6 @@ package com.qsp.player.libqsp;
  */
 public interface LibMethods {
 
-
     public void QSPInit();
 
     public void QSPDeInit();

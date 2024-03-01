@@ -17,7 +17,10 @@ import java.util.List;
 public class DevMethodsHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(DevMethodsHelper.class);
-    private final LibDevMethods nativeDevMethods = new NativeDevMethods();
+    private  LibDevMethods nativeDevMethods ;
+    public DevMethodsHelper(LibDevMethods nativeDevMethods){
+        this.nativeDevMethods=nativeDevMethods;
+    }
 
     public void qspFileToText(String fromFile, String toFile, String password) {
 

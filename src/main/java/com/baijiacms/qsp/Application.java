@@ -1,9 +1,10 @@
 package com.baijiacms.qsp;
 
+import com.qsp.player.libqsp.queue.QspAction;
+import com.qsp.player.libqsp.queue.QspTask;
+import com.qsp.player.libqsp.queue.QspThread;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.system.ApplicationHome;
-import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * @author：ChenXingYu
@@ -12,6 +13,11 @@ import org.springframework.cache.annotation.EnableCaching;
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
+        QspThread task1 =new QspThread();
+        task1.start();
+        QspTask aspTask=new QspTask();
+        aspTask.action= QspAction.init.getAction();
+        QspThread.addMessage(aspTask);
         SpringApplication.run(Application.class, args);
     }
 

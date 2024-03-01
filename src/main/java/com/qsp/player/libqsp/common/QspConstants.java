@@ -1,11 +1,10 @@
-package com.qsp.player.common;
+package com.qsp.player.libqsp.common;
 
 
 import com.qsp.player.libqsp.DevMethodsHelper;
-import com.qsp.player.util.FileUtil;
-import com.qsp.player.util.QspUri;
+import com.qsp.player.libqsp.util.FileUtil;
+import com.qsp.player.libqsp.util.QspUri;
 
-import java.io.File;
 import java.nio.charset.Charset;
 
 /**
@@ -13,13 +12,12 @@ import java.nio.charset.Charset;
  */
 public class QspConstants {
     public static final int DEFAULT_USER = 99;
-    public static final String ENGINE_VERSION = "20230801";
+    public static final String ENGINE_VERSION = "20220908";
     public static int HTTP_PORT = 19870;
     public static String HTTP_LOCAL_URL = "http://127.0.0.1:" + HTTP_PORT;
     public static final String ENGINE_TITLE = "JavaQuestPlayer";
     public static final String ENGINE_POWER_BY = "https://github.com/baijiacms/";
 
-    public static final DevMethodsHelper DEV_UTILS = new DevMethodsHelper();
     public static final String QUICK_SAVE_NAME = "quickSave.sav";
     public static final String CHARSET_STR = "utf-8";
     public static final String HTML_CONTENT_TYPE = "text/html;charset=" + CHARSET_STR;

@@ -1,8 +1,7 @@
 package com.baijiacms.qsp.util;
 
-import com.qsp.player.common.QspConstants;;
+import com.qsp.player.libqsp.common.QspConstants;;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 

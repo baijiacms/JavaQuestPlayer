@@ -1,7 +1,7 @@
 package com.baijiacms.qsp.common;
 
 
-import com.qsp.player.common.QspConstants;
+import com.qsp.player.libqsp.common.QspConstants;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

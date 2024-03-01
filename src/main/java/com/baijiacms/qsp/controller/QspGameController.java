@@ -1,8 +1,12 @@
 package com.baijiacms.qsp.controller;
 
 import com.baijiacms.qsp.vo.StatusVo;
-import com.qsp.player.Engine;
-import com.qsp.player.entity.QspListItem;
+import com.qsp.player.libqsp.LibQspProxyImpl;
+import com.qsp.player.libqsp.queue.QspAction;
+import com.qsp.player.libqsp.queue.QspCore;
+import com.qsp.player.libqsp.queue.QspTask;
+import com.qsp.player.libqsp.entity.QspListItem;
+import com.qsp.player.libqsp.queue.QspThread;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,32 +20,37 @@ import java.util.ArrayList;
 public class QspGameController {
     @GetMapping("/user/userCall")
     public String userCall(@RequestParam(value = "actionScript") String actionScript) {
-        Engine.INSTANCEOF.getLibEngine().shouldOverrideUrlLoading(actionScript);
-
-
-        Engine.INSTANCEOF.getLibEngine().getGameStatus().setVarsdescchanged(true);
+        QspTask aspTask=new QspTask();
+        aspTask.action= QspAction.execute.getAction();
+        aspTask.paramString=actionScript;
+        QspThread.addMessage(aspTask);
+        QspCore.varsdescchanged.set(true);
+//        QspThread.libQspProxy.shouldOverrideUrlLoading(actionScript);
         return "";
     }
 
     @GetMapping("/user/user")
     public String userHtml() {
-        Engine.INSTANCEOF.getLibEngine().getGameStatus().setVarsdescchanged(false);
-        String html = Engine.INSTANCEOF.getLibEngine().refreshVarsDesc();
+        QspCore.varsdescchanged.set(false);
+        String html = LibQspProxyImpl.refreshVarsDesc();
         return html;
     }
 
     @GetMapping("/html/htmlCall")
     public String htmlCall(@RequestParam(value = "actionScript") String actionScript) {
-        Engine.INSTANCEOF.getLibEngine().shouldOverrideUrlLoading(actionScript);
-        Engine.INSTANCEOF.getLibEngine().getGameStatus().refreshAll();
-
+        QspTask aspTask=new QspTask();
+        aspTask.action= QspAction.execute.getAction();
+        aspTask.paramString=actionScript;
+        QspThread.addMessage(aspTask);
+//        QspThread.libQspProxy.shouldOverrideUrlLoading(actionScript);
+        QspCore.refreshAll();
         return "";
     }
 
     @GetMapping("/html/html")
     public String htmlHtml() {
         String html = null;
-         html = Engine.INSTANCEOF.getLibEngine().refreshMainDesc();
+         html = LibQspProxyImpl.refreshMainDesc();
 
         return html;
     }
@@ -49,18 +58,22 @@ public class QspGameController {
     @GetMapping("/console/consoleCall")
     public String consoleCall(@RequestParam(value = "actionScript") String actionScript) {
         // Looper.prepare();
-        Engine.INSTANCEOF.getLibEngine().onObjectSelected(Integer.parseInt(actionScript));
-        // Looper.loop();
+        QspTask aspTask1=new QspTask();
+        aspTask1.action= QspAction.setSelObject.getAction();
+        aspTask1.paramInt=Integer.parseInt(actionScript);
+        QspThread.addMessage(aspTask1);
 
-        Engine.INSTANCEOF.getLibEngine().getGameStatus().setObjectschanged(true);
+
+        // Looper.loop();
+        QspCore.objectschanged.set(true);
         return "";
     }
 
     @GetMapping("/console/console")
     public String consoleHtml() {
         StringBuffer response = new StringBuffer();
-        Engine.INSTANCEOF.getLibEngine().getGameStatus().setObjectschanged(false);
-        ArrayList<QspListItem> list = Engine.INSTANCEOF.getLibEngine().refreshObjects();
+        QspCore.objectschanged.set(false);
+        ArrayList<QspListItem> list = LibQspProxyImpl.refreshObjects();
         response.append(getConsoleActionHtml(list));
         return response.toString();
     }
@@ -76,16 +89,22 @@ public class QspGameController {
     }
     @GetMapping("/action/actionCall")
     public String actionCall(@RequestParam(value = "actionScript") String actionScript) {
-        Engine.INSTANCEOF.getLibEngine().onItemClick(Integer.parseInt(actionScript));
-        Engine.INSTANCEOF.getLibEngine().getGameStatus().setActionschanged(true);
+        QspTask aspTask1=new QspTask();
+        aspTask1.action= QspAction.onActionClicked.getAction();
+        aspTask1.paramInt=Integer.parseInt(actionScript);
+        QspThread.addMessage(aspTask1);
+//        Engine.INSTANCEOF.getLibEngine().onItemClick(Integer.parseInt(actionScript));
+
+        QspCore.maindescchanged.set(true);
+//        Engine.INSTANCEOF.getLibEngine().getGameStatus().setActionschanged(true);
 
         return "";
     }
     @GetMapping("/action/action")
     public String actionHtml() {
         StringBuffer response = new StringBuffer();
-        Engine.INSTANCEOF.getLibEngine().getGameStatus().setActionschanged(false);
-        ArrayList<QspListItem> list = Engine.INSTANCEOF.getLibEngine().refreshActions();
+        QspCore.actionschanged.set(false);
+        ArrayList<QspListItem> list = LibQspProxyImpl.refreshActions();
         response.append(getActionListHtml(list));
         return response.toString();
     }
@@ -112,34 +131,32 @@ public class QspGameController {
     public StatusVo isNeedRefresh() {
 
         StatusVo statusVo=new StatusVo();
-        statusVo.setActionschanged(Engine.INSTANCEOF.getLibEngine().isActionschanged());
-        statusVo.setMaindescchanged(Engine.INSTANCEOF.getLibEngine().isMaindescchanged(false));
-        statusVo.setObjectschanged(Engine.INSTANCEOF.getLibEngine().isObjectschanged());
-        statusVo.setVarsdescchanged(Engine.INSTANCEOF.getLibEngine().isVarsdescchanged());
+        statusVo.setActionschanged(QspCore.actionschanged.get());
+        statusVo.setMaindescchanged(QspCore.maindescchanged.get());
+        statusVo.setObjectschanged(QspCore.objectschanged.get());
+        statusVo.setVarsdescchanged(QspCore.varsdescchanged.get());
         return statusVo;
     }
     @GetMapping("/isNeedRefreshHtml")
     public String isNeedRefreshHtml() {
-        String result = Engine.INSTANCEOF.getLibEngine().isMaindescchanged(false) ? "1" : "0";
+        String result = QspCore.maindescchanged.getAndSet(false) ? "1" : "0";
         return result;
     }
 
     @GetMapping("/isNeedRefreshAction")
     public String isNeedRefreshAction() {
-        String result = Engine.INSTANCEOF.getLibEngine().isActionschanged() ? "1" : "0";
+        String result = QspCore.actionschanged.get()? "1" : "0";
         return result;
     }
     @GetMapping("/isNeedRefreshUser")
     public String isNeedRefreshUser() {
-        String result = Engine.INSTANCEOF.getLibEngine().isVarsdescchanged() ? "1" : "0";
+        String result = QspCore.varsdescchanged.get() ? "1" : "0";
         return result;
     }
 
     @GetMapping("/isNeedRefreshConsole")
     public String isNeedRefreshConsole() {
-        String result = Engine.INSTANCEOF.getLibEngine().isObjectschanged() ? "1" : "0";
+        String result = QspCore.objectschanged.get()? "1" : "0";
         return result;
     }
-
-
 }

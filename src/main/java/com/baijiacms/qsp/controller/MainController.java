@@ -2,9 +2,13 @@ package com.baijiacms.qsp.controller;
 
 import com.baijiacms.qsp.common.ResponseResult;
 import com.baijiacms.qsp.vo.StatusVo;
-import com.qsp.player.Engine;
-import com.qsp.player.common.FolderLoader;
-import com.qsp.player.entity.QspGame;
+import com.qsp.player.libqsp.QspConstants;
+import com.qsp.player.libqsp.common.FolderLoader;
+import com.qsp.player.libqsp.entity.QspGame;
+import com.qsp.player.libqsp.queue.QspAction;
+import com.qsp.player.libqsp.queue.QspCore;
+import com.qsp.player.libqsp.queue.QspTask;
+import com.qsp.player.libqsp.queue.QspThread;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -21,6 +25,8 @@ public class MainController {
     @GetMapping("/gameList")
     @ResponseBody
     public List<QspGame> gameList() {
+
+        QspCore.concurrentBooleanMap.put(QspConstants.GAME_IS_RUNNING,false);
         List<QspGame> gameList = new ArrayList<>();
         FolderLoader.loadGameFolder(gameList);
         return gameList;
@@ -33,7 +39,7 @@ public class MainController {
         if (qspGame != null) {
             QspGame gameVo = FolderLoader.getFolderMap().get(gameId);
             new File(gameVo.getGameFolder() + "/exportQsp/").mkdir();
-            Engine.INSTANCEOF.getDevMethodsHelper().toGemFile(gameVo.getGameDevFolder(), gameVo.getGameQproj(), gameVo.getGameFolder() + "/exportQsp/game.qsp");
+            QspCore.devMethodsHelper.toGemFile(gameVo.getGameDevFolder(), gameVo.getGameQproj(), gameVo.getGameFolder() + "/exportQsp/game.qsp");
 
         }
         return ResponseResult.createSuccessResult("");
@@ -46,7 +52,7 @@ public class MainController {
         if (qspGame != null) {
             QspGame gameVo = FolderLoader.getFolderMap().get(gameId);
             new File(gameVo.getGameFolder() + "/exportText/").mkdir();
-            Engine.INSTANCEOF.getDevMethodsHelper().qspFileToText(gameVo.getGameFile(), gameVo.getGameFolder() + "/exportText/source.txt", gameVo.getQspPassword());
+            QspCore.devMethodsHelper.qspFileToText(gameVo.getGameFile(), gameVo.getGameFolder() + "/exportText/source.txt", gameVo.getQspPassword());
 
         }
         return ResponseResult.createSuccessResult("");
@@ -58,8 +64,10 @@ public class MainController {
 
         QspGame qspGame = FolderLoader.getFolderMap().get(gameId);
         if (qspGame != null) {
-            Engine.INSTANCEOF.getLibEngine().restartGame(FolderLoader.getFolderMap().get(gameId));
-
+            QspTask aspTask=new QspTask();
+            aspTask.action= QspAction.initGame.getAction();
+            aspTask.qspGame=qspGame;
+            QspThread.addMessage(aspTask);
         }
         return ResponseResult.createSuccessResult("");
     }
@@ -68,10 +76,10 @@ public class MainController {
     public StatusVo isNeedRefresh() {
 
         StatusVo statusVo=new StatusVo();
-        statusVo.setActionschanged(Engine.INSTANCEOF.getLibEngine().isActionschanged());
-        statusVo.setMaindescchanged(Engine.INSTANCEOF.getLibEngine().isMaindescchanged(false));
-        statusVo.setObjectschanged(Engine.INSTANCEOF.getLibEngine().isObjectschanged());
-        statusVo.setVarsdescchanged(Engine.INSTANCEOF.getLibEngine().isVarsdescchanged());
+        statusVo.setActionschanged(QspCore.actionschanged.get());
+        statusVo.setMaindescchanged(QspCore.maindescchanged.get());
+        statusVo.setObjectschanged(QspCore.objectschanged.get());
+        statusVo.setVarsdescchanged(QspCore.varsdescchanged.get());
         return statusVo;
     }
 }

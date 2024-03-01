@@ -1,4 +1,4 @@
-package com.qsp.player.util;
+package com.qsp.player.libqsp.util;
 
 
 import org.apache.commons.lang3.StringUtils;

@@ -1,8 +1,9 @@
-package com.qsp.player.common;
+package com.qsp.player.libqsp.common;
 
 import com.baijiacms.qsp.common.HttpContent;
-import com.qsp.player.entity.FileVo;
-import com.qsp.player.entity.QspGame;
+import com.qsp.player.libqsp.common.QspConstants;
+import com.qsp.player.libqsp.entity.FileVo;
+import com.qsp.player.libqsp.entity.QspGame;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;

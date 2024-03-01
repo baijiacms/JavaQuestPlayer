@@ -1,6 +1,6 @@
 package com.qsp.player.libqsp;
 
-import com.qsp.player.common.QspConstants;
+import com.qsp.player.libqsp.common.QspConstants;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;

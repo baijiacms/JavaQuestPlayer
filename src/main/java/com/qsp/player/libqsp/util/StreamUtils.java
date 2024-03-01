@@ -1,7 +1,9 @@
-package com.qsp.player.util;
+package com.qsp.player.libqsp.util;
 
-import com.qsp.player.LibEngine;
-import com.qsp.player.common.QspConstants;
+import com.qsp.player.libqsp.QspConstants;
+import com.qsp.player.libqsp.queue.QspCore;
+import com.qsp.player.libqsp.queue.QspThread;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +58,7 @@ public class StreamUtils {
     }
 
     public static InputStream getEngineResourceInputSteam(String fileName) {
-        String engineResourcePath = QspUri.getFilePath(QspConstants.getEngineResourcePath(), fileName);
+        String engineResourcePath = QspUri.getFilePath(com.qsp.player.libqsp.common.QspConstants.getEngineResourcePath(), fileName);
         //  if (new File(engineResourcePath).exists()) {
         try {
             return new FileInputStream(engineResourcePath);
@@ -75,16 +77,17 @@ public class StreamUtils {
      * @param fileName
      * @return
      */
-    public static InputStream getGameResourceInputSteam(LibEngine libEngine, String fileName) {
+    public static InputStream getGameResourceInputSteam( String fileName) {
 
         if (fileName.startsWith("/")) {
             fileName = fileName.substring(1);
         }
-        String gameDataPath = QspConstants.getGameBaseFolder() + fileName;
+        String gameDataPath = com.qsp.player.libqsp.common.QspConstants.getGameBaseFolder() + fileName;
         String gameResourcePath = null;
-        boolean gameIsStart = libEngine.getGameStatus().isGameRunning();
+        boolean gameIsStart = QspCore.concurrentBooleanMap.get(QspConstants.GAME_IS_RUNNING);
+        String gameFolder= QspCore.concurrentStringMap.get(QspConstants.GAME_FOLDER);
         if (gameIsStart) {
-            gameResourcePath = QspUri.getFilePath(libEngine.getQspGame().getGameFolder(), fileName);
+            gameResourcePath = QspUri.getFilePath(gameFolder, fileName);
             if (new File(gameResourcePath).exists()) {
                 try {
                     return new FileInputStream(gameResourcePath);
@@ -95,11 +98,11 @@ public class StreamUtils {
             } else {
                 String tFileName = fileName;
                 try {
-                    tFileName = URLDecoder.decode(fileName, QspConstants.CHARSET_STR);
+                    tFileName = URLDecoder.decode(fileName, com.qsp.player.libqsp.common.QspConstants.CHARSET_STR);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                gameResourcePath = QspUri.getFilePath(libEngine.getQspGame().getGameFolder(), tFileName);
+                gameResourcePath = QspUri.getFilePath(gameFolder, tFileName);
                 if (new File(gameResourcePath).exists()) {
                     try {
                         return new FileInputStream(gameResourcePath);
@@ -112,14 +115,14 @@ public class StreamUtils {
         }
 
         if (new File(gameDataPath).exists() == false) {
-            if (libEngine.getQspGame() != null) {
                 try {
-                    fileName = URLDecoder.decode(fileName, QspConstants.CHARSET_STR);
+                    fileName = URLDecoder.decode(fileName, com.qsp.player.libqsp.common.QspConstants.CHARSET_STR);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                gameDataPath = libEngine.getQspGame().getGameFolder() + fileName;
-            }
+                if(StringUtils.isNoneBlank(gameFolder)) {
+                    gameDataPath = gameFolder + fileName;
+                }
         }
         if (new File(gameDataPath).exists()) {
             //未开始情况下需要传游戏id才能找到资源

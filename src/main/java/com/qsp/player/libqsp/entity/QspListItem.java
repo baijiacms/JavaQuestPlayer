@@ -1,4 +1,4 @@
-package com.qsp.player.entity;
+package com.qsp.player.libqsp.entity;
 
 /**
  * @author baijiacms

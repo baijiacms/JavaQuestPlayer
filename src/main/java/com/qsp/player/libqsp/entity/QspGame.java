@@ -1,4 +1,6 @@
-package com.qsp.player.entity;
+package com.qsp.player.libqsp.entity;
+
+import java.io.File;
 
 /**
  * @author baijiacms
@@ -52,6 +54,9 @@ public class QspGame {
 
     public void setGameFolder(String gameFolder) {
         this.gameFolder = gameFolder;
+        String saveFolder=this.gameFolder+"save/";
+        new File(saveFolder).mkdir();
+        setGameSaveFolder(saveFolder);
     }
 
     public String getGameSaveFolder() {

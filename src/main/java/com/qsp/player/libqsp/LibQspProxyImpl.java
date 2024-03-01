@@ -1,202 +1,206 @@
 package com.qsp.player.libqsp;
 
-import com.qsp.player.LibEngine;
-import com.qsp.player.entity.QspGame;
-import com.qsp.player.entity.QspListItem;
+import com.baijiacms.qsp.controller.QspGameController;
 import com.qsp.player.libqsp.dto.ActionData;
+import com.qsp.player.libqsp.dto.ErrorData;
 import com.qsp.player.libqsp.dto.ObjectData;
-import com.qsp.player.thread.LibQspThread;
-import com.qsp.player.util.HtmlProcessor;
-import com.qsp.player.util.QspUri;
+import com.qsp.player.libqsp.entity.QspGame;
+import com.qsp.player.libqsp.entity.QspListItem;
+import com.qsp.player.libqsp.queue.QspCore;
+import com.qsp.player.libqsp.util.HtmlProcessor;
+import com.qsp.player.libqsp.util.QspUri;
+import com.qsp.player.libqsp.util.StreamUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
- * @author baijiacms
+ *
+ * @author：ChenXingYu
+ * @date 2024/2/29 10:17
  */
 public class LibQspProxyImpl implements LibQspProxy {
+
+    private static HtmlProcessor htmlProcessor = new HtmlProcessor();
     private static final Logger logger = LoggerFactory.getLogger(LibQspProxyImpl.class);
-    private LibEngine libEngine;
-    private LibQspThread libQspThread;
-    private HtmlProcessor htmlProcessor = new HtmlProcessor();
     private LibMethods libMethods;
-    private int userId;
-
-    public LibQspProxyImpl(int userId, LibEngine libEngine) {
-        this.userId = userId;
-        this.libEngine = libEngine;
-        libQspThread = new LibQspThread(userId, libEngine, this);
-
-        this.libMethods = libQspThread.getLibMethods();
+    public LibQspProxyImpl(LibMethods libMethods)
+    {
+        this.libMethods=libMethods;
     }
 
     @Override
     public void start() {
-        logger.info("command:start");
-        this.libQspThread.start();
-        this.libQspThread.qspStart();
+
+        libMethods.QSPInit();
     }
 
     @Override
     public void stop() {
-
     }
-
-    private QspGame qspGame;
-
     @Override
-    public void restartGame(QspGame qspGame) {
-        logger.info("doRunGame Thread:" + Thread.currentThread().getName());
-        this.qspGame = qspGame;
+    public void initGame(QspGame qspGame) {
+        QspCore.currentQspGame=qspGame;
 
+        QspCore.concurrentBooleanMap.put(QspConstants.GAME_IS_RUNNING,true);
+        QspCore.concurrentStringMap.put(QspConstants.GAME_FOLDER,qspGame.getGameFolder());
+        QspCore.concurrentLongMap.put(QspConstants.GAME_START_TIME,new Date().getTime());
 
-        this.libQspThread.loadGameWorld(qspGame);
+        byte[] gameData;
+        if (qspGame.getIsDevProject() == 1) {
+            gameData = QspCore.devMethodsHelper.getGemDate(qspGame.getGameDevFolder(), qspGame.getGameQproj());
+        } else {
+            try (FileInputStream in = new FileInputStream(qspGame.getGameFile())) {
+                try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                    StreamUtils.copy(in, out);
+                    gameData = out.toByteArray();
+                }
+            } catch (IOException ex) {
+                logger.error("Failed to load the game world", ex);
+                return;
+            }
+        }
+        String fileName = qspGame.getGameFile();
 
-//        refreshMainDesc();
-//        refreshVarsDesc();
-//        refreshActions();
-//        refreshObjects();
+        if (! libMethods.QSPLoadGameWorldFromData(gameData, gameData.length, fileName)) {
+
+            showLastQspError();
+            return;
+        }
+        if (!libMethods.QSPRestartGame(true)) {
+            showLastQspError();
+        }
+        QspCore.refreshAll();
+
+        return;
     }
-
     @Override
     public void loadGameState(QspUri uri) {
+        logger.info("command:loadGameState");
+        final byte[] gameData;
 
-        this.libQspThread.loadGameState(uri);
+        try (InputStream in = StreamUtils.openInputStream(uri)) {
+            try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                StreamUtils.copy(in, out);
+                gameData = out.toByteArray();
+            }
+        } catch (IOException ex) {
+            logger.error("Failed to load game state", ex);
+            return;
+        }
+
+        if (!libMethods.QSPOpenSavedGameFromData(gameData, gameData.length, true)) {
+            showLastQspError();
+        }
+        QspCore.refreshAll();
     }
 
     @Override
     public void saveGameState(QspUri uri) {
-
-        logger.info("command:saveGameState" + uri);
         if (uri != null) {
 
             logger.info("command:saveGameStateuri:" + uri.getmFile());
         }
-        this.libQspThread.qspSaveGameAsData(uri);
+        byte[] gameData =libMethods.QSPSaveGameAsData(false);
+        if (gameData == null) {
+            return;
+        }
+
+        try (OutputStream out = StreamUtils.openOutputStream(uri)) {
+            out.write(gameData);
+        } catch (IOException ex) {
+            logger.error("Failed to save the game state", ex);
+        }
+        QspCore.refreshAll();
     }
 
     @Override
     public void onActionSelected(int index) {
-
-        logger.info("command:onActionSelected");
-
-        this.libQspThread.qspSetSelActionIndex(index);
+        if (!libMethods.QSPSetSelActionIndex(index, false)) {
+            showLastQspError();
+        }
     }
 
     @Override
     public void onActionClicked(int index) {
-
-        logger.info("command:onActionClicked userId:" + userId);
-        this.libQspThread.qspExecuteSelActionCode(index);
+        if (!libMethods.QSPSetSelActionIndex(index, false)) {
+            showLastQspError();
+        }
+        if (!libMethods.QSPExecuteSelActionCode(true)) {
+            showLastQspError();
+        }
     }
 
-    @Override
-    public void onObjectSelected(int index) {
-
-        logger.info("command:onObjectSelected");
-        this.libQspThread.qspSetSelObjectIndex(index);
-    }
 
     @Override
     public void onInputAreaClicked() {
-
-        logger.info("command:onInputAreaClicked");
-
-        String input = libEngine.getQspUI().showTextInputDialog("userInput");
+        String input = "";
         String message = htmlProcessor.removeHtmlTags(input);
         if (message == null) {
             message = "";
         }
         logger.info("showInputBox:" + message);
 
-        this.libQspThread.qspSetInputStrText(message);
+        libMethods.QSPSetInputStrText(input);
+
+        if (!libMethods.QSPExecUserInput(true)) {
+            showLastQspError();
+        }
     }
 
     @Override
     public void execute(String code) {
-        code = code.trim();
-        logger.info("command:execute:" + code);
-        if ("OPENGAME".equals(code)) {
-            if (qspGame.isBigKuyash()) {
-
-                return;
-            }
+        if (!libMethods.QSPExecString(code, true)) {
+            showLastQspError();
         }
-        this.libQspThread.qspExecString(code);
+        QspCore.refreshAll();
     }
 
     @Override
     public void executeCounter() {
-        logger.info("command:executeCounter");
-        this.libQspThread.qspExecCounter();
+        if (!libMethods.QSPExecCounter(true)) {
+            showLastQspError();
+        }
     }
 
     @Override
     public void getRefreshInterfaceRequest() {
-        if (this.libMethods.QSPIsMainDescChanged()) {
-            libEngine.getGameStatus().setMainDesc(this.libMethods.QSPGetMainDesc());
-            libEngine.getGameStatus().isMaindescchanged(true);
+        if (libMethods.QSPIsMainDescChanged()) {
+            QspCore.maindescchanged.set(true);
+            if(libMethods.QSPGetMainDesc()!=null) {
+                QspCore.concurrentStringMap.put(QspConstants.MAIN_DESC, libMethods.QSPGetMainDesc());
+            }
         }
-        if (this.libMethods.QSPIsActionsChanged()) {
-            libEngine.getGameStatus().setActions(getActions());
-            libEngine.getGameStatus().setActionschanged(true);
+        if (libMethods.QSPIsActionsChanged()) {
+            QspCore.actionschanged.set(true);
+            if(getActions()!=null) {
+                QspCore.concurrentArrayListMap.put(QspConstants.ACTIONS, getActions());
+            }
         }
-        if (this.libMethods.QSPIsObjectsChanged()) {
-            libEngine.getGameStatus().setObjects(getObjects());
-            libEngine.getGameStatus().setObjectschanged(true);
+        if (libMethods.QSPIsObjectsChanged()) {
+            QspCore.objectschanged.set(true);
+            if(getObjects()!=null) {
+                QspCore.concurrentArrayListMap.put(QspConstants.OBJECTS, getObjects());
+            }
         }
-        if (this.libMethods.QSPIsVarsDescChanged()) {
-            libEngine.getGameStatus().setVarsDesc(this.libMethods.QSPGetVarsDesc());
-            libEngine.getGameStatus().setVarsdescchanged(true);
+        if (libMethods.QSPIsVarsDescChanged()) {
+            QspCore.varsdescchanged.set(true);
+            if(libMethods.QSPGetVarsDesc()!=null) {
+                QspCore.concurrentStringMap.put(QspConstants.VARS_DESC, libMethods.QSPGetVarsDesc());
+            }
         }
-
     }
-
-    @Override
-    public String refreshMainDesc() {
-        String mainDesc = getHtml(libEngine.getGameStatus().getMainDesc(), true);
-
-        return mainDesc;
-    }
-
-
-    @Override
-    public String refreshVarsDesc() {
-        String varsDesc = getHtml(libEngine.getGameStatus().getVarsDesc(), false);
-//        logger.info("varsDesc:"+varsDesc);
-        return varsDesc;
-    }
-
-    @Override
-    public ArrayList<QspListItem> refreshActions() {
-        ArrayList<QspListItem> actions = libEngine.getGameStatus().getActions();
-        //logger.info("refreshActions:"+actions.size());
-        return actions;
-    }
-
-    @Override
-    public ArrayList<QspListItem> refreshObjects() {
-        ArrayList<QspListItem> objects = libEngine.getGameStatus().getObjects();
-        // logger.info("refreshObjects:"+objects.size());
-        return objects;
-    }
-
-    private String getHtml(String str, boolean isMainDesc) {
-
-        return true ?
-                htmlProcessor.convertQspHtmlToWebViewHtml(libEngine.getQspGame().getGameFolder(), str, isMainDesc) :
-                htmlProcessor.convertQspStringToWebViewHtml(str);
-    }
-
 
     private ArrayList<QspListItem> getActions() {
         ArrayList<QspListItem> actions = new ArrayList<>();
 
-        int count = this.libMethods.QSPGetActionsCount();
+        int count = libMethods.QSPGetActionsCount();
         for (int i = 0; i < count; ++i) {
-            ActionData actionData = (ActionData) this.libMethods.QSPGetActionData(i);
+            ActionData actionData = (ActionData) libMethods.QSPGetActionData(i);
             QspListItem action = new QspListItem();
             action.index = i;
             action.text = true ? htmlProcessor.removeHtmlTags(actionData.name) : actionData.name;
@@ -207,14 +211,64 @@ public class LibQspProxyImpl implements LibQspProxy {
 
     private ArrayList<QspListItem> getObjects() {
         ArrayList<QspListItem> objects = new ArrayList<>();
-        int count = this.libMethods.QSPGetObjectsCount();
+        int count = libMethods.QSPGetObjectsCount();
         for (int i = 0; i < count; i++) {
-            ObjectData objectResult = (ObjectData) this.libMethods.QSPGetObjectData(i);
+            ObjectData objectResult = (ObjectData) libMethods.QSPGetObjectData(i);
             QspListItem object = new QspListItem();
             object.index = i;
             object.text = true ? htmlProcessor.removeHtmlTags(objectResult.getName()) : objectResult.getName();
             objects.add(object);
         }
         return objects;
+    }
+    public static String refreshMainDesc() {
+
+        String mainDesc = getHtml(QspCore.concurrentStringMap.get(QspConstants.MAIN_DESC), true);
+
+        return mainDesc;
+    }
+
+    public static String refreshVarsDesc() {
+        String varsDesc = getHtml(QspCore.concurrentStringMap.get(QspConstants.VARS_DESC), false);
+//        logger.info("varsDesc:"+varsDesc);
+        return varsDesc;
+    }
+
+    public static ArrayList<QspListItem> refreshActions() {
+
+        ArrayList<QspListItem> actions = QspCore.concurrentArrayListMap.get(QspConstants.ACTIONS);
+        //logger.info("refreshActions:"+actions.size());
+        return actions;
+    }
+
+    public static ArrayList<QspListItem> refreshObjects() {
+        ArrayList<QspListItem> objects = QspCore.concurrentArrayListMap.get(QspConstants.OBJECTS);
+        // logger.info("refreshObjects:"+objects.size());
+        return objects;
+    }
+    private static String getHtml(String str, boolean isMainDesc) {
+
+        return true ?
+                htmlProcessor.convertQspHtmlToWebViewHtml(QspCore.concurrentStringMap.get(QspConstants.GAME_FOLDER), str, isMainDesc) :
+                htmlProcessor.convertQspStringToWebViewHtml(str);
+    }
+
+
+    private void showLastQspError() {
+        ErrorData errorData = (ErrorData) libMethods.QSPGetLastErrorData();
+
+        String locName = errorData.locName != null ? errorData.locName : "";
+        String desc = libMethods.QSPGetErrorDesc(errorData.errorNum);
+        desc = desc != null ? desc : "";
+        final String message = String.format(
+                Locale.getDefault(),
+                "Location: %s\nAction: %d\nLine: %d\nError number: %d\nDescription: %s",
+                locName,
+                errorData.index,
+                errorData.line,
+                errorData.errorNum,
+                desc);
+
+        logger.error(message);
     }
 }

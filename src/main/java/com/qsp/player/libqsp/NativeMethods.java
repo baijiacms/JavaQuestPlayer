@@ -1,7 +1,7 @@
 package com.qsp.player.libqsp;
 
 
-import com.qsp.player.common.QspConstants;
+import com.qsp.player.libqsp.common.QspConstants;
 
 import java.util.Objects;
 

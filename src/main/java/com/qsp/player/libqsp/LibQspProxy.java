@@ -1,8 +1,8 @@
 package com.qsp.player.libqsp;
 
-import com.qsp.player.entity.QspGame;
-import com.qsp.player.entity.QspListItem;
-import com.qsp.player.util.QspUri;
+import com.qsp.player.libqsp.entity.QspGame;
+import com.qsp.player.libqsp.entity.QspListItem;
+import com.qsp.player.libqsp.util.QspUri;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ public interface LibQspProxy {
 
     void stop();
 
-    void restartGame(QspGame qspGame);
+    void initGame(QspGame qspGame);
 
     void loadGameState(QspUri uri);
 
@@ -25,7 +25,6 @@ public interface LibQspProxy {
 
     void onActionClicked(int index);
 
-    void onObjectSelected(int index);
 
     void onInputAreaClicked();
 
@@ -35,11 +34,4 @@ public interface LibQspProxy {
 
     public void getRefreshInterfaceRequest();
 
-    public String refreshMainDesc();
-
-    public String refreshVarsDesc();
-
-    public ArrayList<QspListItem> refreshActions();
-
-    public ArrayList<QspListItem> refreshObjects();
 }

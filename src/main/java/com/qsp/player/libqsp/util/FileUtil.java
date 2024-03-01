@@ -1,6 +1,6 @@
-package com.qsp.player.util;
+package com.qsp.player.libqsp.util;
 
-import com.qsp.player.common.QspConstants;
+import com.qsp.player.libqsp.common.QspConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
