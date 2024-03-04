@@ -23,7 +23,7 @@ public class Application {
         aspTask.action= QspAction.init.getAction();
         QspThread.addMessage(aspTask);
         SpringApplication.run(Application.class, args);
-        System.out.println("Please open the browser to access the address http://127.0.0.1:1990");
+        System.out.println("Please open the browser to access the address http://127.0.0.1:19999");
     }
     @Bean
     public ServerEndpointExporter serverEndpointExporter() {
