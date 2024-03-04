@@ -5,6 +5,8 @@ import com.qsp.player.libqsp.queue.QspTask;
 import com.qsp.player.libqsp.queue.QspThread;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 /**
  * @author：ChenXingYu
@@ -20,5 +22,8 @@ public class Application {
         QspThread.addMessage(aspTask);
         SpringApplication.run(Application.class, args);
     }
-
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
+    }
 }

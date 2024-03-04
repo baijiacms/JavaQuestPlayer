@@ -73,25 +73,37 @@
 }</style>
     <script>
 
-function isNeedRefresh()
-{
-try{
-   $.get("/qspGame/isNeedRefreshAction",function(data,status){
-    if(data==1||data=='1')
-    {
-
-         loadHtml();
-    }
-    });
-    }catch{
-    }
-}
 function pageInit()
 {
     loadHtml();
-    setInterval(isNeedRefresh,300);
+    initWebSocket();
 }
 
+function initWebSocket() {
+    var baseWSUrl = 'ws://localhost:8080/ws/user'  ;
+
+    if("WebSocket" in window){
+        var ws = new WebSocket(baseWSUrl);
+
+        ws.onopen = function(){
+                 console.log('onopen');
+        }
+
+        ws.onmessage = function(e){
+         let data = JSON.parse(event.data);
+         if(data.actionschanged)
+         {
+            loadHtml();
+          }
+        }
+
+        ws.onclose = function(){
+            console.log('onclose')
+        }
+    }else{
+        console.log('no support websocket')
+    }
+}
 function loadHtml()
 {
    $.get("/qspGame/action/action",function(data){

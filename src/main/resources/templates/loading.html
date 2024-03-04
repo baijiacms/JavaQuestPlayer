@@ -69,34 +69,51 @@ let app = new Vue({
                         self.resizeFlag = null;
                     }, 10);
                 };
+                this.initWebSocket();
             },
             data: function () {
                 return {
+                socketClient:null,
+                loading:null,
                 list:[]
 			  }
             },
             created () {
-            const loading = this.$loading({
+            this.loading = this.$loading({
           lock: true,
           text: 'Loading',
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)'
         });
-
-        var interval = setInterval(function(){
-	try{
-   $.getJSON("/qspGame/isNeedRefresh",function(data,status){
-       if(data.maindescchanged)
-        {
-           loading.close();
-           location.href="/template/gameIndex";
-        }
-    });
-    }catch{
-    }
-}, 1000);
 			},
 			methods: {
+             initWebSocket() {
+                    if (typeof WebSocket != 'undefined') {
+                    console.log(" support websocket");
+                    } else {
+                    console.log("no support websocket");
+                    }
+                    //ws地址
+                    const wsuri = "ws://localhost:8080/ws/user";
+                    this.socketClient = new WebSocket(wsuri);
+                    this.socketClient.onerror = this.websocketOnError
+                    this.socketClient.onmessage = this.websocketOnMessage
+                    this.socketClient.onclose = this.websocketOnClose
+                  },
+                  websocketOnError() {
+                    console.log("WebSocket 连接发生错误")
+                  },
+                  websocketOnMessage(event) {
+                     let data = JSON.parse(event.data);
+                      if(data.maindescchanged)
+                        {
+                           location.href="/template/gameIndex";
+                        }
+                  },
+                  websocketOnClose(e) {
+                    console.log("WebSocket 连接关闭", e)
+                    console.log(this.chatRoomWebsocket)
+                  }
 
 			}
 	});

@@ -4,6 +4,7 @@ import com.qsp.player.libqsp.*;
 import com.qsp.player.libqsp.dto.ErrorData;
 import com.qsp.player.libqsp.entity.QspGame;
 import com.qsp.player.libqsp.util.Base64Util;
+import com.baijiacms.qsp.socket.SocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,9 @@ public class QspCore {
     private  LibQspProxyImpl libQspProxy;
     private   LibMethods libMethods;
     private  LibDevMethods nativeDevMethods;
+    public static  boolean hasRefresh() {
+        return maindescchanged.get()||actionschanged.get()||objectschanged.get()||varsdescchanged.get();
+    }
 
     public static  void refreshAll() {
         maindescchanged.set(true);
@@ -95,6 +99,10 @@ public class QspCore {
 
             }
             libQspProxy.getRefreshInterfaceRequest();
+            if(hasRefresh())
+            {
+                SocketServer.sendFreshMessage();
+            }
 
     }
     private  void showLastQspError() {

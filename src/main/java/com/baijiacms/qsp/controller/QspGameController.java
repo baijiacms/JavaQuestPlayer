@@ -126,37 +126,4 @@ public class QspGameController {
         return sb.toString();
     }
 
-    @GetMapping("/isNeedRefresh")
-    @ResponseBody
-    public StatusVo isNeedRefresh() {
-
-        StatusVo statusVo=new StatusVo();
-        statusVo.setActionschanged(QspCore.actionschanged.get());
-        statusVo.setMaindescchanged(QspCore.maindescchanged.get());
-        statusVo.setObjectschanged(QspCore.objectschanged.get());
-        statusVo.setVarsdescchanged(QspCore.varsdescchanged.get());
-        return statusVo;
-    }
-    @GetMapping("/isNeedRefreshHtml")
-    public String isNeedRefreshHtml() {
-        String result = QspCore.maindescchanged.getAndSet(false) ? "1" : "0";
-        return result;
-    }
-
-    @GetMapping("/isNeedRefreshAction")
-    public String isNeedRefreshAction() {
-        String result = QspCore.actionschanged.get()? "1" : "0";
-        return result;
-    }
-    @GetMapping("/isNeedRefreshUser")
-    public String isNeedRefreshUser() {
-        String result = QspCore.varsdescchanged.get() ? "1" : "0";
-        return result;
-    }
-
-    @GetMapping("/isNeedRefreshConsole")
-    public String isNeedRefreshConsole() {
-        String result = QspCore.objectschanged.get()? "1" : "0";
-        return result;
-    }
 }
