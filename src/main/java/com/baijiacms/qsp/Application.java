@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
+import javax.swing.*;
+
 /**
  * @author：ChenXingYu
  * @date 2023/8/4 11:07
@@ -21,6 +23,7 @@ public class Application {
         aspTask.action= QspAction.init.getAction();
         QspThread.addMessage(aspTask);
         SpringApplication.run(Application.class, args);
+        System.out.println("Please open the browser to access the address http://127.0.0.1:1990");
     }
     @Bean
     public ServerEndpointExporter serverEndpointExporter() {

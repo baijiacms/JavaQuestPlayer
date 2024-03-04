@@ -18,7 +18,7 @@ function pageInit()
 }
 
 function initWebSocket() {
-    var baseWSUrl = 'ws://localhost:8080/ws/user'  ;
+    var baseWSUrl = 'ws://127.0.0.1:19999/ws/user'  ;
 
     if("WebSocket" in window){
         var ws = new WebSocket(baseWSUrl);

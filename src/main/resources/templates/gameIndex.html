@@ -16,15 +16,15 @@
     <div  class="headerWrapper"><!----><header  class="header">
         <ul class="nav">
             <li class="nav-item">
-                <el-button style="margin-left:15px" type="text" @click="quickSaveGame()">快存档</el-button>
+                <el-button style="margin-left:15px" type="text" @click="quickSaveGame()">QuickSave</el-button>
                </li><li class="nav-item">
-            <el-button style="margin-left:15px" type="text" @click="quickLoadGame()">快读取</el-button>
+            <el-button style="margin-left:15px" type="text" @click="quickLoadGame()">QuickLoad</el-button>
             </li><li class="nav-item nav-item-theme">
 
-            <el-button style="margin-left:15px" type="text" @click="openSaveWinow()">存档</el-button>
+            <el-button style="margin-left:15px" type="text" @click="openSaveWinow()">ToSave</el-button>
            </li><li class="nav-item nav-item-theme">
 
-            <el-button style="margin-left:15px" type="text" @click="openLoadWinow()">存档列表</el-button>
+            <el-button style="margin-left:15px" type="text" @click="openLoadWinow()">SaveList</el-button>
             </li></ul></header></div>
 
     <el-container>
@@ -32,7 +32,7 @@
             <el-main :style="{height:tableHeight,width:tableWidth,overflow:'hidden'}"><iframe id="html" style="border: medium none;"  src="/template/engineHtmlPage" width="100%" height="100%"></iframe></el-main>
             <el-aside width="350px" style="overflow:hidden">
                 <el-tabs v-model="activeName">
-                    <el-tab-pane label="游戏操作" name="first">
+                    <el-tab-pane label="GamePanel" name="first">
 
                         <div class="panel" style="height:50%">
                             <!--<div class="ui-state-default" style="padding:4px;">&nbsp;</div>-->
@@ -44,7 +44,7 @@
                             <iframe id="action"  src="/template/engineActionPage" width="100%"  :height="tableHeight3"  style="border: medium none;" ></iframe>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="角色信息" name="second">
+                    <el-tab-pane label="Character" name="second">
                         <iframe name="user" id="user" src="/template/engineUserPage" width="99%" :height="tableHeight2"  style="border: medium none;" ></iframe>
                     </el-tab-pane>
                 </el-tabs></el-aside>
@@ -54,35 +54,35 @@
 
     </el-container>
 
-    <el-dialog id="loadWindow" title="存档列表" :visible.sync="dialogLoadListVisible">
+    <el-dialog id="loadWindow" title="SaveList" :visible.sync="dialogLoadListVisible">
         <el-table :data="saveListData"  style="min-height: 300px" max-height="350">
-            <el-table-column label="操作" ali>
+            <el-table-column label="operate" ali>
                 <template slot-scope="scope"  width="150">
                     <el-button
                             size="mini"
                             type="success"
-                            @click="loadGame(scope.row.fileName)">读取</el-button>
+                            @click="loadGame(scope.row.fileName)">Load</el-button>
                     <el-button
                             size="mini"
                             type="danger"
-                            @click="deleteSave(scope.row.fileName)">删除</el-button>
+                            @click="deleteSave(scope.row.fileName)">Delete</el-button>
                 </template>
             </el-table-column>
-            <el-table-column property="fileName" label="存档名称" width="200"></el-table-column>
-            <el-table-column property="fileTimeStr" label="存档时间" width="200"></el-table-column>
+            <el-table-column property="fileName" label="SaveName" width="200"></el-table-column>
+            <el-table-column property="fileTimeStr" label="SaveTime" width="200"></el-table-column>
         </el-table>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="dialogLoadListVisible = false">关 闭</el-button>
+          <el-button type="primary" @click="dialogLoadListVisible = false">Close</el-button>
       </span>
     </el-dialog>
 
-    <el-dialog id="saveWindow" title="存档" :visible.sync="dialogSaveVisible">
-        <el-form label-width="80px">   <el-form-item label="存档名称">
+    <el-dialog id="saveWindow" title="save" :visible.sync="dialogSaveVisible">
+        <el-form >   <el-form-item label="SaveName">
             <el-input v-model="saveFileName"></el-input>
         </el-form-item>     </el-form>
         <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogSaveVisible = false">取 消</el-button>
-    <el-button type="primary" @click="saveGame()">保 存</el-button>
+    <el-button @click="dialogSaveVisible = false">Cancel</el-button>
+    <el-button type="primary" @click="saveGame()">Save</el-button>
   </span>
     </el-dialog>
 
@@ -132,7 +132,7 @@ let app = new Vue({
            {
 
                that.$message({
-          message: '读取异常！',
+          message: 'read error!',
           type: 'error'
         });
            }
@@ -154,8 +154,7 @@ let app = new Vue({
                 this.tableHeight2=(document.documentElement.clientHeight-180)+"px";
                 this.tableHeight3=(document.documentElement.clientHeight-190)/2+"px";
 
-
- },
+                },
 quickSaveGame()
 {
 var that=this;
@@ -168,14 +167,14 @@ var that=this;
            {
             that.dialogSaveVisible=false;
                that.$message({
-          message: '保存成功！',
+          message: 'save success!',
           type: 'success'
         });
            }else
            {
            that.$message({
-          message: '操作失败！',
-          type: 'success'
+          message: 'save error!',
+          type: 'error'
         });
            }
        });
@@ -189,18 +188,17 @@ var that=this;
        that.isSaving=true;
        $.get("/gameSave/loadQuickSave",function(data,status){
           that.isSaving=false;
-    if(data.code==200)
+    if(data.code==200&&data.result=='1')
               {
-
                that.$message({
-          message: '读取成功！',
+          message: 'load success!',
           type: 'success'
         });
           }else
             {
            that.$message({
-          message: '操作失败！',
-          type: 'success'
+          message: 'load error!',
+          type: 'error'
         });
           }
        });
@@ -222,15 +220,15 @@ var that=this;
      if(data.code==200)
            {
                that.$message({
-          message: '保存成功！',
+          message: 'save success!',
           type: 'success'
         });
         that.dialogSaveVisible=false;
            }else
            {
    that.$message({
-          message: '操作失败！',
-          type: 'success'
+          message: 'save error!',
+          type: 'error'
         });
            }
        });
@@ -248,7 +246,7 @@ var that=this;
               {
 
                that.$message({
-          message: '载入成功！',
+          message: 'load success!',
           type: 'success'
         });
         that.dialogLoadListVisible=false;
@@ -256,8 +254,8 @@ var that=this;
             {
 
             that.$message({
-          message: '操作失败！',
-          type: 'success'
+          message: 'load error!',
+          type: 'error'
         });
           }
        });
@@ -274,7 +272,7 @@ var that=this;
     if(data.code==200)
               {
                that.$message({
-          message: '删除成功！',
+          message: 'delete success!',
           type: 'success'
         });
         that.loadDataList();
@@ -282,8 +280,8 @@ var that=this;
             {
 
                that.$message({
-          message: '操作失败！',
-          type: 'success'
+          message: 'delete error!',
+          type: 'error'
         });
           }
        });

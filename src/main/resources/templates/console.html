@@ -38,7 +38,7 @@
     background: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
     font-size: 12pt;
-    font-family: 微软雅黑;
+    font-family: Segoe,Tahoma,Arial,Verdana,sans-serif;
 }
 .css-rto02f {
     width: 100%;
@@ -61,7 +61,7 @@
     background: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
     font-size: 12pt;
-    font-family: 微软雅黑;
+    font-family: Segoe,Tahoma,Arial,Verdana,sans-serif;
 }
 .css-wb941c {
     width: 100vw;
@@ -69,7 +69,7 @@
     background: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
     font-size: 12pt;
-    font-family: 微软雅黑;
+    font-family: Segoe,Tahoma,Arial,Verdana,sans-serif;
 }</style>
     <script>
 
@@ -80,7 +80,7 @@ function pageInit()
 }
 
 function initWebSocket() {
-    var baseWSUrl = 'ws://localhost:8080/ws/user'  ;
+    var baseWSUrl = 'ws://127.0.0.1:19999/ws/user'  ;
 
     if("WebSocket" in window){
         var ws = new WebSocket(baseWSUrl);

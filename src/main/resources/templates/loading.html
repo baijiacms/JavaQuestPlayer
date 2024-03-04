@@ -93,15 +93,14 @@ let app = new Vue({
                     } else {
                     console.log("no support websocket");
                     }
-                    //ws地址
-                    const wsuri = "ws://localhost:8080/ws/user";
+                    const wsuri = "ws://127.0.0.1:19999/ws/user";
                     this.socketClient = new WebSocket(wsuri);
                     this.socketClient.onerror = this.websocketOnError
                     this.socketClient.onmessage = this.websocketOnMessage
                     this.socketClient.onclose = this.websocketOnClose
                   },
                   websocketOnError() {
-                    console.log("WebSocket 连接发生错误")
+                    console.log("WebSocket error")
                   },
                   websocketOnMessage(event) {
                      let data = JSON.parse(event.data);
@@ -111,7 +110,7 @@ let app = new Vue({
                         }
                   },
                   websocketOnClose(e) {
-                    console.log("WebSocket 连接关闭", e)
+                    console.log("WebSocket close", e)
                     console.log(this.chatRoomWebsocket)
                   }
 

@@ -82,9 +82,9 @@ public class GameSaveController {
     @ResponseBody
     public ResponseResult<String> loadQuickSave() {
 
-        loadSaveGame(null);
+      String result=  loadSaveGame(null);
         QspCore.refreshAll();
-        return ResponseResult.createSuccessResult("");
+        return ResponseResult.createSuccessResult(result);
 
     }
     @GetMapping("/quickSave")

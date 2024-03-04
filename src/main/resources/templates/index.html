@@ -107,9 +107,9 @@ overflow: hidden;
                     <div style="padding: 14px;">
                         <span>{{item.gameName}}</span>
                         <div class="bottom clearfix">
-                            <el-button  @click="startGame(item.gameId)" type="text" class="button">启动</el-button>
-                            <el-button  @click="exportTxt(item.gameId)" type="text" class="button">导出txt</el-button>
-                            <el-button  @click="expotQsp(item.gameId)" type="text" class="button">导出qsp</el-button>
+                            <el-button  @click="startGame(item.gameId)" type="text" class="button">StartGame</el-button>
+                            <el-button v-if="false"  @click="exportTxt(item.gameId)" type="text" class="button">export txt</el-button>
+                            <el-button v-if="false"  @click="expotQsp(item.gameId)" type="text" class="button">export qsp</el-button>
                         </div>
                     </div>
                 </el-card>
