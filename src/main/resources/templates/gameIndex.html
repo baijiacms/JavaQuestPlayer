@@ -25,7 +25,10 @@
            </li><li class="nav-item nav-item-theme">
 
             <el-button style="margin-left:15px" type="text" @click="openLoadWinow()">SaveList</el-button>
-            </li></ul></header></div>
+            </li><li class="nav-item nav-item-theme">
+
+            <el-button style="margin-left:15px" type="text" @click="returnGameList()">ReturnGameList</el-button>
+        </li></ul></header></div>
 
     <el-container>
         <el-container>
@@ -137,6 +140,8 @@ let app = new Vue({
         });
            }
        });
+			},returnGameList(){
+			         location.href="/template/index";
 			},
 			    openLoadWinow()
             {

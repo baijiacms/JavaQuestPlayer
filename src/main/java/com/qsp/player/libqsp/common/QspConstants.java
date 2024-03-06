@@ -11,12 +11,6 @@ import java.nio.charset.Charset;
  * @author baijiacms
  */
 public class QspConstants {
-    public static final int DEFAULT_USER = 99;
-    public static final String ENGINE_VERSION = "20220908";
-    public static int HTTP_PORT = 19870;
-    public static String HTTP_LOCAL_URL = "http://127.0.0.1:" + HTTP_PORT;
-    public static final String ENGINE_TITLE = "JavaQuestPlayer";
-    public static final String ENGINE_POWER_BY = "https://github.com/baijiacms/";
 
     public static final String QUICK_SAVE_NAME = "quickSave.sav";
     public static final String CHARSET_STR = "utf-8";

@@ -51,6 +51,27 @@
             <artifactId>spring-websocket</artifactId>
             <version>4.3.21.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.teamdev.jxbrowser</groupId>
+            <artifactId>jxbrowser</artifactId>
+            <version>7.21</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jxbrowser-7.21.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.teamdev.jxbrowser</groupId>
+            <artifactId>jxbrowser-windows</artifactId>
+            <version>7.21</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jxbrowser-win64-7.21.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.teamdev.jxbrowser</groupId>
+            <artifactId>jxbrowser-swing</artifactId>
+            <version>7.21</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jxbrowser-swing-7.21.jar</systemPath>
+        </dependency>
     </dependencies>
 
 </project>
