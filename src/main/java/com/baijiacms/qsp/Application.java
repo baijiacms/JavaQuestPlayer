@@ -11,6 +11,7 @@ import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.engine.ProprietaryFeature;
 import com.teamdev.jxbrowser.engine.RenderingMode;
 import com.teamdev.jxbrowser.view.swing.BrowserView;
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -54,16 +55,16 @@ public class Application {
         QspThread.addMessage(aspTask);
 //        SpringApplication.run(Application.class, args);
         SpringApplicationBuilder builder = new SpringApplicationBuilder(Application.class);
-         builder.headless(false).run(args);//显示swing
+         builder.headless(false).bannerMode(Banner.Mode.OFF).run(args);//显示swing
+        System.out.println("game port: http://127.0.0.1:19999");
 
-        System.out.println("Please open the browser to access the address http://127.0.0.1:19999");
-//        BrowserPreferences.setChromiumSwitches("--remote-debugging-port=19999");//debug
-        Engine engine = Engine.newInstance(EngineOptions.newBuilder(RenderingMode.HARDWARE_ACCELERATED).enableProprietaryFeature(ProprietaryFeature.AAC).enableProprietaryFeature(ProprietaryFeature.H_264).licenseKey(key(HttpContent.JX_KEY)).build());
+
+        System.setProperty(key(HttpContent.JX_PROPERTY_NAME), key(HttpContent.JX_KEY));
+    //        BrowserPreferences.setChromiumSwitches("--remote-debugging-port=19999");//debug
+        Engine engine = Engine.newInstance(EngineOptions.newBuilder(RenderingMode.HARDWARE_ACCELERATED).enableProprietaryFeature(ProprietaryFeature.AAC).disableChromiumTraffic().enableProprietaryFeature(ProprietaryFeature.H_264).licenseKey(key(HttpContent.JX_KEY)).build());
         Browser browser = engine.newBrowser();
         BrowserView view = BrowserView.newInstance(browser);
-//        JPanel addressPane = new JPanel(new BorderLayout());
-//        frame.add(addressPane, "North");
-        System.setProperty("jxbrowser.license.key", key(HttpContent.JX_KEY));
+
         JFrame frame = new JFrame("JavaQuestPlayer 2024 Powered By https://github.com/baijiacms/");
         frame.setDefaultCloseOperation(3);
         frame.add(view, "Center");
